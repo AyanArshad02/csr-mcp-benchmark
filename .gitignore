@@ -152,6 +152,9 @@ activemq-data/
 .envrc
 .venv
 env/
+
+# LLM + NLI output cache (regeneratable; never commit)
+.cache/
 venv/
 ENV/
 env.bak/

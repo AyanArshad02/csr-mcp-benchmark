@@ -46,11 +46,13 @@ If life forces a cut: **minimum viable = Phases 0–2 + a short writeup + send.*
 
 > **Update this block every session.**
 
-- **Current phase:** 0 — Setup & foundations. Not yet started.
-- **Last completed:** Read ALCE + "Correctness is not Faithfulness" papers; wrote thinking logs;
-  locked the **trace-proxy** definition of CSR's faithfulness check (see §2).
-- **Next concrete action:** Phase 0.1 — set up pinned environment + repo skeleton, fill in
-  `DECISIONS.md`.
+- **Current phase:** 0 — Setup & foundations. Phase 0.1 complete.
+- **Last completed:** Phase 0.1 — pinned Python environment set up with `uv`. `pyproject.toml`
+  created; `uv sync` installed 156 packages; all key imports verified (fastmcp 3.4.2, chromadb
+  1.5.9, langgraph 1.2.6, openai 2.44.0, anthropic 0.112.0, openai-agents 0.17.7,
+  sentence-transformers 5.6.0, diskcache 5.6.3). `.cache/` added to `.gitignore`.
+- **Next concrete action:** Phase 0.2 — commit the environment (pyproject.toml + uv.lock), then
+  re-read notes 01, 06, 07, 08 before Phase 1.
 - **Open blockers:** none. (No real Kapa access yet — building on a self-hosted mirror; swapping in
   real Kapa is a later env-var change.)
 - **Decisions still to finalize before coding:** see §6 (a few small ones — answer them first).
@@ -117,7 +119,7 @@ plan holds the how.
 ## 4. Phase checklists (tick as you go)
 
 ### Phase 0 — Setup
-- [ ] Pinned env (`uv`/venv); key libraries import.
+- [x] Pinned env (`uv`/venv); key libraries import.
 - [ ] `.env` with all 3 provider keys; `.env` gitignored **before first commit**.
 - [ ] Repo skeleton + initial git commit.
 - [ ] `DECISIONS.md` filled in (mirror of CLAUDE.md's table).
