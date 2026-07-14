@@ -1,0 +1,2777 @@
+[
+  {
+    "question": "What library is used for testing FastAPI applications according to the documentation?",
+    "reference_answer": "Starlette is used for testing FastAPI applications.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/testing/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0000",
+    "verified": false
+  },
+  {
+    "question": "What does the `GzipRequest.get_route_handler` function do differently compared to a standard request handler?",
+    "reference_answer": "It converts the `Request` to a `GzipRequest`, allowing the `GzipRequest` to decompress the data before passing it to the path operations.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/custom-request-and-route/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0001",
+    "verified": false
+  },
+  {
+    "question": "What should you use if you need to send data without JSON encoding in FastAPI's Server-Sent Events?",
+    "reference_answer": "You should use `raw_data` instead of `data`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/server-sent-events/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0002",
+    "verified": false
+  },
+  {
+    "question": "What exceptions can be raised in a FastAPI application to handle errors, and where can I find more detailed information on FastAPI's API components?",
+    "reference_answer": "You can raise `HTTPException` and `WebSocketException` to handle errors in a FastAPI application. For more detailed information on FastAPI's API components, you can refer to the FastAPI reference documentation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/",
+      "https://fastapi.tiangolo.com/reference/exceptions/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0003",
+    "verified": false
+  },
+  {
+    "question": "Why is it common to provide application settings in environment variables?",
+    "reference_answer": "It is common to provide application settings in environment variables because many settings are variable (can change) and could be sensitive, such as secrets.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/settings/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0004",
+    "verified": false
+  },
+  {
+    "question": "How can I use global dependencies to manage authentication across multiple path operations while still allowing specific dependencies to be executed for individual routes?",
+    "reference_answer": "You can declare global dependencies for groups of path operations to manage authentication in a centralized way, while also including specific dependencies in individual route decorators to enforce additional checks, as shown in the examples with `verify_token` and `verify_key`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/",
+      "https://fastapi.tiangolo.com/tutorial/dependencies/global-dependencies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0005",
+    "verified": false
+  },
+  {
+    "question": "What new documentation was added in FastAPI version 0.121.3?",
+    "reference_answer": "Docs for using FastAPI Cloud were added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0006",
+    "verified": false
+  },
+  {
+    "question": "What are the advantages of using FastAPI Cloud for deployment compared to deploying FastAPI apps on your own servers?",
+    "reference_answer": "FastAPI Cloud streamlines the deployment process and enhances the developer experience, making it easier to build and access APIs, whereas deploying on your own servers requires a deeper understanding of the deployment process.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/cloud/",
+      "https://fastapi.tiangolo.com/deployment/fastapicloud/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0007",
+    "verified": false
+  },
+  {
+    "question": "Which Japanese translations were added in FastAPI version 0.64.0?",
+    "reference_answer": "The Japanese translations added in FastAPI version 0.64.0 include Advanced - Path Operation Advanced Configuration, External Links, Tutorial - Body - Updates, Tutorial - Form Data, and Tutorial - Cookie Parameters.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0008",
+    "verified": false
+  },
+  {
+    "question": "Why is it necessary to use the `response_model` parameter when the return type is different from the function return type in FastAPI?",
+    "reference_answer": "It is necessary to use the `response_model` parameter because if we annotated the function return type as `UserOut`, the editor and tools would complain that we are returning an invalid type since those are different classes.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/response-model/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0009",
+    "verified": false
+  },
+  {
+    "question": "How can I validate a numeric path parameter in a FastAPI endpoint and also set a specific response status code for the request?",
+    "reference_answer": "You can use `Path` to validate a numeric path parameter, applying validations like `gt` (greater than) or `lt` (less than), and then specify a response status code using `status_code` in your endpoint decorator.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/",
+      "https://fastapi.tiangolo.com/tutorial/response-status-code/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0010",
+    "verified": false
+  },
+  {
+    "question": "What will the response include when accessing the '/timed' endpoint of the router?",
+    "reference_answer": "The response will include an extra 'X-Response-Time' header with the time it took to generate the response.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/custom-request-and-route/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0011",
+    "verified": false
+  },
+  {
+    "question": "Which new translation was added for the FastAPI documentation in Polish in the release 0.72.0?",
+    "reference_answer": "Polish translation for `docs/pl/docs/index.md` was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0012",
+    "verified": false
+  },
+  {
+    "question": "What was migrated from MkDocs to Zensical in the FastAPI release 0.136.2?",
+    "reference_answer": "The documentation was migrated from MkDocs to Zensical.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0013",
+    "verified": false
+  },
+  {
+    "question": "How can I create metadata for tags in a FastAPI app while also using Pydantic models to manage cookies?",
+    "reference_answer": "You can create metadata for tags by defining a list of dictionaries with tag information and passing it to the `openapi_tags` parameter when initializing FastAPI. Additionally, you can declare cookies using Pydantic models to manage cookie parameters in your endpoints.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/metadata/",
+      "https://fastapi.tiangolo.com/tutorial/cookie-param-models/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0014",
+    "verified": false
+  },
+  {
+    "question": "What method is used to generate a dictionary without default values from the input Pydantic model during a partial update with PATCH?",
+    "reference_answer": "The method used is `exclude_unset`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-updates/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0015",
+    "verified": false
+  },
+  {
+    "question": "How can I create a user in my FastAPI app and also set a cookie in the response of the creation endpoint?",
+    "reference_answer": "You can create a user by defining a POST endpoint like '/users/' with a user model, and then, in that endpoint, you can return a response that sets a cookie using the JSONResponse class.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/generate-clients/",
+      "https://fastapi.tiangolo.com/advanced/response-cookies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0016",
+    "verified": false
+  },
+  {
+    "question": "What parameter in the FastAPI route allows you to omit default values from the JSON response when using a response model?",
+    "reference_answer": "The parameter is `response_model_exclude_unset=True`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/response-model/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0017",
+    "verified": false
+  },
+  {
+    "question": "What are the default values for the 'skip' and 'limit' parameters in the CommonQueryParams class used in the FastAPI example?",
+    "reference_answer": "The default value for 'skip' is 0 and for 'limit' is 100.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/classes-as-dependencies/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0018",
+    "verified": false
+  },
+  {
+    "question": "What change was made in FastAPI version 0.80.0 regarding data validation and documentation for path operations?",
+    "reference_answer": "The change ensures that data will be correctly validated, preventing internal server errors, and indicating that the path operation could return `None` (or `null` in JSON) in the documentation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0019",
+    "verified": false
+  },
+  {
+    "question": "How can I use Pydantic's model_dump method to convert a user's data into a dictionary after retrieving the current user using FastAPI's dependency injection?",
+    "reference_answer": "You can first retrieve the current user using the get_current_user dependency, then call the .model_dump() method on the User Pydantic model to convert the user data into a dictionary.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/get-current-user/",
+      "https://fastapi.tiangolo.com/tutorial/extra-models/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0020",
+    "verified": false
+  },
+  {
+    "question": "What response class must be declared in the path operation function to use 'yield' for sending data in chunks?",
+    "reference_answer": "StreamingResponse",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/stream-data/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0021",
+    "verified": false
+  },
+  {
+    "question": "How can I properly render HTML templates in a FastAPI application while also documenting a callback for an external API in the OpenAPI schema?",
+    "reference_answer": "To render HTML templates in FastAPI, use `Jinja2Templates` to create a `templates` object and return a `TemplateResponse` in your path operation. Simultaneously, ensure your path operations are documented to include callbacks in the OpenAPI schema by accessing the documentation at `/docs` after starting your app.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/templates/",
+      "https://fastapi.tiangolo.com/advanced/openapi-callbacks/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0022",
+    "verified": false
+  },
+  {
+    "question": "How can I handle form data for user authentication while also retrieving the current user's details using FastAPI?",
+    "reference_answer": "To handle form data for user authentication, you can use the `Form` class from FastAPI, ensuring you have `python-multipart` installed. Additionally, you can retrieve the current user's details by implementing a user model with Pydantic and using the OAuth2PasswordBearer for token management.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/request-forms/",
+      "https://fastapi.tiangolo.com/tutorial/security/get-current-user/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0023",
+    "verified": false
+  },
+  {
+    "question": "How does FastAPI ensure that operation IDs are unique across all path operations?",
+    "reference_answer": "FastAPI ensures that operation IDs are unique by using the function name, the path, and the HTTP method/operation to generate that operation ID.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/generate-clients/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0024",
+    "verified": false
+  },
+  {
+    "question": "How can I use the `Request` object to interact with a WSGI application mounted in my FastAPI app?",
+    "reference_answer": "You can access the `Request` object directly to extract data like path parameters and headers when handling requests to your WSGI application wrapped with `WSGIMiddleware`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/wsgi/",
+      "https://fastapi.tiangolo.com/advanced/using-request-directly/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0025",
+    "verified": false
+  },
+  {
+    "question": "Where can I read more about changes in dependencies with yield in different versions of FastAPI?",
+    "reference_answer": "You can read more about it in the advanced guide, in Advanced Dependencies - Dependencies with `yield`, `HTTPException`, `except` and Background Tasks.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0026",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0027",
+    "question": "How do I add a GraphQL endpoint to FastAPI using the Strawberry library?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What specific external link was added in the 0.89.0 release of FastAPI documentation?",
+    "reference_answer": "An external link about Authorization on FastAPI with Casbin was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0028",
+    "verified": false
+  },
+  {
+    "question": "What is the default value of the 'short' query parameter in the example provided?",
+    "reference_answer": "The default value of the 'short' query parameter is False.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/query-params/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0029",
+    "verified": false
+  },
+  {
+    "question": "What specific updates were made to translations in FastAPI version 0.128.4?",
+    "reference_answer": "Translations for French (fr) and Turkish (tr) were updated for outdated pages and missing content.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0030",
+    "verified": false
+  },
+  {
+    "question": "What specific vulnerability does the upgrade to Starlette 0.25.0 address in FastAPI?",
+    "reference_answer": "It solves a vulnerability that could allow denial of service attacks by using many small multipart fields/files, consuming high CPU and memory.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0031",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that user data retrieved with the '/users/me' endpoint is in a format suitable for storing in a JSON-compatible database?",
+    "reference_answer": "You can use the 'jsonable_encoder' to convert the user data retrieved from the '/users/me' endpoint into a JSON-compatible format before storing it in your database.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/",
+      "https://fastapi.tiangolo.com/tutorial/encoder/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0032",
+    "verified": false
+  },
+  {
+    "question": "What format does the body need to have when declaring multiple body parameters in a FastAPI endpoint?",
+    "reference_answer": "The body must be in JSON format with the parameter names as keys, like this: { \"item\": { ... }, \"user\": { ... } }.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-multiple-params/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0033",
+    "verified": false
+  },
+  {
+    "question": "How can I add a custom OpenAPI extension to a specific path operation in FastAPI?",
+    "reference_answer": "You can add a custom OpenAPI extension by using the `openapi_extra` parameter in the path operation decorator, like `@app.get('/items/', openapi_extra={'x-aperture-labs-portal': 'blue'})`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0034",
+    "verified": false
+  },
+  {
+    "question": "What was updated in the FastAPI release 0.115.14 on June 26, 2025?",
+    "reference_answer": "The pre-commit autoupdate was performed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0035",
+    "verified": false
+  },
+  {
+    "question": "How can I implement a path operation with custom OpenAPI extensions while ensuring proper security measures in FastAPI?",
+    "reference_answer": "You can use the `openapi_extra` parameter in the path operation to declare custom OpenAPI extensions and apply security features as outlined in the security documentation, ensuring that both aspects are properly configured.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/",
+      "https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0036",
+    "verified": false
+  },
+  {
+    "question": "How are the sponsors supporting FastAPI?",
+    "reference_answer": "The sponsors are supporting FastAPI mainly through GitHub Sponsors.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/fastapi-people/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0037",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0038",
+    "question": "How do I add full-text search to FastAPI using Elasticsearch?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "How can I upload multiple files along with additional form data in a FastAPI application?",
+    "reference_answer": "You can use the `File` and `Form` classes together to upload multiple files and additional form data. Ensure you have `python-multipart` installed to handle form submissions that include files.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/request-files/",
+      "https://fastapi.tiangolo.com/tutorial/request-forms-and-files/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0039",
+    "verified": false
+  },
+  {
+    "question": "How can I test my FastAPI application that has CORS enabled when making requests from a frontend running on a different origin?",
+    "reference_answer": "To test your FastAPI application with CORS enabled, you need to ensure that your app is correctly configured to handle CORS requests. This involves importing the necessary CORS middleware and applying it to your FastAPI app in `main.py`. Once CORS is set up, you can simulate frontend requests to your FastAPI app's endpoints during testing to verify that CORS headers are returned properly, allowing cross-origin requests.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/testing/",
+      "https://fastapi.tiangolo.com/tutorial/cors/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0040",
+    "verified": false
+  },
+  {
+    "question": "What new translations were added in FastAPI version 0.115.1?",
+    "reference_answer": "Dutch translation for `docs/nl/docs/environment-variables.md`, and Portuguese translations for `docs/pt/docs/deployment/manually.md`, `docs/pt/docs/deployment/server-workers.md`, and `docs/pt/docs/how-to/configure-swagger-ui.md`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0041",
+    "verified": false
+  },
+  {
+    "question": "How can I use a required query parameter along with a dependency that handles exceptions in a FastAPI route?",
+    "reference_answer": "You can declare a required query parameter by not setting a default value, and simultaneously use a dependency with `yield` that can raise an `HTTPException`. For example, in the route `get_item(item_id: str, username: Annotated[str, Depends(get_username)], needy: str)`, `needy` is required while `get_username` handles any exceptions that may arise.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/",
+      "https://fastapi.tiangolo.com/tutorial/query-params/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0042",
+    "verified": false
+  },
+  {
+    "question": "What issue was fixed related to ensuring a required parameter remains required in OpenAPI documentation?",
+    "reference_answer": "A fix was made to ensure a parameter defined as required is kept required in OpenAPI even if defined as optional in another dependency.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0043",
+    "verified": false
+  },
+  {
+    "question": "What type of password storage is recommended for user models in FastAPI?",
+    "reference_answer": "Always store a 'secure hash' that you can then verify.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/extra-models/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0044",
+    "verified": false
+  },
+  {
+    "question": "How can I define request body parameters in FastAPI without using Pydantic models, and why is it recommended to run the code locally to understand its benefits?",
+    "reference_answer": "You can define request body parameters in FastAPI using Body parameters without Pydantic models, and it is recommended to run the code locally to experience the benefits like minimal code, type checks, and autocompletion.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body/",
+      "https://fastapi.tiangolo.com/tutorial/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0045",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0046",
+    "question": "How do I use FastAPI with Tortoise ORM for async database access?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "How can multiple processes communicate on the same port and IP address in FastAPI deployments?",
+    "reference_answer": "There has to be a single process listening on a port that then transmits the communication to each worker process in some way.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/concepts/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0047",
+    "verified": false
+  },
+  {
+    "question": "How can I stream a list of items with FastAPI while also using a dependency to manage query parameters for filtering the items?",
+    "reference_answer": "You can use the `yield` statement in an async function to stream items, while utilizing a dependency function to handle query parameters like `q`, `skip`, and `limit`. The dependency function can be used in the path operation that streams the items to filter the results based on the query parameters.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/stream-json-lines/",
+      "https://fastapi.tiangolo.com/tutorial/dependencies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0048",
+    "verified": false
+  },
+  {
+    "question": "Where can you import the `HTTPConnection` class from in FastAPI?",
+    "reference_answer": "You can import it from `fastapi.requests`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/httpconnection/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0049",
+    "verified": false
+  },
+  {
+    "question": "What is the default status code used by the `RedirectResponse` in FastAPI when returned directly?",
+    "reference_answer": "307",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/custom-response/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0050",
+    "verified": false
+  },
+  {
+    "question": "How does FastAPI ensure that dependencies with yield are run in the correct order?",
+    "reference_answer": "FastAPI ensures everything is run in the correct order thanks to Python's Context Managers, which it uses internally.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0051",
+    "verified": false
+  },
+  {
+    "question": "How can I use background tasks to log a message after returning a response with a specific status code in FastAPI?",
+    "reference_answer": "You can use `BackgroundTasks` to schedule logging a message after the response is sent. For example, in a path operation that returns a status code like `HTTP_418_IM_A_TEAPOT`, you would declare `BackgroundTasks` as a parameter, and then use it to schedule the logging function.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/background/",
+      "https://fastapi.tiangolo.com/reference/status/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0052",
+    "verified": false
+  },
+  {
+    "question": "What internal change was made in FastAPI version 0.61.0 regarding code quality tools?",
+    "reference_answer": "Flake8 linting was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0053",
+    "verified": false
+  },
+  {
+    "question": "What does FastAPI do with the password field when returning a user response with the UserOut model?",
+    "reference_answer": "FastAPI filters out the password field from the returned user data because it is not declared in the output model UserOut.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/response-model/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0054",
+    "verified": false
+  },
+  {
+    "question": "How do you declare cookie parameters in a FastAPI endpoint using a Pydantic model?",
+    "reference_answer": "You declare the cookie parameters in a Pydantic model and then use `Cookie` to declare the parameter in the endpoint function.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/cookie-param-models/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0055",
+    "verified": false
+  },
+  {
+    "question": "Who are the users that have helped others the most with questions in GitHub regarding FastAPI?",
+    "reference_answer": "The users listed as FastAPI Experts are those who have helped others the most with questions in GitHub.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/fastapi-people/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0056",
+    "verified": false
+  },
+  {
+    "question": "What version of Pydantic is not allowed in FastAPI 0.101.0?",
+    "reference_answer": "Pydantic 2.1.0 is not allowed; 2.1.1 is required.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0057",
+    "verified": false
+  },
+  {
+    "question": "What new feature allows marking all path operations in a router as deprecated in FastAPI version 0.62.0?",
+    "reference_answer": "The `deprecated` feature allows marking all the path operations in a router as deprecated.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0058",
+    "verified": false
+  },
+  {
+    "question": "How can I handle disconnections in a FastAPI WebSocket application while also accessing the raw request object for authentication purposes?",
+    "reference_answer": "You can catch the `WebSocketDisconnect` exception to handle client disconnections in your WebSocket application, and to access the raw request object for authentication, you can use the `Request` class in your path operation function. If you want a dependency that works for both HTTP and WebSocket connections, you can use `HTTPConnection` instead of `Request` or `WebSocket`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/websockets/",
+      "https://fastapi.tiangolo.com/reference/request/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0059",
+    "verified": false
+  },
+  {
+    "question": "What new feature was added in FastAPI version 0.20.1 related to typing information?",
+    "reference_answer": "Typing information was added to the package including the file `py.typed`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0060",
+    "verified": false
+  },
+  {
+    "question": "What was upgraded in FastAPI version 0.128.4 released on 2026-02-07?",
+    "reference_answer": "Development dependencies were upgraded.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0061",
+    "verified": false
+  },
+  {
+    "question": "What are the scopes defined in the OAuth2PasswordBearer instance in the provided FastAPI chunk?",
+    "reference_answer": "The scopes defined are 'me' for reading information about the current user, and 'items' for reading items.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0062",
+    "verified": false
+  },
+  {
+    "question": "What should you use instead of `StaticFiles` if you need to host a frontend in FastAPI?",
+    "reference_answer": "You should use `app.frontend()` instead of `StaticFiles`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/static-files/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0063",
+    "verified": false
+  },
+  {
+    "question": "What new parameter was added to path operation decorators in FastAPI version 0.12.0 to extend responses in OpenAPI?",
+    "reference_answer": "The additional `responses` parameter.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0064",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0065",
+    "question": "How do I configure Google OAuth2 in FastAPI using the Authlib library?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "How can you declare the HTTP status code for a response in a FastAPI path operation?",
+    "reference_answer": "You can declare the HTTP status code for a response by using the `status_code` parameter in any of the path operation decorators like `@app.get()`, `@app.post()`, etc.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/response-status-code/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0066",
+    "verified": false
+  },
+  {
+    "question": "How can I configure OpenAPI conditionally for different environments while ensuring that the input and output schemas remain the same in FastAPI documentation?",
+    "reference_answer": "You can use settings and environment variables to conditionally configure OpenAPI in FastAPI, and you can define a single schema for both input and output models, ensuring that they remain consistent across different environments.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/conditional-openapi/",
+      "https://fastapi.tiangolo.com/how-to/separate-openapi-schemas/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0067",
+    "verified": false
+  },
+  {
+    "question": "How can I implement user authentication in my FastAPI application while also rendering HTML templates using Jinja2?",
+    "reference_answer": "To implement user authentication, you can use the security tools from `fastapi.security`, like `OAuth2PasswordBearer`, to handle authentication. Then, you can render HTML templates using the `Jinja2Templates` class from `fastapi.templating` to serve the authenticated user's content in the response.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/security/",
+      "https://fastapi.tiangolo.com/reference/templating/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0068",
+    "verified": false
+  },
+  {
+    "question": "What were the two user interface tools integrated into FastAPI for API documentation?",
+    "reference_answer": "Swagger UI and ReDoc.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/alternatives/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0069",
+    "verified": false
+  },
+  {
+    "question": "What command do you use to deploy a FastAPI app to FastAPI Cloud?",
+    "reference_answer": "$ fastapi deploy",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/fastapicloud/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0070",
+    "verified": false
+  },
+  {
+    "question": "What specific security issue was addressed in the Swagger UI upgrade mentioned in the release notes for version 0.75.2?",
+    "reference_answer": "The upgrade addressed a security issue in Swagger UI where it could be possible to inject HTML into Swagger UI.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0071",
+    "verified": false
+  },
+  {
+    "question": "How can I declare both header and query parameters in FastAPI and where can I view the available query parameters in the documentation?",
+    "reference_answer": "You can declare header parameters using the `Header` class in FastAPI, similar to query parameters. To see the available query parameters, you can visit the `/docs` endpoint in the FastAPI application.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/header-params/",
+      "https://fastapi.tiangolo.com/tutorial/query-param-models/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0072",
+    "verified": false
+  },
+  {
+    "question": "How can I enhance the metadata of my FastAPI path operations while ensuring the request body is validated and documented correctly?",
+    "reference_answer": "You can enhance the metadata of your path operations by using parameters in the path operation decorators, and ensure the request body is validated by declaring a type for it, which will also generate the necessary schemas for OpenAPI documentation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/path-operation-configuration/",
+      "https://fastapi.tiangolo.com/tutorial/body/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0073",
+    "verified": false
+  },
+  {
+    "question": "Why can't FastAPI be faster than Starlette according to the benchmarks?",
+    "reference_answer": "FastAPI uses Starlette, so it cannot be faster than it.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/benchmarks/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0074",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0075",
+    "question": "How do I implement soft deletes in FastAPI with SQLAlchemy?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What fix was made regarding the `jsonable_encoder` method in FastAPI version 0.79.1?",
+    "reference_answer": "The fix addressed the `jsonable_encoder` using `include` and `exclude` parameters for non-Pydantic objects.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0076",
+    "verified": false
+  },
+  {
+    "question": "How can I serve static files in my FastAPI application while also providing automatic API documentation using Swagger UI?",
+    "reference_answer": "You can serve static files using the `StaticFiles` class imported from `fastapi.staticfiles`, and you can access the automatic API documentation through Swagger UI at the default path `/docs`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/staticfiles/",
+      "https://fastapi.tiangolo.com/reference/openapi/docs/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0077",
+    "verified": false
+  },
+  {
+    "question": "How can I configure FastAPI to return a specific HTTP status code when serving static files generated by my frontend framework?",
+    "reference_answer": "You can change the default response status code using FastAPI's response handling capabilities, and then use `app.frontend()` to serve the static files generated by your frontend build. The status code can be set in the response by following the guidelines in the Advanced User Guide.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/response-status-code/",
+      "https://fastapi.tiangolo.com/tutorial/frontend/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0078",
+    "verified": false
+  },
+  {
+    "question": "What was updated in the FastAPI documentation scripts in version 0.129.0?",
+    "reference_answer": "The docs.py scripts were updated to migrate Python 3.9 to Python 3.10.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0079",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0080",
+    "question": "How do I implement WebSocket authentication in FastAPI using JWT cookies?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "Where can you see the schemas for the data to be sent in requests and received in responses when using FastAPI?",
+    "reference_answer": "You can see the schemas at `/docs`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/generate-clients/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0081",
+    "verified": false
+  },
+  {
+    "question": "How can I use WebSockets in my FastAPI application while also setting custom response headers for the messages sent over the WebSocket connection?",
+    "reference_answer": "You can implement WebSockets in your FastAPI application to send and receive messages using the same WebSocket connection, and simultaneously use the `Response` object in your path operation functions to set custom headers like 'X-Cat-Dog' before sending any data.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/websockets/",
+      "https://fastapi.tiangolo.com/advanced/response-headers/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0082",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0083",
+    "question": "How do I add rate limiting to FastAPI using the slowapi package?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What version of Starlette is required for FastAPI 0.41.0?",
+    "reference_answer": "The required version of Starlette for FastAPI 0.41.0 is >=0.12.9,<=0.12.9.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0084",
+    "verified": false
+  },
+  {
+    "question": "What do the improved method names in the generated TypeScript client include?",
+    "reference_answer": "The improved method names include the tag and the function name, but do not include information from the URL path and the HTTP operation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/generate-clients/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0085",
+    "verified": false
+  },
+  {
+    "question": "What is the term used to refer to the object returned by an `async def` function in FastAPI?",
+    "reference_answer": "Coroutine is the term used for the object returned by an `async def` function.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/async/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0086",
+    "verified": false
+  },
+  {
+    "question": "What is the return type of the `read_item` function in the FastAPI example?",
+    "reference_answer": "The return type of the `read_item` function is a dictionary containing the item_id and query parameter q.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0087",
+    "verified": false
+  },
+  {
+    "question": "What specific update was made to the GraphQL documentation in FastAPI version 0.68.2?",
+    "reference_answer": "The GraphQL documentation was updated to recommend Strawberry.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0088",
+    "verified": false
+  },
+  {
+    "question": "How do you create a copy of an existing Pydantic model with updated data in FastAPI?",
+    "reference_answer": "You can create a copy of the existing model using `.model_copy()` and pass the `update` parameter with a `dict` containing the data to update, like `stored_item_model.model_copy(update=update_data)`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-updates/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0089",
+    "verified": false
+  },
+  {
+    "question": "What type of argument does the `common_parameters` function return when used with the `Depends` dependency in FastAPI?",
+    "reference_answer": "The `common_parameters` function returns a dictionary.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0090",
+    "verified": false
+  },
+  {
+    "question": "What was the version of the internal dependency mypy before it was bumped in the release 0.85.2?",
+    "reference_answer": "0.971",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0091",
+    "verified": false
+  },
+  {
+    "question": "What package must be installed to receive uploaded files and/or form data in FastAPI?",
+    "reference_answer": "You must install the `python-multipart` package.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/request-forms-and-files/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0092",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that the data returned from my FastAPI application is secure while also testing my SQL database interactions effectively?",
+    "reference_answer": "To ensure secure data returns, refer to the 'Response Model - Return Type' documentation for guidance on filtering data. For testing SQL database interactions, check the mini tutorial on using SQLModel with FastAPI, which includes specific sections on testing SQL databases.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/general/",
+      "https://fastapi.tiangolo.com/how-to/testing-database/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0093",
+    "verified": false
+  },
+  {
+    "question": "What command do you use to run your FastAPI app for development?",
+    "reference_answer": "You can use the `fastapi dev` command.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/fastapi-cli/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0094",
+    "verified": false
+  },
+  {
+    "question": "How can I use FastAPI with lifespan management for testing while also configuring it to run behind a proxy with a specific root path?",
+    "reference_answer": "To use FastAPI with lifespan management in tests, define a lifespan function and use the `TestClient` within a `with` statement. To run the app behind a proxy with a specific root path, use the `--root-path` command line option when starting the server, for example, `fastapi run main.py --root-path /api/v1`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/testing-events/",
+      "https://fastapi.tiangolo.com/advanced/behind-a-proxy/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0095",
+    "verified": false
+  },
+  {
+    "question": "How can I implement CORS middleware in a FastAPI application that also interacts with SQL databases to read data from multiple models?",
+    "reference_answer": "You can implement CORS middleware in FastAPI to handle cross-origin requests, and simultaneously use SQL database models to read data by defining your database models and using FastAPI's dependency injection system to access them.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/middleware/",
+      "https://fastapi.tiangolo.com/tutorial/sql-databases/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0096",
+    "verified": false
+  },
+  {
+    "question": "What was fixed in the type annotation for `**extra` parameters in FastAPI in the release 0.60.2?",
+    "reference_answer": "The type annotation for `**extra` parameters in `FastAPI` was fixed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0097",
+    "verified": false
+  },
+  {
+    "question": "What parameter does the `FixedContentQueryChecker` class's `__init__` method accept?",
+    "reference_answer": "The `__init__` method accepts a parameter named `fixed_content` of type `str`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/advanced-dependencies/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0098",
+    "verified": false
+  },
+  {
+    "question": "What must the backend include in its list of allowed origins for the frontend at http://localhost:8080 to work correctly?",
+    "reference_answer": "The backend must include http://localhost:8080 in its list of allowed origins.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/cors/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0099",
+    "verified": false
+  },
+  {
+    "question": "What happens to the data returned in a path operation if a response model is declared and a response class with a JSON media type is used?",
+    "reference_answer": "The data will be automatically converted and filtered with any Pydantic response model declared in the path operation decorator, but it will not be serialized to JSON bytes with Pydantic; instead, it will be converted with the jsonable_encoder and passed to the JSONResponse class, which will serialize it to bytes using the standard JSON library in Python.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/custom-response/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0100",
+    "verified": false
+  },
+  {
+    "question": "What advanced features in FastAPI can help mitigate CSRF risks while ensuring proper Content-Type handling, and where can I find more information about these features?",
+    "reference_answer": "FastAPI provides strict Content-Type checking to protect against CSRF attacks, especially when the application doesn't have authentication and runs on localhost or an internal network. Additional options and configurations related to these features can be found in the Advanced User Guide.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/",
+      "https://fastapi.tiangolo.com/advanced/strict-content-type/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0101",
+    "verified": false
+  },
+  {
+    "question": "What are the deployment options for a FastAPI application in a Docker container that can also utilize multiple Uvicorn workers for better performance?",
+    "reference_answer": "A FastAPI application in a Docker container can be deployed using Docker Compose, Kubernetes, or other orchestration tools, and it can utilize Uvicorn with multiple workers by running the command `uvicorn main:app --host 0.0.0.0 --port 8080 --workers 4` to enhance its performance.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/docker/",
+      "https://fastapi.tiangolo.com/deployment/server-workers/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0102",
+    "verified": false
+  },
+  {
+    "question": "What custom headers does the TimedRoute class add to the response?",
+    "reference_answer": "The TimedRoute class adds the 'X-Response-Time' header to the response.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/custom-request-and-route/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0103",
+    "verified": false
+  },
+  {
+    "question": "Which tools can automatically handle certificate renewals for HTTPS in a FastAPI deployment?",
+    "reference_answer": "Traefik and Caddy can automatically handle certificate renewals.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/concepts/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0104",
+    "verified": false
+  },
+  {
+    "question": "What new translations were added in FastAPI version 0.115.3?",
+    "reference_answer": "New translations added include Traditional Chinese for `docs/fastapi-cli.md`, `docs/deployment/index.md`, `docs/cloud.md`, `docs/resources/index.md`, and `docs/about/index.md`; Portuguese for `docs/how-to/testing-database.md`, `docs/how-to/custom-docs-ui-assets.md`, and `docs/advanced/response-headers.md`; and Russian for `docs/environment-variables.md`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0105",
+    "verified": false
+  },
+  {
+    "question": "What Portuguese translations were added in the FastAPI release 0.115.3?",
+    "reference_answer": "Portuguese translations were added for `docs/pt/docs/tutorial/query-param-models.md`, `docs/pt/docs/tutorial/body-updates.md`, and `docs/pt/docs/advanced/response-cookies.md`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0106",
+    "verified": false
+  },
+  {
+    "question": "How can I test an asynchronous FastAPI application that is running behind a proxy, while ensuring the OpenAPI schema correctly reflects the API's path?",
+    "reference_answer": "To test an asynchronous FastAPI application behind a proxy, use pytest with the AnyIO plugin to run your test functions asynchronously. Ensure that the OpenAPI schema indicates the server's location at the correct path (e.g., '/api/v1') to match the proxy configuration.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/behind-a-proxy/",
+      "https://fastapi.tiangolo.com/advanced/async-tests/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0107",
+    "verified": false
+  },
+  {
+    "question": "What change was made to the documentation regarding the use of `Annotated` in FastAPI version 0.95.0?",
+    "reference_answer": "The documentation was updated to use `Annotated` as the main recommendation, with new examples and tests.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0108",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that the webhook URLs configured by users are securely managed and easily changeable in my FastAPI application?",
+    "reference_answer": "You can use Pydantic Settings to handle the configuration of the webhook URLs, allowing users to define them in an `.env` file. By using `@lru_cache`, you can efficiently read these settings without repeatedly accessing the file, while still allowing flexibility for testing and updates.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/settings/",
+      "https://fastapi.tiangolo.com/advanced/openapi-webhooks/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0109",
+    "verified": false
+  },
+  {
+    "question": "How can OpenAPI be configured conditionally in FastAPI?",
+    "reference_answer": "You can use settings and environment variables to configure OpenAPI conditionally depending on the environment, and even disable it entirely.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/conditional-openapi/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0110",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0111",
+    "question": "How do I run database schema migrations automatically on FastAPI startup?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What was updated in the FastAPI release 0.128.6 on February 9, 2026?",
+    "reference_answer": "Translations for zh were updated.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0112",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0113",
+    "question": "How do I integrate FastAPI with Celery for background task queuing?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "How can I customize the appearance of Swagger UI in my FastAPI application while ensuring the documentation is accessible offline?",
+    "reference_answer": "You can customize the appearance of Swagger UI by passing `swagger_ui_parameters` when creating the FastAPI app or the `get_swagger_ui_html()` function. Additionally, to ensure documentation is accessible offline, you can self-host the necessary JavaScript and CSS assets, allowing you to view and interact with the docs without an Internet connection.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/configure-swagger-ui/",
+      "https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0114",
+    "verified": false
+  },
+  {
+    "question": "How can I run a FastAPI application and also implement background tasks to send notifications in a non-blocking way?",
+    "reference_answer": "To run a FastAPI application, use the command 'fastapi dev', and to implement background tasks, use the BackgroundTasks object within your path operation function to pass a task function like 'write_notification'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/",
+      "https://fastapi.tiangolo.com/tutorial/background-tasks/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0115",
+    "verified": false
+  },
+  {
+    "question": "What is the effect of returning a Response directly in a FastAPI path operation regarding OpenAPI documentation?",
+    "reference_answer": "A Response returned directly by your path operation function won't be documented in OpenAPI, meaning the Content-Type won't be documented and won't be visible in the automatic interactive docs.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/custom-response/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0116",
+    "verified": false
+  },
+  {
+    "question": "What property can be used to cache the generated OpenAPI schema in a FastAPI application?",
+    "reference_answer": ".openapi_schema",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/extending-openapi/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0117",
+    "verified": false
+  },
+  {
+    "question": "What library can be used to call blocking code from inside an async function in FastAPI?",
+    "reference_answer": "Asyncer",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/stream-data/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0118",
+    "verified": false
+  },
+  {
+    "question": "What function is used to decode the token and return a Pydantic User model in the provided FastAPI example?",
+    "reference_answer": "The function used to decode the token is `fake_decode_token`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/get-current-user/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0119",
+    "verified": false
+  },
+  {
+    "question": "Which languages received new translations in the FastAPI 0.109.1 release notes?",
+    "reference_answer": "Turkish, German, Persian, and Italian.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0120",
+    "verified": false
+  },
+  {
+    "question": "What method does FastAPI use to convert data when the return type is omitted in the SSE endpoint?",
+    "reference_answer": "FastAPI uses the `jsonable_encoder` to convert the data and send it.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/server-sent-events/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0121",
+    "verified": false
+  },
+  {
+    "question": "How can I implement a FastAPI application that uses both submodules for routing and a dependency that can extract a query parameter or a cookie value in a nested manner?",
+    "reference_answer": "You can create a FastAPI application that includes routers from submodules like 'users' and 'items', and also define a dependency that extracts either query parameters or cookie values by using 'Depends' with nested dependencies.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/bigger-applications/",
+      "https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0122",
+    "verified": false
+  },
+  {
+    "question": "What is the purpose of using `APIRouter` in a FastAPI application?",
+    "reference_answer": "The purpose of using `APIRouter` is to create path operations for a module, such as handling users, and to keep the code organized by separating it from the rest of the application.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/bigger-applications/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0123",
+    "verified": false
+  },
+  {
+    "question": "What new feature was introduced in FastAPI version 0.62.0 regarding OpenAPI callbacks?",
+    "reference_answer": "OpenAPI callbacks that apply to all the path operations in the router.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0124",
+    "verified": false
+  },
+  {
+    "question": "How does the order of the tag metadata dictionaries affect their display in the FastAPI documentation UI?",
+    "reference_answer": "The order of each tag metadata dictionary defines the order shown in the docs UI.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/metadata/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0125",
+    "verified": false
+  },
+  {
+    "question": "What new feature was added in FastAPI version 0.135.3?",
+    "reference_answer": "Support for `@app.vibe()` was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0126",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0127",
+    "question": "How do I run FastAPI with Gunicorn and multiple workers behind Nginx in production?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What issue was fixed in FastAPI version 0.128.2 regarding the `Json[list[str]]` type?",
+    "reference_answer": "The issue fixed was related to using the `Json[list[str]]` type, identified as issue #10997.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0128",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0129",
+    "question": "How do I use FastAPI with Redis for server-side session management?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What should you read before the Advanced User Guide in FastAPI's documentation?",
+    "reference_answer": "You should first read the Tutorial - User Guide.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0130",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0131",
+    "question": "How do I serve a trained scikit-learn model through FastAPI and cache predictions?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0132",
+    "question": "How do I add Prometheus metrics to FastAPI with prometheus-fastapi-instrumentator?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What was updated in the FastAPI documentation in version 0.120.3?",
+    "reference_answer": "The update note for untranslated pages was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0133",
+    "verified": false
+  },
+  {
+    "question": "What are the recommended steps for learning FastAPI effectively while also being able to customize the OpenAPI schema in your application?",
+    "reference_answer": "To learn FastAPI effectively, it's recommended to read the Tutorial - User Guide chapter by chapter. Additionally, you can customize your OpenAPI schema by overriding the `.openapi()` method in your FastAPI application, allowing you to set a custom title, version, and other details in the OpenAPI schema.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/",
+      "https://fastapi.tiangolo.com/how-to/extending-openapi/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0134",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0135",
+    "question": "How do I use FastAPI with Beanie ODM for MongoDB?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0136",
+    "question": "How do I deploy FastAPI to AWS Lambda using the Mangum adapter?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0137",
+    "question": "How do I use FastAPI with SQLModel and Alembic for database migrations?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What specific typo was fixed in the Tutorial - Path Parameters section in the FastAPI release 0.61.2?",
+    "reference_answer": "A typo in the Tutorial - Path Parameters was fixed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0138",
+    "verified": false
+  },
+  {
+    "question": "Why did the FastAPI documentation stop listing links to external articles?",
+    "reference_answer": "The FastAPI framework has become the backend framework with the most GitHub stars across languages, making it no longer practical to list all articles written about it.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/external-links/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0139",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0140",
+    "question": "Can I use FastAPI with Django ORM directly without SQLAlchemy?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What is the minimum version of `python-multipart` that FastAPI requires as of release 0.109.1?",
+    "reference_answer": ">=0.0.7",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0141",
+    "verified": false
+  },
+  {
+    "question": "How can I implement a FastAPI endpoint that changes the response status based on certain conditions and also checks for a fixed query parameter value using a dependency?",
+    "reference_answer": "You can use a `Response` parameter in your endpoint to change the status code based on data existence, while also using a dependency to check for a specific query parameter value, such as including 'bar' in the query string.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/response-change-status-code/",
+      "https://fastapi.tiangolo.com/advanced/advanced-dependencies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0142",
+    "verified": false
+  },
+  {
+    "question": "Which companies are mentioned as using FastAPI in the documentation chunk?",
+    "reference_answer": "Microsoft, Uber, Netflix, and Cisco.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0143",
+    "verified": false
+  },
+  {
+    "question": "What is an example of a path that can be used as a path parameter in FastAPI?",
+    "reference_answer": "/files/home/johndoe/myfile.txt",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/path-params/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0144",
+    "verified": false
+  },
+  {
+    "question": "What was fixed in FastAPI version 0.115.12 regarding Pydantic models?",
+    "reference_answer": "The fix addressed the `convert_underscores=False` issue for header Pydantic models.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0145",
+    "verified": false
+  },
+  {
+    "question": "How can I implement GraphQL in a FastAPI application that also handles custom request body encodings like Gzip?",
+    "reference_answer": "You can implement GraphQL in FastAPI by following the guidelines in the FastAPI documentation and simultaneously handle custom request encodings by creating a GzipRequest class to decompress Gzip-encoded bodies, ensuring your GraphQL endpoints can process both Gzip and regular requests.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/graphql/",
+      "https://fastapi.tiangolo.com/how-to/custom-request-and-route/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0146",
+    "verified": false
+  },
+  {
+    "question": "What are the four types of numeric validations you can declare with Path parameters in FastAPI?",
+    "reference_answer": "The four types of numeric validations are: gt (greater than), ge (greater than or equal), lt (less than), and le (less than or equal).",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0147",
+    "verified": false
+  },
+  {
+    "question": "What update was made regarding the handling of callable class dependencies in version 0.56.1?",
+    "reference_answer": "Support for callable class dependencies with 'yield' was fixed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0148",
+    "verified": false
+  },
+  {
+    "question": "What was the reason for upgrading the `typer-cli` dependency in FastAPI version 0.65.3?",
+    "reference_answer": "The `typer-cli` dependency was upgraded to >=0.0.12 to fix conflicts.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0149",
+    "verified": false
+  },
+  {
+    "question": "What is the new name for the old OpenAPI-specific 'examples' parameter in FastAPI version 0.103.0 and above?",
+    "reference_answer": "The old OpenAPI-specific 'examples' parameter is now called 'openapi_examples' in FastAPI version 0.103.0.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/schema-extra-example/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0150",
+    "verified": false
+  },
+  {
+    "question": "What keyboard shortcut is used to search by path, method, or name in the FastAPI editor support features?",
+    "reference_answer": "The keyboard shortcut is <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> (on macOS: <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>).",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/editor-support/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0151",
+    "verified": false
+  },
+  {
+    "question": "What is the distinguishing feature of a model class in SQLModel that makes it a table model?",
+    "reference_answer": "A model class in SQLModel is a table model if it has `table=True`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/sql-databases/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0152",
+    "verified": false
+  },
+  {
+    "question": "How can I effectively test a FastAPI application that interacts with a SQL database while also customizing the Swagger UI for better readability of the test results?",
+    "reference_answer": "To test a FastAPI application with a SQL database, refer to the testing section in the SQLModel tutorial, which provides guidance on setting up tests for SQL databases. Additionally, you can customize the Swagger UI by configuring parameters such as the syntax highlighting theme in your FastAPI app, which can enhance the readability of the API endpoints you are testing.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/testing-database/",
+      "https://fastapi.tiangolo.com/how-to/configure-swagger-ui/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0153",
+    "verified": false
+  },
+  {
+    "question": "What was the version bump for CodSpeedHQ/action mentioned in the release notes?",
+    "reference_answer": "The version bump for CodSpeedHQ/action was from 4.17.0 to 4.17.5.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0154",
+    "verified": false
+  },
+  {
+    "question": "What new LLM prompt files were added for Turkish, Traditional Chinese, and Simplified Chinese in the FastAPI release 0.128.1?",
+    "reference_answer": "LLM prompt files for Turkish, Traditional Chinese, and Simplified Chinese were added, generated from the existing translations.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0155",
+    "verified": false
+  },
+  {
+    "question": "How does using a return type or response model in FastAPI optimize performance when returning JSON data?",
+    "reference_answer": "It allows Pydantic to handle the serialization to JSON on the Rust side, without going through Python.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/general/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0156",
+    "verified": false
+  },
+  {
+    "question": "How can I test a FastAPI endpoint that uses a dataclass for input, while overriding a dependency during the test?",
+    "reference_answer": "You can define a FastAPI endpoint that accepts a dataclass as input and then use dependency overriding to replace any original dependencies with mock ones during testing. This allows you to test the endpoint without triggering the actual dependencies.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/dataclasses/",
+      "https://fastapi.tiangolo.com/advanced/testing-dependencies/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0157",
+    "verified": false
+  },
+  {
+    "question": "Which middleware can be imported from FastAPI to handle CORS?",
+    "reference_answer": "CORSMiddleware",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/middleware/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0158",
+    "verified": false
+  },
+  {
+    "question": "How can I secure a FastAPI path operation while also excluding it from the OpenAPI schema?",
+    "reference_answer": "You can secure a FastAPI path operation by implementing OAuth2 with scopes for authentication, and at the same time exclude it from the OpenAPI schema by setting 'include_in_schema=False' in the path operation decorator.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/",
+      "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0159",
+    "verified": false
+  },
+  {
+    "question": "What default HTTP method is allowed by the `CORSMiddleware` if no specific methods are configured?",
+    "reference_answer": "The default HTTP method allowed by the `CORSMiddleware` is `['GET']`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/cors/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0160",
+    "verified": false
+  },
+  {
+    "question": "What new translations were added in the FastAPI release 0.115.5?",
+    "reference_answer": "Korean translations for `docs/advanced/testing-events.md`, `docs/security/index.md`, `docs/advanced/wsgi.md`, and `docs/advanced/response-directly.md`; Portuguese translations for `docs/advanced/path-operation-advanced-configuration.md`, `docs/advanced/websockets.md`, `docs/tutorial/security/simple-oauth2.md`, `docs/advanced/middleware.md`, `docs/advanced/openapi-callbacks.md`, and `docs/tutorial/request-files.md` were added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0161",
+    "verified": false
+  },
+  {
+    "question": "Where can I check the available versions of FastAPI?",
+    "reference_answer": "You can check the available versions in the Release Notes.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/versions/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0162",
+    "verified": false
+  },
+  {
+    "question": "How can I access the raw request data within a WebSocket endpoint in FastAPI, and what implications does this have for validation?",
+    "reference_answer": "You can access the raw request data using the `Request` object within a WebSocket endpoint, but doing so bypasses FastAPI's automatic validation and documentation features. This means that while you can read the request data directly, it will not be validated like typical FastAPI request parameters.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/using-request-directly/",
+      "https://fastapi.tiangolo.com/advanced/testing-websockets/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0163",
+    "verified": false
+  },
+  {
+    "question": "In what scenarios should I use `Security()` instead of `Depends()` when handling security in FastAPI applications?",
+    "reference_answer": "`Security()` should be used when you need to declare OAuth2 scopes, while `Depends()` is sufficient for general dependency injection for security handling.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/dependencies/",
+      "https://fastapi.tiangolo.com/reference/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0164",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0165",
+    "question": "How do I stream large binary file downloads from a FastAPI endpoint?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "Should I pin the version of Starlette when using FastAPI?",
+    "reference_answer": "No, you shouldn't pin the version of Starlette.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/versions/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0166",
+    "verified": false
+  },
+  {
+    "question": "What new Gold Sponsors were added in the FastAPI release 0.64.0?",
+    "reference_answer": "The new Gold Sponsors added were Talk Python and vim.so.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0167",
+    "verified": false
+  },
+  {
+    "question": "How can I create a streaming endpoint in FastAPI that utilizes a Pydantic model for the items being streamed, and can I also use a query parameter model to filter these items?",
+    "reference_answer": "You can create a streaming endpoint using FastAPI's EventSourceResponse to yield items defined by a Pydantic model. Additionally, you can use a Pydantic model for query parameters to filter the items being streamed based on specific criteria.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/query-param-models/",
+      "https://fastapi.tiangolo.com/tutorial/server-sent-events/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0168",
+    "verified": false
+  },
+  {
+    "question": "How can I implement authentication for a GraphQL endpoint in FastAPI while handling authentication errors correctly?",
+    "reference_answer": "To implement authentication for a GraphQL endpoint in FastAPI, you can create a custom security class that returns a 403 Forbidden error if needed, and use the ASGI-compatible GraphQL library alongside your FastAPI path operations. This allows you to maintain proper authentication while serving both REST and GraphQL APIs in the same application.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/authentication-error-status-code/",
+      "https://fastapi.tiangolo.com/how-to/graphql/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0169",
+    "verified": false
+  },
+  {
+    "question": "What command is used to deploy to FastAPI Cloud after installing `fastapi[standard]`?",
+    "reference_answer": "The command used to deploy to FastAPI Cloud is `fastapi deploy`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0170",
+    "verified": false
+  },
+  {
+    "question": "What is the value of the SECRET_KEY used in the FastAPI OAuth2 example?",
+    "reference_answer": "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0171",
+    "verified": false
+  },
+  {
+    "question": "How can you set cookies in a FastAPI response?",
+    "reference_answer": "You can set cookies in a FastAPI response by declaring a parameter of type `Response` in your path operation function and then calling `response.set_cookie(key, value)`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/response-cookies/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0172",
+    "verified": false
+  },
+  {
+    "question": "What type of HTTP response does the application send to the TLS Termination Proxy?",
+    "reference_answer": "The application sends a plain (unencrypted) HTTP response to the TLS Termination Proxy.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/https/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0173",
+    "verified": false
+  },
+  {
+    "question": "What items are added to the 'items' dictionary during the startup event in the provided FastAPI example?",
+    "reference_answer": "The items added are 'foo' with the name 'Fighters' and 'bar' with the name 'Tenders'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/testing-events/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0174",
+    "verified": false
+  },
+  {
+    "question": "What happens if you authenticate without selecting any scope when trying to access `/users/me/` or `/users/me/items/`?",
+    "reference_answer": "You will be 'authenticated', but you will get an error saying that you don't have enough permissions to access `/users/me/` or `/users/me/items/`. You will still be able to access `/status/`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0175",
+    "verified": false
+  },
+  {
+    "question": "Which languages were added or updated in the FastAPI documentation translations in version 0.82.0?",
+    "reference_answer": "Russian was added, and Chinese was updated and added for specific documents.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0176",
+    "verified": false
+  },
+  {
+    "question": "What utility does Pydantic provide for handling settings from environment variables?",
+    "reference_answer": "Pydantic provides a utility to handle settings coming from environment variables with Pydantic: Settings management.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/settings/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0177",
+    "verified": false
+  },
+  {
+    "question": "What specific addition was made in the FastAPI version 0.124.3 release regarding request parameters?",
+    "reference_answer": "A set of tests for request parameters and alias was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0178",
+    "verified": false
+  },
+  {
+    "question": "What type of response can you return directly in FastAPI without any data conversion?",
+    "reference_answer": "You can return a `Response` or any sub-class of it, including `JSONResponse`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/response-directly/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0179",
+    "verified": false
+  },
+  {
+    "question": "What function is used to generate the OpenAPI schema in the provided FastAPI example?",
+    "reference_answer": "The function used to generate the OpenAPI schema is `get_openapi`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/extending-openapi/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0180",
+    "verified": false
+  },
+  {
+    "question": "How can implementing strict content-type checking in FastAPI help mitigate CSRF risks when using custom middleware?",
+    "reference_answer": "Implementing strict content-type checking helps prevent CSRF attacks by ensuring that only requests with valid content types are processed, which is especially important when custom middleware, like CORSMiddleware, is used to handle cross-origin requests and potential security vulnerabilities.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/strict-content-type/",
+      "https://fastapi.tiangolo.com/advanced/middleware/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0181",
+    "verified": false
+  },
+  {
+    "question": "What steps should you follow in Visual Studio Code to run the FastAPI application with the debugger?",
+    "reference_answer": "Go to the 'Debug' panel, click 'Add configuration...', select 'Python', and run the debugger with the option 'Python: Current File (Integrated Terminal)'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/debugging/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0182",
+    "verified": false
+  },
+  {
+    "question": "How can I implement HTTP Basic Authentication securely in FastAPI while also ensuring my API can return additional responses with custom status codes?",
+    "reference_answer": "To implement secure HTTP Basic Authentication in FastAPI, use `secrets.compare_digest()` to prevent timing attacks when checking the username and password. Additionally, to return custom status codes and additional responses in your FastAPI application, ensure you return a `Response` like `JSONResponse` with the desired status code and content, which will also be included in the OpenAPI schema.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/http-basic-auth/",
+      "https://fastapi.tiangolo.com/advanced/additional-responses/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0183",
+    "verified": false
+  },
+  {
+    "question": "What IP address does FastAPI listen on when started with the `fastapi run` command in production mode?",
+    "reference_answer": "0.0.0.0",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/fastapi-cli/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0184",
+    "verified": false
+  },
+  {
+    "question": "What are the new parameter fields supported by Pydantic Field() in FastAPI 0.100.0?",
+    "reference_answer": "The new parameter fields are: default_factory, alias_priority, validation_alias, serialization_alias, discriminator, strict, multiple_of, allow_inf_nan, max_digits, decimal_places, json_schema_extra.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0185",
+    "verified": false
+  },
+  {
+    "question": "What parameter can be used in a Pydantic model attribute to specify a maximum length for a string field in FastAPI?",
+    "reference_answer": "The `max_length` parameter in `Field`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-fields/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0186",
+    "verified": false
+  },
+  {
+    "question": "What new library was added to the installation command for FastAPI in version 0.53.0?",
+    "reference_answer": "The `orjson` library was added to `pip install fastapi[all]`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0187",
+    "verified": false
+  },
+  {
+    "question": "Who guided the AI in the translation of the FastAPI documentation?",
+    "reference_answer": "Humans guided the AI in the translation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/translation-banner/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0188",
+    "verified": false
+  },
+  {
+    "question": "How can I use multiple body parameters in a FastAPI endpoint while also securing the endpoint with OAuth2 authentication?",
+    "reference_answer": "You can declare multiple body parameters in a FastAPI endpoint by defining them as Pydantic models and including them in the function signature. To secure the endpoint, you can use OAuth2PasswordBearer to require a token. For example, the endpoint could be defined to accept both an 'item' and a 'user' in the request body while requiring an OAuth2 token for access.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-multiple-params/",
+      "https://fastapi.tiangolo.com/tutorial/security/first-steps/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0189",
+    "verified": false
+  },
+  {
+    "question": "How can I add metadata to a path parameter and include extra information in the OpenAPI schema for both path parameters and request body fields in FastAPI?",
+    "reference_answer": "You can add metadata to a path parameter using the `Path` function, as shown in the example with `item_id`. Additionally, you can include extra information in the request body by using `Field`, which will also be reflected in the OpenAPI schema, but be cautious as extra keys may affect compatibility with some OpenAPI tools.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-fields/",
+      "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0190",
+    "verified": false
+  },
+  {
+    "question": "How can I structure a FastAPI endpoint to accept multiple image records while also ensuring that user authentication is verified before processing the request?",
+    "reference_answer": "You can create a FastAPI endpoint that accepts a list of images using a nested Pydantic model for the images, as shown in Chunk A, and implement OAuth2 for user authentication as described in Chunk B. This ensures that the request is processed only after verifying the user's credentials.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/body-nested-models/",
+      "https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0191",
+    "verified": false
+  },
+  {
+    "question": "How can I set a specific HTTP status code when returning a custom response in FastAPI?",
+    "reference_answer": "You can use the `Response` class to create a response and set its status code by using the `status` module to access named constants like `status.HTTP_200_OK` or `status.HTTP_403_FORBIDDEN`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/reference/status/",
+      "https://fastapi.tiangolo.com/reference/response/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0192",
+    "verified": false
+  },
+  {
+    "question": "What is the new feature added in FastAPI version 0.121.0 regarding dependencies with scopes?",
+    "reference_answer": "Support for dependencies with scopes, specifically `scope=\"request\"` for dependencies with `yield` that exit before the response is sent.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0193",
+    "verified": false
+  },
+  {
+    "question": "What issue related to the model's description was fixed in FastAPI version 0.115.13?",
+    "reference_answer": "The issue of truncating the model's description with the form feed (`\\f`) character for Pydantic V2 was fixed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0194",
+    "verified": false
+  },
+  {
+    "question": "What CLI option do you use to specify the number of worker processes when running FastAPI or Uvicorn?",
+    "reference_answer": "--workers",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/server-workers/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0195",
+    "verified": false
+  },
+  {
+    "question": "What does the FastAPI documentation indicate about the next sections after the 'Advanced Security' introduction?",
+    "reference_answer": "The next sections are not necessarily 'advanced' and may contain solutions applicable to various use cases.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0196",
+    "verified": false
+  },
+  {
+    "question": "What are the differences in deployment methods for FastAPI applications when using the `fastapi run` command versus deploying on FastAPI Cloud?",
+    "reference_answer": "The `fastapi run` command is used to serve FastAPI applications manually on a local server, while FastAPI Cloud provides a streamlined process for deploying applications to the cloud with minimal effort, enhancing the developer experience.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/manually/",
+      "https://fastapi.tiangolo.com/deployment/cloud/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0197",
+    "verified": false
+  },
+  {
+    "question": "What type is the optional query parameter `q` in the `query_extractor` function?",
+    "reference_answer": "The type of the optional query parameter `q` is `str | None`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0198",
+    "verified": false
+  },
+  {
+    "question": "What new support was added in FastAPI version 0.75.0 released on March 4, 2022?",
+    "reference_answer": "Support for custom `generate_unique_id_function` and documentation for generating clients.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0199",
+    "verified": false
+  },
+  {
+    "question": "What is a key difference in how Molten and FastAPI handle dependency injection?",
+    "reference_answer": "In Molten, the dependency injection system requires pre-registration of the dependencies, and it is not possible to declare more than one 'component' that provides a certain type.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/alternatives/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0200",
+    "verified": false
+  },
+  {
+    "question": "How can you add a background task in a FastAPI path operation function?",
+    "reference_answer": "You can add a background task in a FastAPI path operation function by declaring a parameter of type `BackgroundTasks` and then using `background_tasks.add_task()` to specify the task you want to run in the background.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/background-tasks/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0201",
+    "verified": false
+  },
+  {
+    "question": "How can I create a FastAPI sub-application that returns a custom JSON response while using a Response Model for better performance?",
+    "reference_answer": "You can create a sub-application using FastAPI and define path operations in it. For better performance when returning JSON responses, use a Response Model in your main application without declaring a response_class in the path operation decorator.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/custom-response/",
+      "https://fastapi.tiangolo.com/advanced/sub-applications/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0202",
+    "verified": false
+  },
+  {
+    "question": "What will your API do after creating an invoice for the external developer?",
+    "reference_answer": "Your API will send the invoice to some customer of the external developer, collect the money, and send a notification back to the API user by sending a POST request to some external API provided by that external developer.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/openapi-callbacks/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0203",
+    "verified": false
+  },
+  {
+    "question": "What documentation was updated in the FastAPI release 0.115.5 regarding dependencies?",
+    "reference_answer": "The updates include `docs/en/docs/tutorial/dependencies/dependencies-with-yield.md` and `docs/en/docs/tutorial/dependencies/global-dependencies.md`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0204",
+    "verified": false
+  },
+  {
+    "question": "Which new language translations were added in the FastAPI release 0.100.1?",
+    "reference_answer": "Ukrainian, Vietnamese, Korean, Chinese, and French translations were added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0205",
+    "verified": false
+  },
+  {
+    "question": "What type of value is expected for the 'terms_of_service' parameter in the API metadata?",
+    "reference_answer": "A URL.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/metadata/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0206",
+    "verified": false
+  },
+  {
+    "question": "What is the version range for the upgraded Starlette in FastAPI 0.110.1?",
+    "reference_answer": ">=0.37.2,<0.38.0",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0207",
+    "verified": false
+  },
+  {
+    "question": "What library did the FastAPI creator decide to use for its advantages after testing several alternatives?",
+    "reference_answer": "Pydantic",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/history-design-future/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0208",
+    "verified": false
+  },
+  {
+    "question": "What is the default value of the 'items_per_user' setting in the config file example?",
+    "reference_answer": "The default value of the 'items_per_user' setting is 50.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/settings/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0209",
+    "verified": false
+  },
+  {
+    "question": "Can you declare a parameter of type 'Hero' to read from the JSON body in FastAPI?",
+    "reference_answer": "Yes, you can declare a parameter of type 'Hero', and it will be read from the JSON body.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/sql-databases/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0210",
+    "verified": false
+  },
+  {
+    "question": "What was one of the main features needed by API systems that Marshmallow was built to provide?",
+    "reference_answer": "Data serialization and data validation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/alternatives/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0211",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that custom headers are included in the response when using templates in a FastAPI application?",
+    "reference_answer": "To include custom headers in the response when using templates, you need to configure CORS to expose those headers using the `expose_headers` parameter, and ensure that you have the `jinja2` dependency installed for rendering templates.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/response-headers/",
+      "https://fastapi.tiangolo.com/advanced/templates/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0212",
+    "verified": false
+  },
+  {
+    "question": "What security issue does the cloning of the response model in FastAPI 0.30.0 address?",
+    "reference_answer": "It addresses a potential security issue where a subclass of the response model could pass validation and be returned as-is, including sensitive fields like 'hashed_password'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0213",
+    "verified": false
+  },
+  {
+    "question": "How can I define a FastAPI path operation function that accepts multiple body parameters, and what is the difference between using an async function and a normal function in this context?",
+    "reference_answer": "You can define a FastAPI path operation function to accept multiple body parameters by specifying them in the function definition, even though the request has a single body. The function can be defined as an async function for better performance with I/O operations or as a normal function, depending on your use case.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/first-steps/",
+      "https://fastapi.tiangolo.com/tutorial/body-multiple-params/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0214",
+    "verified": false
+  },
+  {
+    "question": "What are the necessary steps to run a FastAPI application over HTTPS using a specific domain's IP address?",
+    "reference_answer": "To run a FastAPI application over HTTPS, first ensure your domain's DNS is set up to point to your server's public IP address. Then, run your FastAPI application using an ASGI server like Uvicorn, specifying the host as '0.0.0.0' and the port as '80'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/https/",
+      "https://fastapi.tiangolo.com/deployment/manually/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0215",
+    "verified": false
+  },
+  {
+    "question": "What does FastAPI use to serialize data to JSON when using a response model?",
+    "reference_answer": "FastAPI uses Pydantic to serialize the data to JSON when using a response model.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/custom-response/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0216",
+    "verified": false
+  },
+  {
+    "question": "How can a FastAPI application effectively handle mistakes during deployment while ensuring secure HTTPS communication?",
+    "reference_answer": "A FastAPI application can handle mistakes by continuously improving the code to fix bugs, while secure HTTPS communication is managed by a TLS Termination Proxy, which encrypts requests and handles multiple HTTPS certificates for secure connections.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/concepts/",
+      "https://fastapi.tiangolo.com/deployment/https/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0217",
+    "verified": false
+  },
+  {
+    "question": "What identifier can be used in the `license_info` for the FastAPI application as per the documentation?",
+    "reference_answer": "The identifier 'Apache-2.0' can be used in the `license_info`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/metadata/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0218",
+    "verified": false
+  },
+  {
+    "question": "What is the maximum length allowed for the query parameter `q` when it is provided?",
+    "reference_answer": "The maximum length allowed for the query parameter `q` is 50 characters.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/query-params-str-validations/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0219",
+    "verified": false
+  },
+  {
+    "question": "What new feature was added for WebSocket routes in FastAPI version 0.97.0?",
+    "reference_answer": "Support for `dependencies` in WebSocket routes.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0220",
+    "verified": false
+  },
+  {
+    "question": "Which specific German translation was added for the tutorial on global dependencies in FastAPI as of version 0.110.1?",
+    "reference_answer": "German translation for `docs/de/docs/tutorial/dependencies/global-dependencies.md` was added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0221",
+    "verified": false
+  },
+  {
+    "question": "How can I implement a secure API endpoint in FastAPI that accepts a nested model in the request body while ensuring that the request is authenticated using OAuth2?",
+    "reference_answer": "You can secure your API endpoint in FastAPI using OAuth2 by defining an OAuth2 security scheme in your OpenAPI configuration and then using a nested model for the request body by leveraging Pydantic. This ensures that the endpoint requires authentication while also validating the structure of the incoming data.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/",
+      "https://fastapi.tiangolo.com/tutorial/body-nested-models/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0222",
+    "verified": false
+  },
+  {
+    "question": "What library is recommended for working with GraphQL in FastAPI and why?",
+    "reference_answer": "Strawberry is the recommended library for working with GraphQL in FastAPI because it has a design closest to FastAPI's design, which is all based on type annotations.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/graphql/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0223",
+    "verified": false
+  },
+  {
+    "question": "Why do we need to use `Union` instead of the vertical bar for the `response_model` argument in FastAPI even in Python 3.10?",
+    "reference_answer": "We have to use `Union` because we are passing it as a value to an argument, which would lead to an error if we used the vertical bar.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/extra-models/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0224",
+    "verified": false
+  },
+  {
+    "question": "What happens to the `PATH` environment variable when you install Python and choose to update it on Windows?",
+    "reference_answer": "The installer will add `C:\\opt\\custompython\\bin` to the `PATH` environment variable.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/environment-variables/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0225",
+    "verified": false
+  },
+  {
+    "question": "How can I declare additional metadata for the query parameters defined in a class-based dependency in FastAPI?",
+    "reference_answer": "You can use the `Field` function to add extra information, such as examples or descriptions, to the parameters of a class-based dependency, which will also be included in the generated OpenAPI schema.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/dependencies/classes-as-dependencies/",
+      "https://fastapi.tiangolo.com/tutorial/body-fields/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0226",
+    "verified": false
+  },
+  {
+    "question": "What significant changes were made to the translations in FastAPI version 0.125.0?",
+    "reference_answer": "In version 0.125.0, several updates and removals were made to translations, including updates for Portuguese, Spanish, German, and the addition of a French LLM prompt file, while removing inactive translations for Vietnamese, Persian, and emoji.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0227",
+    "verified": false
+  },
+  {
+    "question": "What is the distinction between the terms 'process' and 'program' as mentioned in the FastAPI deployment concepts?",
+    "reference_answer": "The document clarifies that it will discuss the running 'process' and emphasizes the need to understand the difference between 'process' and 'program'.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/deployment/concepts/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0228",
+    "verified": false
+  },
+  {
+    "question": "How can I disable the automatic OpenAPI documentation and also configure it to be conditional based on the environment in a FastAPI application?",
+    "reference_answer": "You can disable the automatic OpenAPI documentation by setting the `docs_url` to `None` when creating your FastAPI app, and you can configure the OpenAPI settings conditionally using environment variables to disable it entirely if needed.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/",
+      "https://fastapi.tiangolo.com/how-to/conditional-openapi/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0229",
+    "verified": false
+  },
+  {
+    "question": "How can I define a Pydantic model for input data while ensuring my FastAPI application handles authentication errors appropriately, especially if I need to revert to using the 403 Forbidden status code for failed authentications?",
+    "reference_answer": "You can define a Pydantic model for input data using FastAPI, like the `Item` model in Chunk A, while also subclassing `HTTPBearer` to return a 403 Forbidden error in case of authentication failure, as shown in Chunk B.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/separate-openapi-schemas/",
+      "https://fastapi.tiangolo.com/how-to/authentication-error-status-code/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0230",
+    "verified": false
+  },
+  {
+    "question": "Can I use a model that only includes an 'id' and 'email' without a 'username' for the current user in FastAPI?",
+    "reference_answer": "Yes, you can use a model that includes an 'id' and 'email' without a 'username' for the current user.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/get-current-user/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0231",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0232",
+    "question": "How do I add request-level tracing to FastAPI with OpenTelemetry?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "How can I document additional status codes in a FastAPI application while ensuring that a shutdown event is properly handled at the application termination?",
+    "reference_answer": "You can document additional status codes using the Additional Responses feature in FastAPI, and to handle application shutdown, you should declare a function with the 'shutdown' event using @app.on_event('shutdown').",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/additional-status-codes/",
+      "https://fastapi.tiangolo.com/advanced/events/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0233",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that a model used in FastAPI with SQL databases is secure when handling user data, particularly in relation to authentication protocols?",
+    "reference_answer": "You can use SQLModel models for defining user data and utilize OpenID Connect for authentication, ensuring that user information is securely handled and validated through the API.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/sql-databases/",
+      "https://fastapi.tiangolo.com/tutorial/security/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0234",
+    "verified": false
+  },
+  {
+    "question": "How can you avoid reading the dotenv file repeatedly for each request in a FastAPI application using Pydantic Settings?",
+    "reference_answer": "Using `@lru_cache` lets you avoid reading the dotenv file again and again for each request.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/settings/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0235",
+    "verified": false
+  },
+  {
+    "candidate_id": "c0236",
+    "question": "How do I configure FastAPI to send transactional emails with fastapi-mail?",
+    "reference_answer": "This question cannot be answered from the FastAPI documentation corpus.",
+    "gold_source_urls": [],
+    "difficulty": "medium",
+    "type": "unanswerable",
+    "verified": false
+  },
+  {
+    "question": "What feature related to HTTP Basic Auth was added in FastAPI version 0.18.0?",
+    "reference_answer": "Docs for HTTP Basic Auth were added, and handling was upgraded with automatic headers for a browser login prompt.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0237",
+    "verified": false
+  },
+  {
+    "question": "What version of pyjwt was bumped to in the FastAPI release 0.135.2?",
+    "reference_answer": "The version of pyjwt was bumped from 2.11.0 to 2.12.0.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0238",
+    "verified": false
+  },
+  {
+    "question": "What is the main benefit of using OAuth2 scopes in a FastAPI application?",
+    "reference_answer": "OAuth2 scopes allow you to have a more fine-grained permission system integrated into your OpenAPI application and API docs.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0239",
+    "verified": false
+  },
+  {
+    "question": "What is the difference between `BackgroundTasks` and `BackgroundTask` in FastAPI?",
+    "reference_answer": "`BackgroundTasks` is imported directly into FastAPI to be used as a path operation function parameter, while `BackgroundTask` must be created in code and included in a Starlette `Response`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/background-tasks/"
+    ],
+    "difficulty": "medium",
+    "type": "single-source",
+    "candidate_id": "c0240",
+    "verified": false
+  },
+  {
+    "question": "What new language translations were added in FastAPI release 0.95.2?",
+    "reference_answer": "Portuguese, Russian, Lao, and French translations were added.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0241",
+    "verified": false
+  },
+  {
+    "question": "What does hashing a password mean in the context of FastAPI's security documentation?",
+    "reference_answer": "Hashing means converting a password into a sequence of bytes that looks like gibberish, where the same password always produces the same gibberish, but it cannot be converted back to the original password.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0242",
+    "verified": false
+  },
+  {
+    "question": "What path does the system prioritize when activating a virtual environment in FastAPI?",
+    "reference_answer": "The system prioritizes the path `C:\\Users\\user\\code\\awesome-project\\.venv\\Scripts` when activating a virtual environment.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/virtual-environments/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0243",
+    "verified": false
+  },
+  {
+    "question": "What function is used to perform custom validation after the normal validation in FastAPI using Pydantic?",
+    "reference_answer": "AfterValidator",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/query-params-str-validations/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0244",
+    "verified": false
+  },
+  {
+    "question": "How can I ensure that the example data I define in my FastAPI Pydantic model is correctly displayed in the OpenAPI documentation when testing my API endpoints?",
+    "reference_answer": "To ensure that example data is displayed in the OpenAPI documentation when testing your FastAPI endpoints, use the `examples` parameter inside your Pydantic model's `schema_extra` or `Field()`. This will include the examples in the JSON Schema, which is now part of the OpenAPI documentation since FastAPI version 0.99.0. Then, when you run your FastAPI app defined in `main.py`, the OpenAPI UI will reflect these examples in the API documentation.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/tutorial/schema-extra-example/",
+      "https://fastapi.tiangolo.com/tutorial/testing/"
+    ],
+    "difficulty": "medium",
+    "type": "multi-source",
+    "candidate_id": "c0245",
+    "verified": false
+  },
+  {
+    "question": "What should you ensure you have for your app before upgrading to Pydantic v2?",
+    "reference_answer": "You should ensure you have tests for your app.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/how-to/migrate-from-pydantic-v1-to-pydantic-v2/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0246",
+    "verified": false
+  },
+  {
+    "question": "What was fixed in FastAPI version 0.124.3 released on December 12, 2025?",
+    "reference_answer": "Support for tagged union with discriminator inside of `Annotated` with `Body()`.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/release-notes/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0247",
+    "verified": false
+  },
+  {
+    "question": "What type of response does the `PNGStreamingResponse` class in FastAPI provide?",
+    "reference_answer": "The `PNGStreamingResponse` class provides a streaming response for PNG images.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/advanced/stream-data/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0248",
+    "verified": false
+  },
+  {
+    "question": "What are the two default options for interactive API documentation provided by FastAPI?",
+    "reference_answer": "The two default options for interactive API documentation provided by FastAPI are Swagger UI and ReDoc.",
+    "gold_source_urls": [
+      "https://fastapi.tiangolo.com/features/"
+    ],
+    "difficulty": "easy",
+    "type": "single-source",
+    "candidate_id": "c0249",
+    "verified": false
+  }
+]
