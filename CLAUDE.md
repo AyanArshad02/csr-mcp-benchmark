@@ -67,7 +67,7 @@ citation drop) is a valid, publishable outcome — never fudge numbers to manufa
 |---|---|---|
 | Corpus | FastAPI docs (raw Markdown from its GitHub repo) | Clean Markdown, stable public URLs, developer-facing, well-bounded |
 | Chunking | Recursive / structure-aware by Markdown headings | Keeps each chunk a coherent citable unit |
-| Embedding model | `BAAI/bge-large-en-v1.5` | Strong open model; remember query-prefix on queries only |
+| Embedding model | `text-embedding-3-small` (OpenAI) | Simple API call, no local model download; consistent with OpenAI provider already in use |
 | Vector index | Chroma (or FAISS) | Easy persistence |
 | MCP tool name | `search_fastapi_knowledge_sources` | Mirrors Kapa's `search_<product>_knowledge_sources` exactly |
 | Transport | streamable HTTP | Matches Kapa's hosted server |
