@@ -1,0 +1,26 @@
+============================================================
+Pipeline : baseline
+Provider : bedrock
+Model    : us.anthropic.claude-sonnet-4-6
+Questions: 127
+============================================================
+
+── Citation metrics (ALCE) ──────────────────────
+  Recall    : 0.344
+  Precision : 0.377
+  F1        : 0.351
+
+── Citation Survival Rate (CSR) ─────────────────
+  CSR       : 0.783  (over 106/127 questions with ≥1 gold URL retrieved)
+
+── Failure modes (total counts across all questions) ──
+  Dropped          : 6   (gold URL retrieved but never cited)
+  Wrong-attributed : 22   (cited but NLI fails — wrong chunk for claim)
+  Phantom citations: 0   (cited URL never retrieved)
+
+── By question type ──────────────────────────────
+  multi-source   : n= 29  recall=0.300  f1=0.311  csr=0.750
+  single-source  : n= 82  recall=0.403  f1=0.408  csr=0.795
+  unanswerable   : n= 16  recall=0.121  f1=0.131  csr=nan
+
+============================================================
