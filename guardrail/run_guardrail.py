@@ -28,7 +28,7 @@ from openai import OpenAI
 load_dotenv()
 from sentence_transformers import CrossEncoder
 
-from guardrail.reattach import reattach_citations
+from guardrail.reattach import assert_only_citations_added, reattach_citations
 from measure.score import make_decompose_fn, make_nli_fn, score_answer
 
 logging.basicConfig(
@@ -106,6 +106,8 @@ def main() -> None:
             retrieved_chunks,
             nli_fn=nli_fn,
         )
+        # Enforce the "zero wording changes" claim on every single answer.
+        assert_only_citations_added(result)
         total_citations_added += result.citations_added
 
         if result.citations_added:
@@ -143,6 +145,7 @@ def main() -> None:
             "citations_added": result.citations_added,
             "sentences_checked": result.sentences_checked,
             "sentences_covered": result.sentences_covered,
+            "sentences_skipped": result.sentences_skipped,
             # Before scores
             "orig_csr": orig_score.csr,
             "orig_citation_recall": orig_score.citation_recall,

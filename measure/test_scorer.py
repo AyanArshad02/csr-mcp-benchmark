@@ -7,7 +7,7 @@ Test cases:
   T1 — Perfect answer: citation correct + grounded → recall=1, precision=1, CSR=1
   T2 — Missing citation: claim made with no source → recall=0, CSR=0
   T3 — Wrong source: URL cited but chunk doesn't entail claim → recall=0, CSR=0
-  T4 — Phantom citation: URL cited but never retrieved → Check 2 fails, CSR=0
+  T4 — Fabricated citation: URL cited but never retrieved → Check 2 fails, CSR=0
   T5 — Over-citing: two citations where one suffices → precision < 1, recall=1, CSR=1
 """
 
@@ -103,7 +103,7 @@ def test_t1_perfect_answer():
     assert result.csr_numerator == 1
     assert result.csr_denominator == 1
     assert result.error_counts["dropped"] == 0
-    assert result.error_counts["phantom"] == 0
+    assert result.error_counts["fabricated"] == 0
 
 
 # ---------------------------------------------------------------------------
@@ -173,15 +173,15 @@ def test_t3_wrong_source():
 
 
 # ---------------------------------------------------------------------------
-# T4 — Phantom citation (URL cited but never retrieved)
+# T4 — Fabricated citation (URL cited but never retrieved)
 # ---------------------------------------------------------------------------
 
-def test_t4_phantom_citation():
+def test_t4_fabricated_citation():
     """Agent cites URL_C which was never in the tool-call trace. Check 2 fails, CSR=0."""
     claim_text = "FastAPI uses Pydantic models to declare request bodies."
     answer = f"{claim_text} [{URL_C}]"  # URL_C was never retrieved
 
-    # Trace only has URL_A — URL_C is phantom
+    # Trace only has URL_A — URL_C is fabricated (never retrieved)
     retrieved_chunks = [{"source_url": URL_A, "content": CHUNK_A}]
     gold_source_urls = [URL_A]
 
@@ -196,19 +196,43 @@ def test_t4_phantom_citation():
         decompose_fn=_decompose_identity,
     )
 
-    # The single claim has only a phantom citation — NLI can't run, so neutral
+    # The single claim has only a fabricated citation — NLI can't run, so neutral
     assert result.citation_recall == pytest.approx(0.0)
 
-    # URL_C should be in phantom_urls for the claim
+    # URL_C should be in fabricated_urls for the claim
     assert len(result.claims) == 1
-    assert URL_C in result.claims[0].phantom_urls
+    assert URL_C in result.claims[0].fabricated_urls
 
-    # Phantom counter should be 1
-    assert result.error_counts["phantom"] == 1
+    # Fabricated counter should be 1
+    assert result.error_counts["fabricated"] == 1
 
     # Gold URL_A was retrieved but cited with wrong URL (URL_C) → dropped
     assert result.error_counts["dropped"] == 1
     assert result.csr == pytest.approx(0.0)
+
+
+def test_t4b_fabricated_count_is_not_multiplied_by_claim_count():
+    """Regression: one fabricated citation counts once, not once per atomic claim.
+
+    The count used to live inside the per-claim loop, so a sentence decomposing
+    into N claims inflated a single fabricated URL to N (3-7x in real data).
+    """
+    answer = f"FastAPI does three separate things here. [{URL_C}]"  # URL_C never retrieved
+
+    def _decompose_into_three(text: str, question: str) -> list[str]:
+        return ["Claim one.", "Claim two.", "Claim three."]
+
+    result = score_answer(
+        answer=answer,
+        retrieved_chunks=[{"source_url": URL_A, "content": CHUNK_A}],
+        gold_source_urls=[URL_A],
+        question=QUESTION,
+        nli_fn=_nli_real(set()),
+        decompose_fn=_decompose_into_three,
+    )
+
+    assert len(result.claims) == 3            # the sentence really did split three ways
+    assert result.error_counts["fabricated"] == 1   # ...but the citation is counted once
 
 
 # ---------------------------------------------------------------------------

@@ -33,7 +33,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 logger = logging.getLogger(__name__)
 
-CACHE_DIR = ".cache/scoring"
+CACHE_DIR = ".cache"
 
 
 # ---------------------------------------------------------------------------
@@ -60,7 +60,7 @@ def score_row(row: dict, *, nli_fn, decompose_fn) -> dict:
         "csr_denominator":    result.csr_denominator,
         "error_counts":       result.error_counts,
         "n_claims":           len(result.claims),
-        "n_phantom_urls":     sum(len(c.phantom_urls) for c in result.claims),
+        "n_fabricated_urls":     sum(len(c.fabricated_urls) for c in result.claims),
     }
 
 
@@ -87,7 +87,7 @@ def summarise(scored_rows: list[dict]) -> str:
 
     dropped  = sum(r["error_counts"].get("dropped",        0) for r in scored_rows)
     wrong    = sum(r["error_counts"].get("wrong_attributed",0) for r in scored_rows)
-    phantom  = sum(r["n_phantom_urls"]                          for r in scored_rows)
+    fabricated= sum(r["n_fabricated_urls"]                          for r in scored_rows)
 
     # Per question-type breakdown
     type_groups: dict[str, list[dict]] = {}
@@ -118,7 +118,7 @@ def summarise(scored_rows: list[dict]) -> str:
         "── Failure modes (total counts across all questions) ──",
         f"  Dropped          : {dropped}   (gold URL retrieved but never cited)",
         f"  Wrong-attributed : {wrong}   (cited but NLI fails — wrong chunk for claim)",
-        f"  Phantom citations: {phantom}   (cited URL never retrieved)",
+        f"  Fabricated citations: {fabricated}   (cited URL never retrieved)",
         "",
         "── By question type ──────────────────────────────",
     ]
@@ -140,8 +140,9 @@ def summarise(scored_rows: list[dict]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Score a pipeline results JSONL")
     parser.add_argument("input", help="Path to results JSONL (e.g. results/baseline_openai.jsonl)")
-    parser.add_argument("--out",   default=None, help="Output JSONL path (default: auto)")
-    parser.add_argument("--limit", type=int, default=None, help="Only score first N rows")
+    parser.add_argument("--out",       default=None,   help="Output JSONL path (default: auto)")
+    parser.add_argument("--limit",     type=int, default=None, help="Only score first N rows")
+    parser.add_argument("--cache-dir", default=CACHE_DIR, help="Diskcache directory (default: .cache)")
     args = parser.parse_args()
 
     in_path  = Path(args.input)
@@ -151,7 +152,7 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     # Build real NLI fn + decompose fn
-    cache = diskcache.Cache(CACHE_DIR)
+    cache = diskcache.Cache(args.cache_dir)
 
     logger.info("Loading NLI model (cross-encoder/nli-deberta-v3-base) …")
     from sentence_transformers import CrossEncoder

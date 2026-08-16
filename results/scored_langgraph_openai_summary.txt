@@ -6,21 +6,21 @@ Questions: 127
 ============================================================
 
 ── Citation metrics (ALCE) ──────────────────────
-  Recall    : 0.258
-  Precision : 0.410
-  F1        : 0.280
+  Recall    : 0.259
+  Precision : 0.408
+  F1        : 0.282
 
 ── Citation Survival Rate (CSR) ─────────────────
-  CSR       : 0.586  (over 105/127 questions with ≥1 gold URL retrieved)
+  CSR       : 0.614  (over 105/127 questions with ≥1 gold URL retrieved)
 
 ── Failure modes (total counts across all questions) ──
   Dropped          : 26   (gold URL retrieved but never cited)
-  Wrong-attributed : 32   (cited but NLI fails — wrong chunk for claim)
-  Phantom citations: 103   (cited URL never retrieved)
+  Wrong-attributed : 29   (cited but NLI fails — wrong chunk for claim)
+  Fabricated citations: 111   (cited URL never retrieved)
 
 ── By question type ──────────────────────────────
-  multi-source   : n= 29  recall=0.109  f1=0.128  csr=0.328
-  single-source  : n= 82  recall=0.349  f1=0.375  csr=0.684
-  unanswerable   : n= 16  recall=0.064  f1=0.065  csr=nan
+  multi-source   : n= 29  recall=0.116  f1=0.139  csr=0.362
+  single-source  : n= 82  recall=0.348  f1=0.376  csr=0.711
+  unanswerable   : n= 16  recall=0.061  f1=0.062  csr=nan
 
 ============================================================

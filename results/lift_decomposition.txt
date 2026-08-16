@@ -1,0 +1,10 @@
+Guardrail CSR lift decomposition
+(gold URLs flipping not-survived -> survived after patching)
+
+Pipeline                         flips   new attribution   re-granularized
+----------------------------------------------------------------------------
+Baseline      gpt-4o-mini            8           6 ( 75%)                 2
+LangGraph     gpt-4o-mini           15          10 ( 67%)                 5
+OpenAI Agent  gpt-4o-mini           33          28 ( 85%)                 5
+Baseline      claude-s-4-6           1           0 (  0%)                 1
+LangGraph     claude-s-4-6           4           1 ( 25%)                 3

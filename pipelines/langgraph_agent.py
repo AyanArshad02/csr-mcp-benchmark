@@ -154,7 +154,11 @@ def _make_chat_model(provider: str, model_id: str):
         return ChatBedrock(
             model_id=model_id,
             region_name=os.environ.get("AWS_REGION", "us-east-1"),
-            model_kwargs={"temperature": 0},
+            # max_tokens MUST be set explicitly and MUST match the baseline strategy
+            # (pipelines/strategy/bedrock_s.py). langchain-aws silently defaults
+            # Anthropic models to max_tokens=1024, which truncated 52/127 answers and
+            # cost this arm ~0.13 CSR relative to the baseline arm — a pure artifact.
+            model_kwargs={"temperature": 0, "max_tokens": 2048},
         )
 
     raise ValueError(f"Unknown provider: {provider!r}")

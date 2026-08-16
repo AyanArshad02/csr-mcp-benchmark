@@ -40,7 +40,7 @@ class ClaimResult:
     cited_urls: list[str]      # URLs cited by the source sentence
     nli_label: NLILabel        # NLI result over concatenated cited chunks
     supported: bool            # nli_label == "entailment" (Check 1)
-    phantom_urls: list[str]    # cited_urls not in the retrieved trace (Check 2 fails)
+    fabricated_urls: list[str]    # cited_urls not in the retrieved trace (Check 2 fails)
     precision_per_url: dict[str, bool]  # url -> was this citation necessary?
 
 
@@ -55,14 +55,17 @@ class AnswerScore:
     claims: list[ClaimResult]
     retrieved_urls: list[str]
     gold_source_urls: list[str]
-    error_counts: dict[str, int]  # "dropped" / "wrong_attributed" / "phantom" per gold URL
+    error_counts: dict[str, int]  # "dropped" / "wrong_attributed" / "fabricated" per gold URL
 
 
 # ---------------------------------------------------------------------------
 # Step 1 — Citation parser
 # ---------------------------------------------------------------------------
 
-_CITATION_RE = re.compile(r'\[(https?://[^\]]+)\]')
+# URLs never contain whitespace, so excluding it keeps a truncated citation
+# ("...[https://fastapi.tiang" at a max_tokens cutoff) from swallowing the next
+# real citation and being parsed as one bogus URL.
+_CITATION_RE = re.compile(r'\[(https?://[^\]\s]+)\]')
 
 
 def parse_cited_units(answer: str) -> list[tuple[str, list[str]]]:
@@ -194,7 +197,7 @@ def make_nli_fn(model, cache) -> NLIFn:
 # ---------------------------------------------------------------------------
 
 def _concat_chunks(urls: list[str], url_to_content: dict[str, str]) -> str:
-    """Concatenate chunk content for a list of URLs, skipping phantoms."""
+    """Concatenate chunk content for a list of URLs, skipping fabricated."""
     parts = [url_to_content[u] for u in urls if u in url_to_content]
     return "\n\n".join(parts)
 
@@ -236,6 +239,11 @@ def score_answer(
     # --- Decompose each unit into atomic claims ---
     claim_results: list[ClaimResult] = []
 
+    # Fabricated citations are a property of the CITATION, not of the claims a
+    # sentence happens to decompose into. Counting them inside the per-claim loop
+    # multiplied each one by the claim count (3-7x inflation) — count per unit.
+    n_fabricated: int = 0
+
     for sentence, cited_urls in units:
         # Decompose into atomic claims; each inherits the sentence's citations
         try:
@@ -244,13 +252,14 @@ def score_answer(
             logger.warning("Decomposition failed for sentence %r: %s", sentence[:60], exc)
             atomic_claims = [sentence]
 
-        # Identify phantoms (cited URLs not in retrieved trace) — Check 2
-        phantom_urls = [u for u in cited_urls if u not in retrieved_urls]
+        # Identify fabricated citations (cited URLs not in retrieved trace) — Check 2
+        fabricated_urls = [u for u in cited_urls if u not in retrieved_urls]
+        n_fabricated += len(fabricated_urls)
 
         for claim in atomic_claims:
             # Check 1 — Support (NLI)
             if cited_urls:
-                # Only run NLI on non-phantom citations (we need content)
+                # Only run NLI on non-fabricated citations (we need content)
                 valid_urls = [u for u in cited_urls if u in url_to_content]
                 if valid_urls:
                     premise = _concat_chunks(valid_urls, url_to_content)
@@ -260,7 +269,7 @@ def score_answer(
                         logger.warning("NLI failed for claim %r: %s", claim[:60], exc)
                         nli_label = "neutral"
                 else:
-                    # All citations are phantoms — can't check support
+                    # All citations are fabricated — can't check support
                     nli_label = "neutral"
             else:
                 # No citation — uncited claim
@@ -292,8 +301,8 @@ def score_answer(
                         solo_label = "neutral"
                     precision_per_url[url] = necessary or (solo_label == "entailment")
 
-            # Mark phantom citations as imprecise
-            for url in phantom_urls:
+            # Mark fabricated citations as imprecise
+            for url in fabricated_urls:
                 precision_per_url[url] = False
 
             claim_results.append(ClaimResult(
@@ -302,7 +311,7 @@ def score_answer(
                 cited_urls=cited_urls,
                 nli_label=nli_label,
                 supported=supported,
-                phantom_urls=phantom_urls,
+                fabricated_urls=fabricated_urls,
                 precision_per_url=precision_per_url,
             ))
 
@@ -353,7 +362,7 @@ def score_answer(
     csr = csr_numerator / csr_denominator if csr_denominator > 0 else None
 
     # --- Error analysis per gold URL ---
-    error_counts: dict[str, int] = {"dropped": 0, "wrong_attributed": 0, "phantom": 0}
+    error_counts: dict[str, int] = {"dropped": 0, "wrong_attributed": 0, "fabricated": 0}
 
     for gold_url in retrieved_gold:
         claims_citing_gold = [cr for cr in claim_results if gold_url in cr.cited_urls]
@@ -363,9 +372,8 @@ def score_answer(
             error_counts["wrong_attributed"] += 1
         # else: survived (counted in numerator)
 
-    # Count phantom citations from ALL claims (any cited URL not in trace)
-    for cr in claim_results:
-        error_counts["phantom"] += len(cr.phantom_urls)
+    # Count fabricated citations once per citation occurrence (see n_fabricated above)
+    error_counts["fabricated"] = n_fabricated
 
     return AnswerScore(
         citation_recall=citation_recall,
