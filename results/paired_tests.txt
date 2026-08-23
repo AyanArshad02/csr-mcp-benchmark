@@ -1,0 +1,28 @@
+Paired bootstrap tests — is the CSR difference real?
+n_boot=10000  seed=42  percentile method, paired on question_id
+
+=== A — CSR drop: baseline vs agent pipelines ===
+Comparison                                  n   mean d               95% CI  verdict
+------------------------------------------------------------------------------------------------
+Baseline -> LangGraph    gpt-4o-mini      102   +0.000  [-0.093, +0.093]  not significant
+Baseline -> OpenAI Agent gpt-4o-mini       98   -0.311  [-0.434, -0.189]  REAL (CI excludes 0)
+Baseline -> LangGraph    claude-s-4-6     104   -0.077  [-0.168, +0.014]  not significant
+
+Baseline -> LangGraph    gpt-4o-mini  [multi-source]   28   -0.143  [-0.304, +0.036]  not significant
+Baseline -> OpenAI Agent gpt-4o-mini  [multi-source]   28   -0.339  [-0.571, -0.107]  REAL (CI excludes 0)
+Baseline -> LangGraph    claude-s-4-6  [multi-source]   28   -0.143  [-0.321, +0.018]  not significant
+
+=== B — Guardrail lift: before vs after, same answers ===
+Pipeline                                    n   mean d               95% CI  verdict
+------------------------------------------------------------------------------------------------
+Baseline      gpt-4o-mini                 106   +0.042  [+0.005, +0.085]  REAL (CI excludes 0)
+LangGraph     gpt-4o-mini                 105   +0.057  [-0.005, +0.124]  not significant
+OpenAI Agent  gpt-4o-mini                  99   +0.222  [+0.136, +0.308]  REAL (CI excludes 0)
+Baseline      claude-s-4-6                106   +0.009  [+0.000, +0.028]  not significant
+LangGraph     claude-s-4-6                107   +0.014  [-0.019, +0.047]  not significant
+
+Baseline      gpt-4o-mini  [multi-source]   28   +0.125  [+0.000, +0.268]  not significant
+LangGraph     gpt-4o-mini  [multi-source]   29   +0.103  [-0.086, +0.276]  not significant
+OpenAI Agent  gpt-4o-mini  [multi-source]   28   +0.393  [+0.250, +0.554]  REAL (CI excludes 0)
+Baseline      claude-s-4-6  [multi-source]   28   +0.000  [+0.000, +0.000]  not significant
+LangGraph     claude-s-4-6  [multi-source]   29   +0.052  [+0.000, +0.104]  not significant
