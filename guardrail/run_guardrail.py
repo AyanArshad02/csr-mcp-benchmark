@@ -5,9 +5,14 @@ Usage:
         --input  results/langgraph_openai.jsonl \
         --output results/guardrail_langgraph_openai.jsonl
 
+    # Guardrail v2 (Ticket 16): prose-only, decomposed, cleaned premises, top-1, tau
+    python -m guardrail.run_guardrail --guardrail v2 \
+        --input  results/langgraph_openai.jsonl \
+        --output results/guardrail_v2_langgraph_openai.jsonl
+
 The script:
   1. Loads the raw pipeline result JSONL (each row has answer + retrieved_chunks).
-  2. Runs reattach_citations() on each answer.
+  2. Runs reattach_citations() (v1, default) or reattach_citations_v2() on each answer.
   3. Scores both the original and patched answers.
   4. Writes an augmented JSONL with before/after scores.
   5. Prints a summary table to stdout.
@@ -29,6 +34,7 @@ load_dotenv()
 from sentence_transformers import CrossEncoder
 
 from guardrail.reattach import assert_only_citations_added, reattach_citations
+from guardrail.reattach_v2 import DEFAULT_THRESHOLD, make_nli_prob_fn, reattach_citations_v2
 from measure.score import make_decompose_fn, make_nli_fn, score_answer
 
 logging.basicConfig(
@@ -66,6 +72,10 @@ def main() -> None:
     parser.add_argument("--input", required=True, help="Input JSONL (raw pipeline results)")
     parser.add_argument("--output", required=True, help="Output JSONL with guardrail applied")
     parser.add_argument("--cache-dir", default=".cache", help="Diskcache directory")
+    parser.add_argument("--guardrail", choices=["v1", "v2"], default="v1",
+                        help="v1 = naive baseline (default, reproduces published numbers); v2 = Ticket 16")
+    parser.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD,
+                        help="v2 only: minimum P(entailment) for every claim (pre-registered 0.9)")
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -86,6 +96,7 @@ def main() -> None:
     nli_model = CrossEncoder("cross-encoder/nli-deberta-v3-base")
     nli_fn = make_nli_fn(nli_model, cache)
     decompose_fn = make_decompose_fn(client, cache)
+    nli_prob_fn = make_nli_prob_fn(nli_model, cache) if args.guardrail == "v2" else None
 
     # --- Process each row ---
     output_rows = []
@@ -101,11 +112,21 @@ def main() -> None:
         logger.info("[%d/%d] q_id=%s", i + 1, len(rows), qid)
 
         # Apply guardrail
-        result = reattach_citations(
-            original_answer,
-            retrieved_chunks,
-            nli_fn=nli_fn,
-        )
+        if args.guardrail == "v2":
+            result = reattach_citations_v2(
+                original_answer,
+                retrieved_chunks,
+                question,
+                nli_prob_fn=nli_prob_fn,
+                decompose_fn=decompose_fn,
+                threshold=args.threshold,
+            )
+        else:
+            result = reattach_citations(
+                original_answer,
+                retrieved_chunks,
+                nli_fn=nli_fn,
+            )
         # Enforce the "zero wording changes" claim on every single answer.
         assert_only_citations_added(result)
         total_citations_added += result.citations_added
@@ -146,6 +167,17 @@ def main() -> None:
             "sentences_checked": result.sentences_checked,
             "sentences_covered": result.sentences_covered,
             "sentences_skipped": result.sentences_skipped,
+            "guardrail_version": args.guardrail,
+            **({
+                "threshold": args.threshold,
+                # Every sentence's best all-claims-entailed chunk, inserted or not:
+                # feeds the held-out audit sample and the threshold sweep.
+                "candidates": [
+                    {"sentence": c.sentence, "prose": c.prose, "claims": c.claims, "url": c.url,
+                     "min_p_entail": c.min_p_entail, "inserted": c.inserted}
+                    for c in result.candidates
+                ],
+            } if args.guardrail == "v2" else {}),
             # Before scores
             "orig_csr": orig_score.csr,
             "orig_citation_recall": orig_score.citation_recall,
