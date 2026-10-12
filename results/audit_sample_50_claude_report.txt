@@ -1,0 +1,44 @@
+Ticket 4 — insertion audit, LLM-labelled pass (NOT the human audit)
+Labeller: claude-opus-5-5, 2026-10-10. Human `verdict` field in audit_sample_50.jsonl left blank.
+Source: results/audit_sample_50_claude.jsonl (per-item verdict + one-line reason)
+Sample: 50 insertions from guardrail_langgraph_openai.jsonl (LangGraph x gpt-4o-mini ONLY),
+        32 distinct questions (items are clustered, not independent).
+Rule: CORRECT = chunk clearly supports the sentence; PARTIAL = supports some but not all of it;
+      WRONG = supports none of it. Judged against chunk_content, not the live page.
+Intervals: Wilson 95%.
+
+All 50 insertions
+  CORRECT  11   22.0% [12.8, 35.2]
+  PARTIAL   6
+  WRONG    33
+  CORRECT+PARTIAL 17  34.0% [22.4, 47.8]
+
+Insertions of a GOLD url (the only ones that can move CSR)       n=13
+  CORRECT 8  61.5% [35.5, 82.3]   PARTIAL 2   WRONG 3 (#9, #27, #33)
+  CORRECT+PARTIAL 10  76.9% [49.7, 91.8]
+
+Insertions of a NON-gold url (affect precision, not CSR)          n=37
+  CORRECT 3  8.1% [2.8, 21.3]     PARTIAL 4   WRONG 30
+
+Recurring failure patterns in WRONG items
+  - Console-output chunks (fastapi-cli, tutorial, first-steps): #3 #19 #31 #40 #41 #49 (+#21 partial)
+  - One-line intro / stub chunks (homepage Requirements, WebSockets intro, newsletter iframe,
+    reference stubs, one-line headings): #5 #10 #15 #23 #29 #34 #37 #39 #43 #45 #47
+  - Topically adjacent but not supporting: #1 #7 #9 #16 #22 #24 #25 #27 #30 #32 #33 #38 #44 #48 #50
+
+Context checks (2026-10-10, prompted by "would the full answer / all chunks change this?")
+  - chunk_content is exactly the premise the guardrail's NLI judged (reattach.py keeps the first
+    chunk per url; build_audit_sample.py replays that decision). So the audit is like-for-like.
+  - No sampled question retrieved >1 distinct chunk for the inserted url, so no ignored
+    same-page chunk could have supported the sentence.
+  - 8 chunks (#3 #19 #21 #31 #40 #41 #49 #50) were initially read only partly; their remainders
+    were read in full (more console log lines; rest of the OAuth2 JWT code). No verdict changed.
+  - Full-answer context: the guardrail judges each sentence alone, and no WRONG item hinges on a
+    pronoun or reference resolvable from surrounding text. No verdict changed.
+
+HUMAN PASS (2026-10-10) — results/audit_sample_50_verified.jsonl
+  Blind first calls, Claude's verdict hidden until each was locked (labelling page with reveal-after).
+  Human final: CORRECT 15 / PARTIAL 4 / WRONG 31   (first calls: 14 / 5 / 31)
+  Agreement, human first call vs Claude: 42/50 (84%)
+  Gold-url insertions (n=13), human final: CORRECT 8 / PARTIAL 2 / WRONG 3 — identical to Claude
+  Changed after reveal: #5 #11 #15 #16 #18 (two noted as mis-clicks: #16, #18)
