@@ -79,8 +79,11 @@ def tune(scores: list[float], gold: list[bool]) -> float:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--skip", default="", help="comma list: minicheck,llm_judge")
-    skip = set(filter(None, ap.parse_args().skip.split(",")))
+    ap.add_argument("--skip", default="", help="comma list: minicheck,llm_judge,openai_judge")
+    ap.add_argument("--openai-judge-model", default="gpt-4o",
+                    help="second-family judge; not gpt-4o-mini, which wrote most judged answers")
+    args = ap.parse_args()
+    skip = set(filter(None, args.skip.split(",")))
 
     rows = load(DEV, "dev") + load(TEST, "test")
     cache = diskcache.Cache(".cache")
@@ -97,6 +100,11 @@ def main() -> None:
         from pipelines.strategy.bedrock_s import BedrockStrategy
         bedrock = BedrockStrategy(cache=cache)
         judge = lambda msgs: bedrock.chat(msgs, temperature=0.0, max_tokens=300)
+    ojudge = None
+    if "openai_judge" not in skip:
+        from pipelines.strategy.openai_s import OpenAIStrategy
+        oai = OpenAIStrategy(model=args.openai_judge_model, cache=cache)
+        ojudge = lambda msgs: oai.chat(msgs, temperature=0.0, max_tokens=300)
 
     for i, r in enumerate(rows, 1):
         if i % 10 == 0:
@@ -113,12 +121,19 @@ def main() -> None:
             j, verdict, reason = llm_judge(judge, chunk, sent)
             v["claude_judge"] = j
             r["claude_judge_verdict"], r["claude_judge_reason"] = verdict, reason
+        if ojudge:
+            j, verdict, reason = llm_judge(ojudge, chunk, sent)
+            v["openai_judge"] = j
+            r["openai_judge_verdict"], r["openai_judge_reason"] = verdict, reason
+        if judge and ojudge:   # two families must both accept
+            both = v["claude_judge"].supported and v["openai_judge"].supported
+            v["both_judges_agree"] = type(v["claude_judge"])(float(both), both)
         sym = symbols_present(chunk, sent)
         r["symbols"] = None if sym is None else sym.supported
         r["v"] = {k: (None if x is None else {"score": x.score, "supported": x.supported}) for k, x in v.items()}
 
     names = list(rows[0]["v"])
-    combos = [n for n in names if n.startswith(("minicheck", "claude"))]
+    combos = [n for n in names if n.startswith(("minicheck", "claude", "openai", "both"))]
     out: list[str] = []; p = out.append
     p("Verifier benchmark vs human blind first calls (Ticket 17)")
     p("dev = Ticket 4 (50 v1 insertions, 1 arm); test = v2 held-out (65, 4 arms)")
@@ -155,7 +170,8 @@ def main() -> None:
     with open("results/verifier_bench_items.jsonl", "w") as f:
         for r in rows:
             f.write(json.dumps({k: r.get(k) for k in ("split", "sample_id", "question_id", "inserted_url", "gold",
-                                                      "symbols", "v", "claude_judge_verdict", "claude_judge_reason")}) + "\n")
+                                                      "symbols", "v", "claude_judge_verdict", "claude_judge_reason",
+                                                      "openai_judge_verdict", "openai_judge_reason")}) + "\n")
 
 
 if __name__ == "__main__":

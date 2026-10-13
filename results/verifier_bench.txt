@@ -14,9 +14,13 @@ minicheck_sentence (dev-tuned t=0.918)        0.89  0.57  0.70  0.86   0.61   8/
 minicheck_prose (default rule)                0.90  0.64  0.75  0.88   0.67   9/1/5/35
 minicheck_prose (dev-tuned t=0.314)           0.85  0.79  0.81  0.90   0.75   11/2/3/34
 claude_judge (default rule)                   0.89  0.57  0.70  0.86   0.61   8/1/6/35
+openai_judge (default rule)                   0.90  0.64  0.75  0.88   0.67   9/1/5/35
+both_judges_agree (default rule)              0.88  0.50  0.64  0.84   0.54   7/1/7/35
 minicheck_sentence + symbol veto              0.90  0.64  0.75  0.88   0.67   9/1/5/35
 minicheck_prose + symbol veto                 1.00  0.64  0.78  0.90   0.72   9/0/5/36
 claude_judge + symbol veto                    0.89  0.57  0.70  0.86   0.61   8/1/6/35
+openai_judge + symbol veto                    0.90  0.64  0.75  0.88   0.67   9/1/5/35
+both_judges_agree + symbol veto               0.88  0.50  0.64  0.84   0.54   7/1/7/35
 
 --- test (n=65, gold-positive 43)
 verifier                                      prec   rec    F1   acc  kappa   tp/fp/fn/tn
@@ -29,9 +33,13 @@ minicheck_sentence (dev-tuned t=0.918)        0.94  0.40  0.56  0.58   0.27   17
 minicheck_prose (default rule)                0.90  0.84  0.87  0.83   0.63   36/4/7/18
 minicheck_prose (dev-tuned t=0.314)           0.86  0.88  0.87  0.83   0.62   38/6/5/16
 claude_judge (default rule)                   0.97  0.74  0.84  0.82   0.63   32/1/11/21
+openai_judge (default rule)                   0.95  0.95  0.95  0.94   0.86   41/2/2/20
+both_judges_agree (default rule)              0.97  0.72  0.83  0.80   0.60   31/1/12/21
 minicheck_sentence + symbol veto              0.91  0.70  0.79  0.75   0.51   30/3/13/19
 minicheck_prose + symbol veto                 0.92  0.84  0.88  0.85   0.67   36/3/7/19
 claude_judge + symbol veto                    0.97  0.74  0.84  0.82   0.63   32/1/11/21
+openai_judge + symbol veto                    0.95  0.95  0.95  0.94   0.86   41/2/2/20
+both_judges_agree + symbol veto               0.97  0.72  0.83  0.80   0.60   31/1/12/21
 
 === Gold: LENIENT (CORRECT or PARTIAL = supported)
 --- dev (n=50, gold-positive 19)
@@ -45,9 +53,13 @@ minicheck_sentence (dev-tuned t=0.105)        0.53  0.84  0.65  0.66   0.35   16
 minicheck_prose (default rule)                1.00  0.53  0.69  0.82   0.58   10/0/9/31
 minicheck_prose (dev-tuned t=0.120)           0.94  0.79  0.86  0.90   0.78   15/1/4/30
 claude_judge (default rule)                   1.00  0.47  0.64  0.80   0.53   9/0/10/31
+openai_judge (default rule)                   1.00  0.53  0.69  0.82   0.58   10/0/9/31
+both_judges_agree (default rule)              1.00  0.42  0.59  0.78   0.47   8/0/11/31
 minicheck_sentence + symbol veto              0.90  0.47  0.62  0.78   0.49   9/1/10/30
 minicheck_prose + symbol veto                 1.00  0.47  0.64  0.80   0.53   9/0/10/31
 claude_judge + symbol veto                    1.00  0.47  0.64  0.80   0.53   9/0/10/31
+openai_judge + symbol veto                    1.00  0.53  0.69  0.82   0.58   10/0/9/31
+both_judges_agree + symbol veto               1.00  0.42  0.59  0.78   0.47   8/0/11/31
 
 --- test (n=65, gold-positive 51)
 verifier                                      prec   rec    F1   acc  kappa   tp/fp/fn/tn
@@ -60,8 +72,12 @@ minicheck_sentence (dev-tuned t=0.105)        0.89  0.80  0.85  0.77   0.40   41
 minicheck_prose (default rule)                0.95  0.75  0.84  0.77   0.47   38/2/13/12
 minicheck_prose (dev-tuned t=0.120)           0.90  0.84  0.87  0.80   0.45   43/5/8/9
 claude_judge (default rule)                   1.00  0.65  0.79  0.72   0.44   33/0/18/14
+openai_judge (default rule)                   1.00  0.84  0.91  0.88   0.70   43/0/8/14
+both_judges_agree (default rule)              1.00  0.63  0.77  0.71   0.42   32/0/19/14
 minicheck_sentence + symbol veto              0.97  0.63  0.76  0.69   0.38   32/1/19/13
 minicheck_prose + symbol veto                 0.97  0.75  0.84  0.78   0.51   38/1/13/13
 claude_judge + symbol veto                    1.00  0.65  0.79  0.72   0.44   33/0/18/14
+openai_judge + symbol veto                    1.00  0.84  0.91  0.88   0.70   43/0/8/14
+both_judges_agree + symbol veto               1.00  0.63  0.77  0.71   0.42   32/0/19/14
 
 symbol check applies to 46/115 sentences (those naming code identifiers)
