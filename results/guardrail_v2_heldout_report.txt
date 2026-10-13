@@ -1,0 +1,28 @@
+Guardrail v2 held-out human audit (65 items: 50 inserted at P>=0.9, 15 rejected band P<0.9)
+Human = blind first call. Precision = CORRECT/n; lenient = (CORRECT+PARTIAL)/n. Wilson 95% CI.
+
+Inserted by v2 (tau=0.9) — HEADLINE
+   C/P/W = 39/3/8   precision 39/50 = 78.0% [64.8, 87.2]   lenient 42/50 = 84.0% [71.5, 91.7]
+  of which gold-source urls
+   C/P/W = 22/1/1   precision 22/24 = 91.7% [74.2, 97.7]   lenient 23/24 = 95.8% [79.8, 99.3]
+  of which P>=0.95
+   C/P/W = 38/3/7   precision 38/48 = 79.2% [65.7, 88.3]   lenient 41/48 = 85.4% [72.8, 92.8]
+Rejected by v2 (P<0.9)
+   C/P/W = 4/5/6   precision 4/15 = 26.7% [10.9, 52.0]   lenient 9/15 = 60.0% [35.7, 80.2]
+
+Argmax-only precision (stratum-weighted, no threshold): 66.2%   vs tau=0.9: 78.0%
+Guardrail v1 (Ticket 4, one arm, n=50): 15/50 = 30.0% [19.1, 43.8] correct
+
+Human (blind first call) vs Claude (independent): agreement 54/65, Cohen's kappa 0.68
+   #1  human WRONG   claude PARTIAL inserted note: 
+   #3  human CORRECT claude WRONG   inserted note: 
+   #4  human PARTIAL claude CORRECT inserted note: 
+   #5  human CORRECT claude PARTIAL inserted note: 
+   #14 human WRONG   claude PARTIAL inserted note: 
+   #32 human PARTIAL claude WRONG   band     note: Only the general presence of an Item model/schema is shared; the complete working example and custom JSON response details are missing.
+   #33 human PARTIAL claude CORRECT band     note: B confirms that serialization happens on the Rust side and is faster than the regular Python approach. However, it does not explicitly mention Python's standard JSON serialization methods.
+   #35 human CORRECT claude WRONG   inserted note: B explicitly confirms that a dependency is created to manage database sessions, providing one session per request
+   #45 human CORRECT claude PARTIAL inserted note: Chunk explicitly demonstrates using Path() when defining a path parameter. However, it does not show specific validation constraints such as gt, ge, lt, or le
+   #62 human CORRECT claude PARTIAL inserted note: chunk confirms that fastapi-cloud-cli is included in the standard FastAPI installation and can be installed separately or excluded using the alternative package
+   #65 human PARTIAL claude WRONG   band     note: chunk mentions JSONResponse and setting the status code in a path operation, but it does not state that you can return a Response object directly or specify the status code in that response object
+Human changed after reveal: none

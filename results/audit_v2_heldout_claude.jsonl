@@ -1,0 +1,65 @@
+{"sample_id": 1, "claude_verdict": "PARTIAL", "claude_reason": "Chunk covers a get_current_user dependency, not the User model code.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 2, "claude_verdict": "WRONG", "claude_reason": "WebSockets chunk; nothing about aioredis.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 3, "claude_verdict": "WRONG", "claude_reason": "Chunk: one process per container behind a load balancer; nothing about a manager starting workers.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 4, "claude_verdict": "CORRECT", "claude_reason": "BaseSettings class with a default value is shown.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 5, "claude_verdict": "PARTIAL", "claude_reason": "Username/password supported; 'in a header' not stated.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 6, "claude_verdict": "CORRECT", "claude_reason": "Depends used in the path operation.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 7, "claude_verdict": "WRONG", "claude_reason": "WebSockets chunk; nothing about installing redis/aioredis.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 8, "claude_verdict": "CORRECT", "claude_reason": "Settings like secret keys, DB credentials kept external, in env vars.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 9, "claude_verdict": "PARTIAL", "claude_reason": "Meta sentence; chunk covers a dependency handling exceptions, not a required query param.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 10, "claude_verdict": "CORRECT", "claude_reason": "/items/{item_id} with path parameter item_id.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 11, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 12, "claude_verdict": "CORRECT", "claude_reason": "Replicated containers handle requests in parallel.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 13, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 14, "claude_verdict": "PARTIAL", "claude_reason": "JWT supported; 'the example above uses a fake token' refers to the answer, not the chunk.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 15, "claude_verdict": "CORRECT", "claude_reason": "OPTIONS request from :8080 frontend to :80 backend.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 16, "claude_verdict": "CORRECT", "claude_reason": "OAuth2PasswordBearer used for token auth.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 17, "claude_verdict": "WRONG", "claude_reason": "SecurityScopes reference stub.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 18, "claude_verdict": "CORRECT", "claude_reason": "app.include_router(router) shown.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 19, "claude_verdict": "PARTIAL", "claude_reason": "Class shown; 'for the Password flow with Bearer token' not stated here.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 20, "claude_verdict": "CORRECT", "claude_reason": "Annotated[Cookies, Cookie()].", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 21, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 22, "claude_verdict": "WRONG", "claude_reason": "Query-param model with Query(), not a dependency.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 23, "claude_verdict": "CORRECT", "claude_reason": "Response model serialises with Pydantic directly.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 24, "claude_verdict": "WRONG", "claude_reason": "Chunk shows UploadFile use only; no 'async file-like interface'.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 25, "claude_verdict": "WRONG", "claude_reason": "Meta sentence ('I now have all the information'); nothing to support.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 26, "claude_verdict": "CORRECT", "claude_reason": "'run several worker processes at the same time'.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 27, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 28, "claude_verdict": "CORRECT", "claude_reason": "int code or status constants.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 29, "claude_verdict": "WRONG", "claude_reason": "Security intro; no /token endpoint.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 30, "claude_verdict": "CORRECT", "claude_reason": "UserInDB stores hashed_password, not password.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 31, "claude_verdict": "CORRECT", "claude_reason": "JSON bytes from Pydantic, no jsonable_encoder.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 32, "claude_verdict": "WRONG", "claude_reason": "OpenAPI schema JSON; nothing about the orjson example.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 33, "claude_verdict": "CORRECT", "claude_reason": "Rust side, faster than Python/JSONResponse.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 34, "claude_verdict": "CORRECT", "claude_reason": "app.mount with StaticFiles.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 35, "claude_verdict": "WRONG", "claude_reason": "DB Session dependency, not web-session management.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 36, "claude_verdict": "WRONG", "claude_reason": "Additional-responses chunk; nothing about lifespan.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 37, "claude_verdict": "CORRECT", "claude_reason": "Declare cookie params in a Pydantic model.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 38, "claude_verdict": "PARTIAL", "claude_reason": "Imports/oauth2_scheme/User models present; fake db differs.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 39, "claude_verdict": "CORRECT", "claude_reason": "Path params + request body together.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 40, "claude_verdict": "CORRECT", "claude_reason": "Cookie() on the model parameter.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 41, "claude_verdict": "CORRECT", "claude_reason": "Page is OAuth2 with password + JWT.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 42, "claude_verdict": "CORRECT", "claude_reason": "HTTPS could be handled by a cloud provider.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 43, "claude_verdict": "WRONG", "claude_reason": "One-line heading; no models, no OAuth2PasswordBearer.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 44, "claude_verdict": "WRONG", "claude_reason": "Additional-responses chunk; nothing about shared models.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 45, "claude_verdict": "PARTIAL", "claude_reason": "Path() shown, but not numeric validations.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 46, "claude_verdict": "CORRECT", "claude_reason": "Extra X-Response-Time header.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 47, "claude_verdict": "WRONG", "claude_reason": "Security intro; no JWT definition.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 48, "claude_verdict": "CORRECT", "claude_reason": "Default handlers, can be overridden.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 49, "claude_verdict": "WRONG", "claude_reason": "Security intro; nothing about List[UploadFile].", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 50, "claude_verdict": "CORRECT", "claude_reason": "Two File params and a Form param.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 51, "claude_verdict": "CORRECT", "claude_reason": ".add_task() on background_tasks.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 52, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 53, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 54, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 55, "claude_verdict": "CORRECT", "claude_reason": "include_router for items and users submodules.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 56, "claude_verdict": "CORRECT", "claude_reason": "stored_item_model = Item(**stored_item_data).", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 57, "claude_verdict": "CORRECT", "claude_reason": "Form data + get_current_user in one chunk.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 58, "claude_verdict": "PARTIAL", "claude_reason": "Dependency overrides supported; the create_item code is not.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 59, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 60, "claude_verdict": "CORRECT", "claude_reason": "Verbatim.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 61, "claude_verdict": "CORRECT", "claude_reason": "Time it took to generate the response.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 62, "claude_verdict": "PARTIAL", "claude_reason": "Release note: standard includes fastapi-cloud-cli; 'requires' not stated.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 63, "claude_verdict": "CORRECT", "claude_reason": "Verbatim idea.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 64, "claude_verdict": "CORRECT", "claude_reason": "Declare BackgroundTasks parameter.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
+{"sample_id": 65, "claude_verdict": "WRONG", "claude_reason": "Chunk: default JSONResponse/status; not returning a Response with status_code.", "labeller": "claude-opus-5-5, blind to stratum/P/gold and to human verdicts, 2026-10-13"}
