@@ -36,6 +36,8 @@ from pathlib import Path
 import diskcache
 from dotenv import load_dotenv
 
+from pipelines import mcp_config
+
 from agents import Agent, ModelSettings, RunHooks, Runner, set_default_openai_api
 from agents.mcp import MCPServerStreamableHttp, MCPServerStreamableHttpParams
 from agents.items import ToolCallItem, ToolCallOutputItem
@@ -51,7 +53,6 @@ logger = logging.getLogger(__name__)
 
 EVAL_PATH   = Path("eval_set/eval.jsonl")
 RESULTS_DIR = Path("results")
-MCP_URL     = "http://127.0.0.1:8000/mcp"
 MAX_TURNS   = 10
 CACHE_DIR   = ".cache/llm"
 
@@ -200,14 +201,17 @@ async def _run_one_async(
     provider: str,
     model_id: str,
     temperature: float | None = None,
-    mcp_url: str = MCP_URL,
+    mcp_url: str | None = None,
     dump_inputs: Path | None = None,
     system_prompt: str = "default",
 ) -> dict:
     t0 = time.perf_counter()
 
     mcp_server = MCPServerStreamableHttp(
-        params=MCPServerStreamableHttpParams(url=mcp_url),
+        params=MCPServerStreamableHttpParams(   # server + auth from pipelines/mcp_config.py (.env)
+            url=mcp_url or mcp_config.mcp_url(),
+            **({"headers": h} if (h := mcp_config.mcp_headers()) else {}),
+        ),
         cache_tools_list=True,   # avoid repeated list_tools() calls within a run
         name="fastapi-docs",
     )
@@ -274,13 +278,13 @@ def main() -> None:
                         help="default: unset (as in the original run)")
     parser.add_argument("--api", choices=["responses", "chat_completions"], default="responses",
                         help="OpenAI API the SDK calls (default: responses, the SDK default)")
-    parser.add_argument("--mcp-url", default=MCP_URL)
+    parser.add_argument("--mcp-url", default=None, help="default: MCP_SERVER_URL in .env, else the local mirror")
     parser.add_argument("--system-prompt", choices=sorted(SYSTEM_PROMPTS), default="default")
     parser.add_argument("--dump-inputs", type=Path, default=None,
                         help="JSONL file recording what the model receives on each LLM call")
     args = parser.parse_args()
     set_default_openai_api(args.api)
-    config = {"temperature": args.temperature, "api": args.api, "mcp_url": args.mcp_url,
+    config = {"temperature": args.temperature, "api": args.api, "mcp_url": args.mcp_url or mcp_config.mcp_url(),
               "system_prompt": args.system_prompt}
 
     from pipelines.strategy import get_strategy
@@ -304,6 +308,7 @@ def main() -> None:
     if args.limit:
         questions = questions[: args.limit]
 
+    logger.info(mcp_config.describe())
     logger.info("OpenAI Agent | provider=%s model=%s | %d questions → %s | config=%s",
                 args.provider, model_id, len(questions), out_path, config)
 

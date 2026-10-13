@@ -23,6 +23,8 @@ from pathlib import Path
 
 import diskcache
 from dotenv import load_dotenv
+
+from pipelines import mcp_config
 from langchain_core.messages import AIMessage, ToolMessage
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import create_react_agent
@@ -38,7 +40,6 @@ logger = logging.getLogger(__name__)
 
 EVAL_PATH   = Path("eval_set/eval.jsonl")
 RESULTS_DIR = Path("results")
-MCP_URL     = "http://127.0.0.1:8000/mcp"
 MAX_TURNS   = 10
 CACHE_DIR   = ".cache/llm"
 
@@ -178,9 +179,10 @@ async def _run_one_async(
 
     mcp_client = MultiServerMCPClient(
         connections={
-            "fastapi-docs": {
-                "url": MCP_URL,
+            "fastapi-docs": {   # server + auth from pipelines/mcp_config.py (.env)
+                "url": mcp_config.mcp_url(),
                 "transport": "streamable_http",
+                "headers": mcp_config.mcp_headers(),
             }
         }
     )
@@ -255,6 +257,7 @@ def main() -> None:
     if args.limit:
         questions = questions[: args.limit]
 
+    logger.info(mcp_config.describe())
     logger.info("LangGraph | provider=%s model=%s | %d questions → %s",
                 args.provider, model_id, len(questions), out_path)
 

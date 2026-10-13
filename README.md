@@ -177,19 +177,23 @@ Run it: `uv run python -m guardrail.run_guardrail --guardrail v2 --input … --o
 ## Using this against Kapa's hosted MCP server
 
 The local server mirrors Kapa's `search_<product>_knowledge_sources` contract (`{source_url,
-content}`, Markdown content, streamable HTTP, `top_k`/`max_chars` defaults). **Pointing the
-pipelines at a real Kapa project is not yet a one-line change**, and nothing here has been run
-against Kapa's production system. What it needs:
+content}`, Markdown content, streamable HTTP, `top_k`/`max_chars` defaults). Every pipeline reads
+its server from `.env` (`pipelines/mcp_config.py`), so pointing the benchmark at a real Kapa project
+is a settings change:
 
-1. **Server URL:** the pipelines currently hard-code `http://127.0.0.1:8000/mcp`
-   (`pipelines/*.py`, `MCP_URL`); only the OpenAI SDK pipeline takes `--mcp-url`.
-2. **Authentication:** Kapa's hosted server requires credentials (see
-   [Hosted MCP server](https://docs.kapa.ai/retrieval/hosted-mcp-server)); no pipeline sends an
-   auth header yet.
-3. **Tool name:** the single-shot baseline calls `search_fastapi_knowledge_sources` by name; a
-   Kapa project exposes `search_<your product>_knowledge_sources`.
-4. **Eval set:** the 127 questions and gold URLs are FastAPI-specific. A real project needs its own
-   hand-verified set; the metric, scorers and harness carry over unchanged.
+```bash
+MCP_SERVER_URL=https://<subdomain>.mcp.kapa.ai
+MCP_SERVER_AUTH_TOKEN=<your Kapa API key>          # sent as "Authorization: Bearer <key>"
+MCP_SEARCH_TOOL=search_<product>_knowledge_sources
+```
+
+Tested: with these set, all three pipelines send the bearer header and report a clear error on a
+refused key; with them blank, they reproduce the published runs against the local mirror.
+**Not yet done:** an actual run against Kapa's production server (no access so far), so whether
+its results come back in the same shape is unverified. Two things do not carry over: the 127
+questions and gold URLs are FastAPI-specific, so a real project needs its own hand-verified set
+(the metric, scorers and harness are unchanged), and the guardrail and scorers assume the
+`[source_url]` citation format.
 
 ---
 
@@ -200,7 +204,7 @@ git clone <repo-url> && cd csr-mcp-benchmark
 uv sync                                   # Python 3.12+, all versions pinned
 cp .env.example .env                      # add OPENAI_API_KEY; AWS creds for the Claude arms
 
-uv run pytest guardrail/ measure/ -q      # 35 tests, no API keys needed
+uv run pytest guardrail/ measure/ pipelines/ -q   # 39 tests, no API keys needed
 
 # Rebuild the original-scorer numbers from the committed raw model outputs:
 bash scripts/overnight_rebuild.sh

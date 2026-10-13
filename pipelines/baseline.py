@@ -37,6 +37,9 @@ from pathlib import Path
 import diskcache
 from dotenv import load_dotenv
 from fastmcp import Client
+from fastmcp.client.transports import StreamableHttpTransport
+
+from pipelines import mcp_config
 
 from pipelines.strategy import get_strategy
 
@@ -51,7 +54,6 @@ logger = logging.getLogger(__name__)
 
 EVAL_PATH    = Path("eval_set/eval.jsonl")
 RESULTS_DIR  = Path("results")
-MCP_URL      = "http://127.0.0.1:8000/mcp"
 TOP_K        = 15
 CACHE_DIR    = ".cache/llm"
 
@@ -82,9 +84,11 @@ Rules:
 
 async def _retrieve_async(query: str, top_k: int = TOP_K) -> list[dict]:
     """Call the MCP server and return [{source_url, content}] chunks."""
-    async with Client(MCP_URL) as client:
+    # Server, auth and tool name come from pipelines/mcp_config.py (.env); defaults = local mirror.
+    transport = StreamableHttpTransport(mcp_config.mcp_url(), headers=mcp_config.mcp_headers())
+    async with Client(transport) as client:
         result = await client.call_tool(
-            "search_fastapi_knowledge_sources",
+            mcp_config.search_tool(),
             {"query": query},
             meta={"top_k": top_k},
         )
@@ -189,6 +193,7 @@ def main() -> None:
     if args.limit:
         questions = questions[: args.limit]
 
+    logger.info(mcp_config.describe())
     logger.info("Baseline | provider=%s model=%s | %d questions → %s",
                 args.provider, strategy.model_id, len(questions), out_path)
 
