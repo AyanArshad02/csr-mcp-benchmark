@@ -1,0 +1,25 @@
+CSR human validation (Ticket 11): 30 units, 6 per headline pipeline, human = blind first call
+
+Human: SURVIVED 21, NOT_SURVIVED 9
+
+All 30 units (n=30, human-survived 21)
+Scorer                    agreement [95% CI]       kappa   scorer-yes/human-no  scorer-no/human-yes
+DeBERTa (locked scorer)   25/30 = 83% [66, 93]      0.64            1                     4
+gpt-4o judge              27/30 = 90% [74, 97]      0.77            1                     2
+Claude judge              26/30 = 87% [70, 95]      0.70            1                     3
+
+Only units where the gold URL is cited (n=24, human-survived 21)
+Scorer                    agreement [95% CI]       kappa   scorer-yes/human-no  scorer-no/human-yes
+DeBERTa (locked scorer)   19/24 = 79% [60, 91]      0.33            1                     4
+gpt-4o judge              21/24 = 88% [69, 96]      0.50            1                     2
+Claude judge              20/24 = 83% [64, 93]      0.41            1                     3
+
+Disagreements (any scorer vs human):
+  #1  langgraph_openai     human SURVIVED     differs: DeBERTa (locked scorer), Claude judge  | note: gold source the agent retrieved supports the claim about a fine-grained permission system. Although gold source the agent retrieved does not
+  #5  baseline_openai      human SURVIVED     differs: DeBERTa (locked scorer)  | note: The gold source the agent retrieved directly supports the core claim in the Agent answer about declaring response_class=StreamingResponse to
+  #15 openai_agent_openai  human SURVIVED     differs: DeBERTa (locked scorer)  | note: The gold source the agent retrieved directly supports the Agent answer’s claims about the custom response header and the duration measuremen
+  #16 langgraph_openai     human SURVIVED     differs: gpt-4o judge, Claude judge  | note: The gold source the agent retrieved supports the Agent answer’s identification of response_model_exclude_unset and the underlying distinctio
+  #18 baseline_openai      human NOT_SURVIVED differs: DeBERTa (locked scorer), gpt-4o judge, Claude judge  | note: The gold source the agent retrieved does not specifically mention HTTPException, WebSocketException, or their error-handling behavior. Altho
+  #19 langgraph_bedrock    human SURVIVED     differs: DeBERTa (locked scorer), gpt-4o judge, Claude judge  | note: The gold source the agent retrieved directly supports the Agent answer’s claims about multiple body parameters and singular values being rec
+
+Human changed a verdict after the reveal: [18] (first call used throughout)
