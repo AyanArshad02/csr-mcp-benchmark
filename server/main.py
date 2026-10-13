@@ -2,11 +2,16 @@
 contract over the FastAPI docs corpus.
 
 Usage: uv run python -m server.main
+
+Optional environment variables (defaults reproduce every published number):
+  CSR_TOOL_DESCRIPTION=kapa   use Kapa's recommended tool description (Ticket 9 / G2 ablation)
+  CSR_MCP_PORT=8001           serve on another port, so two variants can run side by side
 """
 
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 
 import chromadb
@@ -28,6 +33,27 @@ COLLECTION_NAME = "fastapi_docs"
 DEFAULT_TOP_K = 15
 DEFAULT_MAX_CHARS = 35_000
 CANDIDATE_POOL_SIZE = 30
+
+# Kapa's recommended search-tool description, verbatim from docs.kapa.ai
+# /retrieval/guides/prompt-your-agent (fetched 2026-10-12), with [Product Name] = FastAPI.
+# Kapa's guide puts citation *rules* in the system prompt; this text only tells the model
+# that chunks carry source URLs and may be irrelevant.
+KAPA_TOOL_DESCRIPTION = """\
+Perform semantic retrieval over the documentation and other knowledge
+sources of FastAPI and return the most relevant chunks for a
+given query. A "chunk" is a short, self-contained snippet of text taken
+from a single page or item within these sources (for example, part of a
+documentation page) and includes its source URL and markdown content.
+Chunks are returned in descending order of relevance to the query. If
+the knowledge sources do not contain information relevant to the query,
+the returned chunks may be only weakly related or entirely unrelated.
+Use this tool anytime you need information about FastAPI."""
+
+_TOOL_DESCRIPTION_VARIANT = os.environ.get("CSR_TOOL_DESCRIPTION", "default")
+if _TOOL_DESCRIPTION_VARIANT not in ("default", "kapa"):
+    raise SystemExit(f"CSR_TOOL_DESCRIPTION must be 'default' or 'kapa', got {_TOOL_DESCRIPTION_VARIANT!r}")
+# None = use the function docstring, i.e. the original benchmark description.
+TOOL_DESCRIPTION = KAPA_TOOL_DESCRIPTION if _TOOL_DESCRIPTION_VARIANT == "kapa" else None
 
 mcp = FastMCP(name="csr-benchmark-fastapi-docs")
 
@@ -61,7 +87,7 @@ def _apply_max_chars(results: list[dict], max_chars: int) -> list[dict]:
     return kept
 
 
-@mcp.tool(name="search_fastapi_knowledge_sources")
+@mcp.tool(name="search_fastapi_knowledge_sources", description=TOOL_DESCRIPTION)
 def search_fastapi_knowledge_sources(query: str, ctx: Context | None = None) -> list[dict]:
     """Search the FastAPI documentation knowledge base for content relevant to the query.
 
@@ -91,4 +117,6 @@ def search_fastapi_knowledge_sources(query: str, ctx: Context | None = None) -> 
 
 
 if __name__ == "__main__":
-    mcp.run(transport="http")
+    port = int(os.environ.get("CSR_MCP_PORT", "8000"))
+    logger.info("tool description: %s | port: %d", _TOOL_DESCRIPTION_VARIANT, port)
+    mcp.run(transport="http", port=port)
