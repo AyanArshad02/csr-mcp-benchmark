@@ -1,0 +1,15 @@
+CSR: locked DeBERTa scorer vs independent claude judge (Ticket 18). Same answers, claims, premises.
+
+Pipeline                      DeBERTa CSR [95% CI]      claude CSR [95% CI]       gold-URL agreement
+----------------------------------------------------------------------------------------------------
+Baseline · gpt-4o-mini        0.618 [0.528, 0.708]      0.651 [0.561, 0.736]              94/106 Qs
+LangGraph · gpt-4o-mini       0.614 [0.524, 0.705]      0.652 [0.562, 0.738]              90/105 Qs
+OpenAI SDK · gpt-4o-mini      0.323 [0.237, 0.414]      0.364 [0.268, 0.455]              88/99 Qs
+Baseline · Claude             0.774 [0.698, 0.844]      0.835 [0.764, 0.896]              95/106 Qs
+LangGraph · Claude            0.710 [0.631, 0.790]      0.766 [0.692, 0.841]              87/107 Qs
+
+Paired comparison (B − A)                                 DeBERTa Δ [CI]                claude Δ [CI]                 
+----------------------------------------------------------------------------------------------------------------------
+OpenAI SDK · gpt-4o-mini  −  Baseline · gpt-4o-mini       -0.311 [-0.434, -0.189] REAL  -0.296 [-0.418, -0.173] REAL  
+LangGraph · gpt-4o-mini  −  Baseline · gpt-4o-mini        +0.000 [-0.093, +0.093] n.s.  +0.005 [-0.078, +0.088] n.s.  
+LangGraph · Claude  −  Baseline · Claude                  -0.077 [-0.168, +0.014] n.s.  -0.082 [-0.173, +0.005] n.s.  
