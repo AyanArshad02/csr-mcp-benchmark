@@ -1,55 +1,59 @@
 # Citation Survival Rate (CSR): Do Citations Survive the MCP Tool Boundary?
 
 **A benchmark measuring what happens to source attribution when a RAG knowledge base is consumed
-by an AI agent instead of a single-shot retrieval call — plus a citation guardrail, and a blind
-human audit of what that guardrail actually inserts.**
+by an AI agent over MCP instead of a single-shot retrieval call. It finds where citations are
+lost and why, validates the metric against blind human judgement, and tests a guardrail that adds
+missing citations back.**
 
-> **Headline:** An agent built with the OpenAI Agents SDK retrieved the correct documentation and
-> then answered **without citing it** — CSR **0.323** [0.237, 0.414] vs **0.618** [0.528, 0.708]
-> for single-shot retrieval on the same model, same corpus, and a system prompt that explicitly
-> demands inline citations. **66 of 127 answers contained no citation at all.**
+> **Headline.** With the same model (gpt-4o-mini), corpus, questions and system prompt, an agent
+> built with the **OpenAI Agents SDK** keeps far fewer of the sources it retrieved:
+> CSR **0.323** [0.237, 0.414] vs **0.618** [0.528, 0.708] for single-shot RAG.
+> 66 of its 127 answers cite nothing at all. A **LangGraph** agent shows **no** loss (0.614).
 >
-> The same model inside a LangGraph agent showed **no** loss (0.614). Citation survival depends on
-> the agent framework.
+> **Cause.** It is not the agent loop and not sampling temperature. It is the API the SDK uses by
+> default: switching the same agent from OpenAI's Responses API to Chat Completions cuts uncited
+> answers from 54 to 18 and raises CSR by +0.108 (real), close to the single-shot baseline.
 >
-> A naive NLI guardrail that re-attaches citations raised that arm's CSR to 0.545 (+0.222) by our
-> own scorer, but a **blind human audit found only 15 of 50 of its insertions correct**. The
-> scorer approved the guardrail's own mistakes. A stricter v2 (+0.146 [+0.066, +0.227]) is
-> under a held-out human audit. Until that is done, treat no guardrail number as verified recovery.
+> **Fix.** Kapa's published system prompt for agents raises CSR by +0.111 (real) and leaves the SDK
+> no longer significantly below baseline. Their recommended tool description alone does nothing.
+>
+> **Robustness.** The headline holds under three independent scorers (−0.31, −0.30, −0.30, all
+> significant), and the metric agrees with a blind human check on 25–27 of 30 cases.
+
+![CSR by setup, gpt-4o-mini, with 95% confidence intervals under the original scorer and an independent gpt-4o judge](results/figures/csr_by_setup.svg)
 
 ---
 
 ## The problem
 
 Retrieval-augmented generation systems are judged on whether their *answers* are correct. But a
-documentation assistant that is right and uncited is not much use — you cannot verify it, and you
+documentation assistant that is right and uncited is not much use: you cannot verify it, and you
 cannot click through to the source.
 
-The Model Context Protocol (MCP) makes this concrete. An MCP retrieval server hands raw
-`{source_url, content}` chunks to an agent it does not control. The server's accuracy guarantees
-stop at that boundary. **What happens to attribution on the other side of it is unmeasured.**
-
-This project measures it.
+The Model Context Protocol (MCP) makes this concrete. An MCP retrieval server hands
+`{source_url, content}` chunks to an agent it does not control, and the agent writes the final
+answer. The server's accuracy guarantees stop at that boundary. **What happens to attribution on
+the other side of it is unmeasured.** This project measures it.
 
 ---
 
 ## What CSR measures
 
-For every atomic claim in an answer, with its cited `source_url`s, two cheap deterministic checks:
+For every atomic claim in an answer, with its cited `source_url`s, two checks:
 
-1. **Support check (ALCE-style):** does the cited chunk *entail* the claim?
-   NLI with premise = chunk, hypothesis = claim.
-2. **Trace-grounding check:** was the cited URL *actually retrieved* by the agent, across all its
-   tool calls, according to the logged trace?
+1. **Support check (ALCE-style):** does the cited chunk *support* the claim?
+2. **Trace-grounding check:** was the cited URL *actually retrieved* by the agent, according to
+   the logged tool-call trace?
 
-> **CSR** = of the gold source URLs the agent **actually retrieved**, what fraction end up in the
-> final answer both correctly cited **and** attached to a claim the chunk genuinely supports.
+> **CSR** = of the gold source URLs the agent **actually retrieved**, the fraction that end up in
+> the final answer cited on a claim the chunk genuinely supports.
 
-Conditioning on what was retrieved is deliberate: it isolates *attribution* failure from
-*retrieval* failure. A pipeline is never penalised for a document it never found.
+Conditioning on what was retrieved isolates *attribution* failure from *retrieval* failure. CSR is
+`None` (not zero) when the agent retrieved no gold URL.
 
-CSR is `None` — not zero — when the agent retrieved no gold URL. That question is ineligible, not
-failed.
+The support check is run three ways: the original scorer (`cross-encoder/nli-deberta-v3-base`,
+argmax = entailment) and two LLM judges chosen against human labels (gpt-4o and Claude Sonnet 4.6,
+same rubric as the human labellers). See [Is CSR trustworthy?](#is-csr-trustworthy).
 
 ---
 
@@ -58,86 +62,134 @@ failed.
 127 human-verified FastAPI documentation questions (82 single-source, 29 multi-source,
 16 unanswerable). Bootstrap 95% CIs, 10,000 resamples.
 
-| Pipeline | Model | CSR | 95% CI | Multi-source | + Guardrail v1* | + Guardrail v2* |
-|---|---|---|---|---|---|---|
-| Baseline (single-shot) | gpt-4o-mini | 0.618 | [0.528, 0.708] | 0.518 | 0.660 | 0.632 |
-| LangGraph ReAct agent | gpt-4o-mini | 0.614 | [0.524, 0.705] | 0.362 | 0.671 | 0.662 |
-| **OpenAI Agents SDK** | gpt-4o-mini | **0.323** | [0.237, 0.414] | 0.179 | 0.545 | 0.470 |
-| Baseline (single-shot) | claude-sonnet-4-6 | 0.774 | [0.698, 0.844] | 0.750 | 0.783 | 0.774 |
-| LangGraph ReAct agent | claude-sonnet-4-6 | 0.710 | [0.631, 0.790] | 0.621 | 0.724 | 0.720 |
+| Pipeline | Model | CSR (original scorer) | 95% CI | CSR (gpt-4o judge) | CSR (Claude judge) |
+|---|---|---|---|---|---|
+| Single-shot RAG | gpt-4o-mini | 0.618 | [0.528, 0.708] | 0.665 | 0.651 |
+| LangGraph agent | gpt-4o-mini | 0.614 | [0.524, 0.705] | 0.700 | 0.652 |
+| **OpenAI Agents SDK** | gpt-4o-mini | **0.323** | [0.237, 0.414] | **0.379** | **0.364** |
+| Single-shot RAG | claude-sonnet-4-6 | 0.774 | [0.698, 0.844] | 0.887 | 0.835 |
+| LangGraph agent | claude-sonnet-4-6 | 0.710 | [0.631, 0.790] | 0.804 | 0.766 |
 
-\* Guardrail columns are **scorer** numbers, not verified recovery. See [The guardrail](#the-guardrail):
-a human audit found most v1 insertions wrong, and v2's audit is pending. The OpenAI Agents SDK ×
-Claude arm was not run.
+The OpenAI Agents SDK × Claude combination was not run.
 
 ### Which differences are real
 
-Every pipeline answers the *same* questions, so the correct test resamples the **per-question
-difference**, not the two means separately.
+Every pipeline answers the *same* questions, so the test resamples the **per-question
+difference**. Each comparison under all three scorers:
 
-| Comparison | Δ CSR | 95% CI | Verdict |
-|---|---|---|---|
-| Baseline → OpenAI Agents SDK | **−0.311** | [−0.434, −0.189] | **Real** |
-| Baseline → OpenAI Agents SDK (multi-source) | **−0.339** | [−0.571, −0.107] | **Real** |
-| Guardrail v1 lift, OpenAI Agents SDK (scorer) | +0.222 | [+0.136, +0.308] | Scorer-real; human audit: 15/50 insertions correct |
-| Guardrail v2 lift, OpenAI Agents SDK (scorer) | +0.146 | [+0.066, +0.227] | Scorer-real; held-out human audit pending |
-| Baseline → LangGraph, gpt-4o-mini | +0.000 | [−0.093, +0.093] | **Null** |
-| Baseline → LangGraph, claude | −0.077 | [−0.168, +0.014] | Not significant |
+| Comparison | Original scorer | gpt-4o judge | Claude judge | Verdict |
+|---|---|---|---|---|
+| OpenAI Agents SDK − single-shot | **−0.311** [−0.434, −0.189] | **−0.296** [−0.413, −0.179] | **−0.296** [−0.418, −0.173] | **Real under all three** |
+| LangGraph − single-shot (gpt-4o-mini) | +0.000 [−0.093, +0.093] | +0.029 [−0.044, +0.108] | +0.005 [−0.078, +0.088] | **No difference** |
+| LangGraph − single-shot (Claude) | −0.077 [−0.168, +0.014] | −0.096 [−0.178, −0.019] | −0.082 [−0.173, +0.005] | Not established (1 of 3) |
 
-**The interesting result is the contrast, not a blanket claim.** "Agents lose citations" is not
-supported by this data — the LangGraph arm on gpt-4o-mini shows a difference of *exactly zero*.
-One widely-used SDK lost half its citations on identical inputs; another lost none. That makes
-citation survival a **fixable property of the agent framework**, not an inherent cost of agentic
-retrieval.
+"Agents lose citations" is **not** what the data says. One widely used SDK loses about half; a
+LangGraph agent on the same model loses none.
+
+---
+
+## Why the OpenAI Agents SDK loses citations
+
+A pre-registered ablation (plan and success criterion written in the decision log before running):
+the same SDK agent, 127 questions each, **one change at a time**.
+
+| Run | CSR (original) | CSR (gpt-4o judge) | Uncited answers | Paired change |
+|---|---|---|---|---|
+| Defaults, re-run | 0.333 | n/a | 60/127 | vs published run: −0.011 (replicates) |
+| + temperature 0 | 0.412 | 0.431 | 54/127 | +0.082 (n.s.) |
+| + Kapa's recommended tool description | 0.382 | n/a | 54/127 | −0.040 (n.s.) |
+| **+ Chat Completions API** | **0.533** | **0.643** | **18/127** | **+0.108 / +0.201 (real)** |
+| **+ Kapa's recommended system prompt** | **0.515** | **0.569** | 43/127 | **+0.111 / +0.136 (real)** |
+| *Single-shot RAG, for reference* | *0.618* | *0.665* | *19/127* | |
+
+Paired changes are vs the temperature-0 run (original scorer / gpt-4o judge).
+
+- **Temperature is not the cause.** The original SDK pipeline left temperature at the API default
+  while LangGraph used 0. Matching it helps a little but not significantly; the SDK remains clearly
+  below single-shot (−0.207, real).
+- **The API is.** The SDK calls OpenAI's Responses API by default. On Chat Completions (what the
+  LangGraph agent uses), uncited answers fall to the single-shot level.
+- **The SDK does not drop the sources in transport.** Logging exactly what the model receives
+  shows every chunk arrives with its `source_url` intact; citations are lost in generation.
+- **Kapa's own guidance helps when followed in full.** Their system prompt
+  ([Prompt for grounded answers](https://docs.kapa.ai/retrieval/guides/prompt-your-agent))
+  significantly improves CSR; their tool description alone does not, consistent with that page
+  putting citation rules in the system prompt. Under that prompt the model often wrote plain
+  `[title](url)` links instead of the requested `[[title](url)]` brackets; counting those too,
+  uncited answers fall to 23/127.
+
+Caveats: one run per setup; the Kapa run changes prompt wording and citation format together.
+Files: `results/sdk_ablation_report.txt`, `results/rescore_compare_gpt-4o.txt`.
+
+---
+
+## Is CSR trustworthy?
+
+Three checks, all blind (the labeller never saw a model's verdict before choosing their own):
+
+1. **Which support checker agrees with humans?** 115 human judgements of "does this chunk support
+   this sentence?" (`results/verifier_bench.txt`). On the 65-item held-out set: original DeBERTa
+   scorer κ 0.24 on raw text; MiniCheck-Flan-T5 on cleaned prose κ 0.63 (0.67 with a code-symbol
+   check); Claude judge κ 0.63;
+   **gpt-4o judge κ 0.86** (precision 0.95, recall 0.95). Cleaning Markdown and code out of the
+   input helps every model. Caveat: every pair was one DeBERTa had accepted when sampled, so this
+   measures how well each checker rejects DeBERTa's false positives.
+2. **Does the headline depend on the checker?** No. Re-scored with both LLM judges, the SDK drop is
+   −0.30 under each, significant (table above). The judges find more support than DeBERTa in every
+   pipeline (+0.03 to +0.11), so absolute CSR levels depend on the scorer; the comparisons do not.
+3. **Does CSR agree with a human?** 30 gold sources, 6 per pipeline, judged "did this source
+   survive, correctly cited?" (`results/csr_validation_report.txt`): agreement **25/30** (original
+   scorer, κ 0.64), **27/30** (gpt-4o judge, κ 0.77), **26/30** (Claude judge, κ 0.70). Errors run
+   mostly one way: scorers miss support a human sees, so CSR slightly under-counts survival.
 
 ---
 
 ## The guardrail
 
-Post-processing middleware that sits where a retrieval provider already has control (the tool
-boundary) and adds citations for third-party agents it cannot instrument. **It never rewrites a
-word.** That is enforced in code: `assert_only_citations_added()` strips all citations and
-whitespace from both answers and requires the remainder to be byte-identical, on every answer of
-every run.
+Post-processing middleware at the boundary a retrieval provider controls: it adds citations to
+uncited sentences in a third-party agent's answer. **It never rewrites a word**:
+`assert_only_citations_added()` checks that, after stripping citations and whitespace, the answer
+is byte-identical, on every answer of every run.
 
-### v1 (naive): fooled its own scorer
+| | v1 (naive) | v2 |
+|---|---|---|
+| Method | NLI on raw sentences vs every retrieved chunk; cite every hit | Prose only (code/Markdown stripped) → atomic claims → cleaned chunks → every claim entailed with P ≥ 0.9 (fixed before any held-out label) → cite the single best chunk |
+| Citations added, 5 pipelines | 1,582 | 357 |
+| CSR lift, OpenAI Agents SDK (original scorer) | +0.222 | +0.146 [+0.066, +0.227] |
+| **Human-judged precision, blind** | **15/50 = 30%** | **39/50 = 78%** [65, 87] on a held-out sample |
+| Precision on gold-source citations | 8/13 | 22/24 |
 
-For each uncited sentence, run NLI against every chunk in the agent's retrieval trace and cite
-every chunk that entails it. By the scorer, this lifts the OpenAI Agents SDK arm from 0.323 to
-0.545. 85% of the newly-surviving gold URLs were never cited anywhere in the original answer, so
-the lift is not just finer scoring units. But *new* is not *correct*.
-
-**Blind human audit** (50 insertions, seeded random, LangGraph × gpt-4o-mini, labelled without
-seeing the model's verdict): **15 correct, 4 partial, 31 wrong**. On the 13 insertions pointing to
-a gold source (the only ones that can move CSR), 8 were correct, 2 partial and 3 wrong.
-Files: `results/audit_sample_50_verified.jsonl` and `results/audit_sample_50_claude_report.txt`.
-
-Why it fails: v1 feeds raw Markdown "sentences" (code blocks, list headings like
-`2. **Create a Dependency…**:`) and noisy HTML-laden chunks to the NLI model, which then gives
-confident "entailment" to unrelated pairs. Removing one bold list heading moved P(entailment) from
-0.997 to 0.000. With 5–10 chunks per question and every hit cited, false positives compound.
-
-The scorer could not detect this. It rates v1's citation precision *higher* than v2's, because the
-same NLI model inserts and scores. That circularity is the main limitation of using this guardrail
-as evidence of recovery, and the audit is what exposed it.
-
-### v2: stricter, under held-out audit
-
-`guardrail/reattach_v2.py`: prose only (code and Markdown syntax stripped) → decompose into atomic
-claims → clean the chunks → every claim must be entailed with **P ≥ 0.9** (threshold fixed before
-any held-out label) → cite only the single best chunk.
-
-- On the 50 audited items (now a dev set): 47 citations instead of 305, **0 of the 31 wrong ones
-  reproduced**, 7 of the 15 correct ones kept. That's a recall cost.
-- All 5 arms: 1,582 → 357 citations added. OpenAI Agents SDK lift **+0.146 [+0.066, +0.227]**
-  (`results/guardrail_v2_compare.txt`).
-- **Held-out audit:** 65 fresh items (50 inserted, 15 rejected below threshold), pooled across
-  arms, excluding every v1-audited pair: `results/audit_v2_heldout.jsonl`. The sample was
-  committed **before** labelling. Verdicts are not in yet, so v2's insertion precision is
-  **unknown**.
+- **v1 fooled its own scorer.** The same NLI model inserted citations and graded them, rating its
+  mostly-wrong insertions as precise; only the blind audit exposed it. Cause: raw Markdown (code
+  blocks, `2. **Title**:` headings) and HTML-laden chunks produce confident false entailments
+  (removing one bold heading moved P(entailment) from 0.997 to 0.000).
+- **v2** was evaluated on a fresh sample committed before labelling (50 inserted + 15 it
+  rejected, mixed blind): of what it rejected, only 4/15 were correct, so the threshold rejects
+  the right things. A second rater (Claude, independently) agreed with the human on 54/65 (κ 0.68).
+- v2 still misses the ≥ 90% precision bar; the next version moves citation support to the tool
+  contract (short source IDs returned by the server) and uses an independent verifier.
 
 Run it: `uv run python -m guardrail.run_guardrail --guardrail v2 --input … --output …`
 (`--guardrail v1` is the default and reproduces the v1 numbers).
+
+---
+
+## Using this against Kapa's hosted MCP server
+
+The local server mirrors Kapa's `search_<product>_knowledge_sources` contract (`{source_url,
+content}`, Markdown content, streamable HTTP, `top_k`/`max_chars` defaults). **Pointing the
+pipelines at a real Kapa project is not yet a one-line change**, and nothing here has been run
+against Kapa's production system. What it needs:
+
+1. **Server URL:** the pipelines currently hard-code `http://127.0.0.1:8000/mcp`
+   (`pipelines/*.py`, `MCP_URL`); only the OpenAI SDK pipeline takes `--mcp-url`.
+2. **Authentication:** Kapa's hosted server requires credentials (see
+   [Hosted MCP server](https://docs.kapa.ai/retrieval/hosted-mcp-server)); no pipeline sends an
+   auth header yet.
+3. **Tool name:** the single-shot baseline calls `search_fastapi_knowledge_sources` by name; a
+   Kapa project exposes `search_<your product>_knowledge_sources`.
+4. **Eval set:** the 127 questions and gold URLs are FastAPI-specific. A real project needs its own
+   hand-verified set; the metric, scorers and harness carry over unchanged.
 
 ---
 
@@ -150,21 +202,21 @@ cp .env.example .env                      # add OPENAI_API_KEY; AWS creds for th
 
 uv run pytest guardrail/ measure/ -q      # 35 tests, no API keys needed
 
-# Rebuild every published number from the committed raw model outputs:
+# Rebuild the original-scorer numbers from the committed raw model outputs:
 bash scripts/overnight_rebuild.sh
 ```
 
-`scripts/overnight_rebuild.sh` rescores all five pipelines, re-runs guardrail v1, verifies
-determinism, and regenerates the confidence intervals, lift decomposition, and audit sample. It
-aborts before touching any file if the tests fail.
+| What | Command |
+|---|---|
+| Guardrail v2 on all pipelines, v1 vs v2 table | `bash scripts/run_guardrail_v2_all.sh` then `uv run python -m measure.guardrail_v2_compare` |
+| SDK ablation (generates new answers, ~$5 of API calls) | `bash scripts/run_sdk_ablation.sh` then `uv run python -m measure.sdk_ablation_report` |
+| Verifier benchmark vs human labels | `uv run python -m measure.verifier_bench` |
+| Re-score with an LLM judge | `uv run python -m measure.rescore_judge --judge gpt-4o` (or `claude`), then `uv run python -m measure.rescore_compare --judge gpt-4o` |
+| CSR vs human | `uv run python -m measure.csr_validation_report` |
+| Chart | `uv run python -m measure.make_charts` |
 
-Guardrail v2 on all five arms: `bash scripts/run_guardrail_v2_all.sh`, then
-`uv run python -m measure.guardrail_v2_compare`.
-
-To regenerate raw model outputs from scratch (costs API calls), start the MCP server
-(`uv run python -m server.main`) and run the pipelines in `pipelines/`.
-
-Every number in this README is reproducible from `results/`.
+Every number in this README is reproducible from `results/`. LLM and NLI outputs are cached by
+SHA-256 of their inputs, so re-scoring is deterministic and cheap once the cache is warm.
 
 ---
 
@@ -173,65 +225,53 @@ Every number in this README is reproducible from `results/`.
 | Layer | Choice | Why |
 |---|---|---|
 | Corpus | FastAPI docs, raw Markdown from GitHub | Clean Markdown, stable public URLs, well-bounded |
-| Chunking | Heading-aware recursive (2,085 chunks) | Each chunk stays a coherent citable unit |
-| Embeddings | `text-embedding-3-small` | 153 files → 2,085 chunks, persisted to Chroma |
+| Chunking | Heading-aware recursive, with parent-heading breadcrumbs (2,085 chunks from 153 pages) | Each chunk stays a coherent, citable unit |
+| Embeddings | `text-embedding-3-small`, persisted to Chroma | Simple, consistent with the OpenAI provider |
 | Retrieval server | FastMCP, streamable HTTP | Mirrors a hosted MCP `search_<product>_knowledge_sources` contract |
-| Pipelines | Single-shot · LangGraph ReAct · OpenAI Agents SDK | Agent prompts are byte-identical |
-| NLI | `cross-encoder/nli-deberta-v3-base`, argmax = entailment | Fast enough for thousands of pairs |
-| Claim decomposition | gpt-4o-mini, temperature 0, cached | FActScore-style; applied identically everywhere |
+| Pipelines | Single-shot · LangGraph ReAct · OpenAI Agents SDK | Same system prompt across pipelines |
+| Original scorer | `cross-encoder/nli-deberta-v3-base`, argmax = entailment | Fast and local; kept as the reference |
+| LLM judges | gpt-4o, Claude Sonnet 4.6, one fixed rubric, temperature 0 | Chosen against human labels; used as independent scorers |
+| Claim decomposition | gpt-4o-mini, temperature 0, cached | FActScore-style; identical for every pipeline and scorer |
 
-All dependency versions are pinned and `uv.lock` is committed. LLM and NLI outputs are cached by
-SHA-256 of their inputs, so re-scoring is deterministic and cheap.
+All dependency versions are pinned and `uv.lock` is committed.
 
 ---
 
 ## Honest limitations
 
-- **Circularity, measured.** The same NLI model inserts citations in the guardrail and scores
-  them. A blind human audit showed this matters: 15/50 v1 insertions were correct, even though
-  the scorer reported a large lift. Guardrail numbers are therefore reported as scorer numbers
-  only, pending v2's held-out audit. An independent verifier (MiniCheck) is the next step if v2
-  is still imprecise.
-- **CSR itself is not yet validated against humans.** The audits above check guardrail
-  insertions, not the CSR metric. A human-agreement check of CSR is planned.
-- **Sample size.** 127 questions, each gold attribution verified by hand. A small verified set
-  beats a large unverified one for a metric whose credibility rests entirely on its gold labels —
-  which is why every number carries a confidence interval and null results are stated as nulls.
-- **NLI context window.** DeBERTa truncates at 512 tokens; 10.9% of concatenated multi-citation
-  premises exceed it. Measured effect: the scorer is marginally *too harsh*, identically across
-  all pipelines, so it cannot bias a comparison.
+- **One corpus, small sample.** 127 FastAPI questions (29 multi-source), each gold attribution
+  verified by hand. Every number carries a confidence interval, and nulls are stated as nulls.
+- **One run per setup.** Run-to-run variance is not measured, except that the SDK default
+  replicated (0.323 → 0.333).
+- **Two models, partial matrix.** gpt-4o-mini and Claude Sonnet 4.6; the OpenAI SDK × Claude
+  combination was not run.
+- **Absolute CSR depends on the scorer.** The LLM judges score 0.03–0.11 higher than the original
+  scorer; conclusions are drawn from comparisons, which hold under all three.
+- **Judges and models share families.** The gpt-4o judge scores gpt-4o-mini answers, the Claude
+  judge scores Claude answers; each is cross-checked by the other family, and the Claude judge
+  scores the Claude pipelines *lower* than the gpt-4o judge does.
+- **Human checks are small.** 115 citation labels and 30 CSR units, mostly from one annotator,
+  with an independent second rater (Claude) on 115 of them.
 - **Self-hosted mirror.** This measures a local server implementing a published MCP contract, not
-  any vendor's production system.
-- **Not causal.** We measure *that* one SDK drops citations, not the mechanism inside it. One
-  untested candidate: the Agents SDK uses the Responses API, which may deliver the (identical)
-  system prompt differently from Chat Completions. An ablation isolating this is planned.
-- **Single run, two models.** Every arm is one cached run (bootstrap CIs, no repeated seeds), on
-  gpt-4o-mini and Claude Sonnet 4.6. Citation instructions sit in the system prompt only, not in
-  the MCP tool description.
+  Kapa's or anyone's production system.
+- **NLI context window.** The original scorer truncates at 512 tokens; this likely explains part of
+  why it finds less support than the judges.
 
 ---
 
 ## Engineering notes
 
-The results above are the *second* set of numbers this project produced. Before publication it was
-audited end to end as a hostile reviewer would, which found **five bugs** — four of which would
-otherwise have shipped:
+The project was audited end to end before publication, as a hostile reviewer would. That found
+**five bugs**, four of which would otherwise have shipped: a guardrail sentence splitter that cited
+bare Markdown list markers (21% of insertions); a fabricated-citation counter that was 3–7× too
+high; `ChatBedrock` silently defaulting to `max_tokens=1024`, truncating 52/127 answers in one arm;
+an audit sampler that reverse-engineered decisions instead of recording them; and silent NLI
+premise truncation. One of our own hypotheses was disproved: fixing the truncation did not erase
+the Claude LangGraph drop (0.718 → 0.710).
 
-- A guardrail sentence splitter that cited bare Markdown list markers (21% of all insertions), and
-  which **inflated** the originally-reported lift
-- A fabricated-citation counter incremented per atomic claim instead of per citation (3–7× too high)
-- `ChatBedrock` silently defaulting to `max_tokens=1024` while the baseline arm used 2048,
-  truncating 52/127 answers in one arm and making the two Claude arms incomparable
-- An audit sampler that reverse-engineered the guardrail's output instead of recording its decisions
-- Silent NLI premise truncation
-
-One hypothesis of our own was disproved by the data: we expected fixing the `ChatBedrock`
-truncation to erase the Claude baseline → LangGraph drop. It did not (0.718 → 0.710 after
-regenerating the arm).
-
-Robustness checks now on record: determinism verified exactly across all five arms; a matched
-98-question subset (controlling for differing retrieval recall) changes no conclusion; truncation
-sensitivity is −0.001.
+Later checks found two more parity issues and are reported above rather than hidden: the guardrail
+v1 circularity (exposed by a blind human audit) and an unset temperature in the SDK pipeline
+(tested directly; not the cause).
 
 ---
 
@@ -239,20 +279,21 @@ sensitivity is −0.001.
 
 ```
 ingest/      corpus download, heading-aware chunking, embedding, Chroma index
-server/      MCP retrieval server (streamable HTTP)
+server/      MCP retrieval server (streamable HTTP); opt-in Kapa tool description for ablations
 eval_set/    127 human-verified Q&A pairs with gold source URLs
-pipelines/   baseline · langgraph_agent · openai_agent (+ provider strategy layer)
-measure/     scorer, bootstrap CIs, paired tests, lift decomposition, audit sampler
-guardrail/   attribution middleware + its tests
-results/     every published number, per-question traces, human audit labels, run logs
-scripts/     full rebuild, guardrail v2 run, dev checks
+pipelines/   baseline · langgraph_agent · openai_agent (+ provider strategy layer, ablation flags)
+measure/     scorer, LLM-judge re-scoring, verifier benchmark, CIs, paired tests, reports, chart
+guardrail/   attribution middleware v1 and v2 + tests
+results/     every published number, per-question traces, human labels, figures
+scripts/     rebuild, guardrail v2 run, SDK ablation, labelling-page builder
 ```
 
 ---
 
 ## Background
 
-Builds on **ALCE** (citation precision/recall via NLI entailment) and **FActScore** (atomic claim
-decomposition). Takes the *concept* from Wallat et al. — that correct is not the same as faithful
-— while deliberately substituting a cheap, deterministic trace-grounding proxy for their
-counterfactual regeneration method.
+Builds on **ALCE** (citation precision/recall via entailment) and **FActScore** (atomic claim
+decomposition). Takes the *concept* from Wallat et al., that a correct answer is not the same as a
+faithful one, while substituting a cheap trace-grounding check for their counterfactual
+regeneration method. MiniCheck (Tang et al., 2024) is re-implemented from its official code for
+the verifier benchmark.
