@@ -1,0 +1,28 @@
+OpenAI Agents SDK × gpt-4o-mini — mechanism ablation (pre-registered, DECISIONS.md 2026-10-12/13)
+Scorer: locked DeBERTa argmax. Paired bootstrap 10,000 resamples, seed 42.
+
+Run                                     n    CSR  95% CI            zero-cite tools/ans
+-------------------------------------------------------------------------------------
+OpenAI SDK, published run (Aug)       127  0.323  [0.237, 0.414]      66/127     1.31
+E0 original config, re-run            127  0.333  [0.242, 0.424]      60/127     1.29
+E1 temperature 0                      127  0.412  [0.319, 0.510]      54/127     1.32
+E2 E1 + Kapa tool description         127  0.382  [0.289, 0.475]      54/127     1.28
+E3 E1 + Chat Completions API          127  0.533  [0.443, 0.629]      18/127     1.43
+E4 Kapa full setup (primary)          127  0.515  [0.416, 0.609]      43/127     1.17
+E4 sensitivity: + inline links        127  0.574  [0.480, 0.663]      23/127     1.17
+context: Baseline gpt-4o-mini         127  0.618  [0.528, 0.708]      19/127     1.00
+context: LangGraph gpt-4o-mini        127  0.614  [0.524, 0.705]      15/127     1.20
+
+Paired comparison (A − B)                               n   Δ CSR  95% CI             verdict
+----------------------------------------------------------------------------------------------------
+E0 original config, re-run  −  published               93  -0.011  [-0.113, +0.091]  not significant
+E1 temperature 0  −  E0                                97  +0.082  [-0.010, +0.175]  not significant
+E2 E1 + Kapa tool description  −  E1                  101  -0.040  [-0.124, +0.050]  not significant
+E3 E1 + Chat Completions API  −  E1                   102  +0.108  [+0.010, +0.206]  REAL (CI excludes 0)
+E4 Kapa full setup (primary)  −  E1                    99  +0.111  [+0.015, +0.212]  REAL (CI excludes 0)
+E4 Kapa full setup (primary)  −  E0                    96  +0.188  [+0.083, +0.297]  REAL (CI excludes 0)
+E4 sensitivity: + inline links  −  E1                  99  +0.172  [+0.081, +0.263]  REAL (CI excludes 0)
+E1 temperature 0  −  baseline                          99  -0.207  [-0.313, -0.101]  REAL (CI excludes 0)
+E4 Kapa full setup (primary)  −  baseline              98  -0.097  [-0.204, +0.005]  not significant
+
+E4 raw answers: 139 Kapa-format citation brackets across 127 answers
