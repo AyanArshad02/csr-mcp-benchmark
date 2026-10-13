@@ -1,0 +1,515 @@
+<title>Ticket 4 Insertion Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a review desk. Progress strip on top, the sentence and the chunk side by side,
+   the full answer as context underneath, and a verdict bar pinned to the bottom. */
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --sunken: #f6f8fb;
+  --ink: #18202c;
+  --muted: #5a6575;
+  --line: #d9dee6;
+  --accent: #2f56c4;
+  --accent-soft: #e4ebfb;
+  --mark: #fbe28a;
+  --ok: #1d7748; --ok-soft: #dff3e7;
+  --part: #9a5b00; --part-soft: #fbecd2;
+  --bad: #b1281f; --bad-soft: #fbe1de;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-read: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151b; --surface: #19202a; --sunken: #141a22; --ink: #e5e9ef; --muted: #98a2b1;
+    --line: #2a323e; --accent: #8ea9ff; --accent-soft: #1f2a45; --mark: rgba(250, 204, 21, .32);
+    --ok: #57c78d; --ok-soft: #173326; --part: #e6a845; --part-soft: #3a2a12;
+    --bad: #f07b70; --bad-soft: #3d1a17; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151b; --surface: #19202a; --sunken: #141a22; --ink: #e5e9ef; --muted: #98a2b1;
+  --line: #2a323e; --accent: #8ea9ff; --accent-soft: #1f2a45; --mark: rgba(250, 204, 21, .32);
+  --ok: #57c78d; --ok-soft: #173326; --part: #e6a845; --part-soft: #3a2a12;
+  --bad: #f07b70; --bad-soft: #3d1a17; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 140px; display: grid; gap: 16px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Header */
+.head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between; }
+.head h1 { font-size: 22px; font-weight: 600; }
+.head p { margin: 2px 0 0; color: var(--muted); max-width: 70ch; }
+.head-right { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pill { font-size: 12.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.pill.live { color: var(--ok); border-color: var(--ok); }
+.btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+.btn:hover { border-color: var(--accent); }
+.btn.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* Progress strip */
+.strip { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
+.strip-top { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+.count { font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar { height: 6px; border-radius: 3px; background: var(--sunken); overflow: hidden; display: flex; }
+.bar span { display: block; height: 100%; }
+.cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(34px, 1fr)); gap: 5px; }
+.cell { height: 30px; border-radius: 6px; border: 1px solid var(--line); background: var(--sunken); font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.cell.CORRECT { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+.cell.PARTIAL { background: var(--part-soft); border-color: var(--part); color: var(--part); }
+.cell.WRONG { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.cell.cur { outline: 2px solid var(--accent); outline-offset: 1px; font-weight: 600; }
+.cell[hidden] { display: none; }
+
+/* Item */
+.item-head { display: grid; gap: 6px; }
+.item-head .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.question { font-family: var(--font-read); font-size: 21px; font-weight: 600; line-height: 1.35; }
+.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .compare { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.panel-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; }
+.claim { border-left: 3px solid var(--mark); padding-left: 12px; }
+.url { font-family: var(--font-mono); font-size: 13px; word-break: break-all; color: var(--accent); }
+.toggle { font-size: 12.5px; color: var(--accent); background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Rendered markdown */
+.md { font-family: var(--font-read); font-size: 16px; line-height: 1.6; min-width: 0; overflow-wrap: anywhere; }
+.md > :first-child { margin-top: 0; }
+.md > :last-child { margin-bottom: 0; }
+.md h1, .md h2, .md h3, .md h4 { font-family: var(--font-ui); font-size: 15px; font-weight: 600; margin: 1em 0 .4em; }
+.md p, .md ul, .md ol { margin: .55em 0; }
+.md ul, .md ol { padding-left: 1.4em; }
+.md code { font-family: var(--font-mono); font-size: .84em; background: var(--sunken); border: 1px solid var(--line); border-radius: 4px; padding: 0 .3em; }
+.md pre { background: var(--sunken); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: .7em 0; }
+.md pre code { background: none; border: 0; padding: 0; font-size: 12.8px; line-height: 1.55; white-space: pre; overflow-wrap: normal; }
+.md a { color: var(--accent); }
+.md mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; }
+.raw { font-family: var(--font-mono); font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--sunken); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; }
+.context { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.context > summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; gap: 10px; align-items: center; }
+.context > summary::-webkit-details-marker { display: none; }
+.context > summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
+.context[open] > summary::before { transform: rotate(90deg); }
+.context .md { padding: 0 16px 16px; }
+
+/* Reveal */
+.reveal { border-radius: 10px; border: 1px dashed var(--line); padding: 14px 16px; display: grid; gap: 6px; background: var(--surface); }
+.reveal.locked { color: var(--muted); }
+.agree { font-weight: 600; }
+.agree.yes { color: var(--ok); }
+.agree.no { color: var(--bad); }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.tag.CORRECT { background: var(--ok-soft); color: var(--ok); }
+.tag.PARTIAL { background: var(--part-soft); color: var(--part); }
+.tag.WRONG { background: var(--bad-soft); color: var(--bad); }
+
+/* Verdict bar */
+.dock { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; }
+.dock-in { max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.verdicts { display: flex; gap: 8px; flex-wrap: wrap; }
+.v { min-width: 112px; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 600; display: flex; gap: 8px; align-items: center; justify-content: center; }
+.v kbd { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+.v[data-v="CORRECT"]:hover, .v[data-v="CORRECT"].sel { border-color: var(--ok); color: var(--ok); }
+.v[data-v="PARTIAL"]:hover, .v[data-v="PARTIAL"].sel { border-color: var(--part); color: var(--part); }
+.v[data-v="WRONG"]:hover, .v[data-v="WRONG"].sel { border-color: var(--bad); color: var(--bad); }
+.v[data-v="CORRECT"].sel { background: var(--ok-soft); }
+.v[data-v="PARTIAL"].sel { background: var(--part-soft); }
+.v[data-v="WRONG"].sel { background: var(--bad-soft); }
+.note { flex: 1 1 220px; min-width: 0; font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--sunken); color: var(--ink); resize: none; height: 40px; }
+.nav { display: flex; gap: 6px; margin-left: auto; }
+.saved { font-size: 12.5px; color: var(--muted); min-width: 9ch; }
+
+/* Summary */
+.summary { display: grid; gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; color: var(--muted); font-size: 12.5px; }
+td.num, th.num { text-align: right; }
+.help { color: var(--muted); font-size: 13.5px; margin: 0; max-width: 75ch; }
+.scale { display: grid; gap: 4px; font-size: 13.5px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <h1>Ticket 4 Insertion Audit</h1>
+      <p>Does the cited chunk support the highlighted sentence? Judge each citation on its own. Claude's verdict for an item appears only after you lock in yours.</p>
+    </div>
+    <div class="head-right">
+      <span class="pill" id="store">Connecting…</span>
+      <button class="btn" id="tab-review" type="button">Review</button>
+      <button class="btn" id="tab-summary" type="button">Summary</button>
+    </div>
+  </header>
+
+  <section class="strip" aria-label="Progress">
+    <div class="strip-top">
+      <span><span class="count" id="done">0</span> of 50 labelled</span>
+      <div class="head-right">
+        <button class="btn" id="f-all" type="button">All</button>
+        <button class="btn" id="f-todo" type="button">Unlabelled</button>
+      </div>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="cells" id="cells"></div>
+  </section>
+
+  <main id="review" class="wrap" style="padding:0;max-width:none">
+    <div class="item-head">
+      <div class="meta" id="meta"></div>
+      <div class="question" id="question"></div>
+    </div>
+    <div class="compare">
+      <section class="panel">
+        <div class="panel-head"><span class="label">Sentence being cited</span></div>
+        <div class="md claim" id="sentence"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <span class="label">Chunk it was cited to</span>
+          <button class="toggle" id="raw-toggle" type="button">Show raw text</button>
+        </div>
+        <a class="url" id="url" target="_blank" rel="noopener"></a>
+        <div class="md" id="chunk"></div>
+        <pre class="raw" id="chunk-raw" hidden></pre>
+      </section>
+    </div>
+    <details class="context" id="context">
+      <summary><span class="label">Full answer from the agent</span><span class="help">the sentence is highlighted</span></summary>
+      <div class="md" id="answer"></div>
+    </details>
+    <section class="reveal locked" id="reveal"></section>
+  </main>
+
+  <main id="summary" class="summary" hidden></main>
+</div>
+
+<div class="dock" id="dock">
+  <div class="dock-in">
+    <div class="verdicts" role="group" aria-label="Verdict">
+      <button class="v" data-v="CORRECT" type="button">Correct <kbd>1</kbd></button>
+      <button class="v" data-v="PARTIAL" type="button">Partial <kbd>2</kbd></button>
+      <button class="v" data-v="WRONG" type="button">Wrong <kbd>3</kbd></button>
+    </div>
+    <textarea class="note" id="note" placeholder="Note (optional): why, or what's missing"></textarea>
+    <span class="saved" id="saved"></span>
+    <div class="nav">
+      <button class="btn" id="prev" type="button">← Prev</button>
+      <button class="btn" id="next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script>
+(function () {
+  const ITEMS = JSON.parse(document.getElementById("data").textContent);
+  const LS_KEY = "t4-audit-verdicts";
+  const S = "", E = "";
+  const $ = (id) => document.getElementById(id);
+  const docId = (n) => "s" + String(n).padStart(2, "0");
+
+  let verdicts = {};          // sample_id -> record
+  try { verdicts = JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch (e) { verdicts = {}; }
+  let cur = 0, filter = "all", view = "review", showRaw = false, db = null;
+  const writeChains = {};
+
+  // ---------- markdown ----------
+  function decodeEntities(s) {
+    return s.replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+  }
+  function cleanChunk(s) {
+    return decodeEntities(s.replace(/<[^>]+>/g, "")).replace(/\s*\{\s*#[\w-]+\s*\}/g, "");
+  }
+  function mdToHtml(src) {
+    if (window.marked && window.DOMPurify) {
+      const html = marked.parse(src, { gfm: true, breaks: false });
+      return DOMPurify.sanitize(html, { FORBID_TAGS: ["iframe", "script", "style", "form", "input", "img", "video", "audio", "object", "embed"] });
+    }
+    const pre = document.createElement("pre");
+    pre.className = "raw"; pre.textContent = src;
+    return pre.outerHTML;
+  }
+  function render(el, src) { el.innerHTML = mdToHtml(src); wrapMarks(el); }
+  // Wrap every text node between the S and E markers in <mark>, across block boundaries.
+  function wrapMarks(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+    let inside = false, first = null;
+    for (const node of nodes) {
+      const text = node.nodeValue;
+      if (!inside && text.indexOf(S) === -1) continue;
+      const frag = document.createDocumentFragment();
+      let buf = "";
+      const flush = () => {
+        if (!buf) return;
+        if (inside) { const m = document.createElement("mark"); m.textContent = buf; frag.appendChild(m); if (!first) first = m; }
+        else frag.appendChild(document.createTextNode(buf));
+        buf = "";
+      };
+      for (const ch of text) {
+        if (ch === S) { flush(); inside = true; }
+        else if (ch === E) { flush(); inside = false; }
+        else buf += ch;
+      }
+      flush();
+      node.parentNode.replaceChild(frag, node);
+    }
+    return first;
+  }
+  // Put markers where markdown syntax survives them: after list/heading markers, inside code fences.
+  function markSentence(answer, sentence) {
+    const i = answer.indexOf(sentence);
+    if (i < 0) return answer;
+    let a = i, b = i + sentence.length;
+    while (a < b && /\s/.test(answer[a])) a++;
+    while (b > a && /\s/.test(answer[b - 1])) b--;
+    const firstLineEnd = answer.indexOf("\n", a);
+    const firstLine = answer.slice(a, firstLineEnd === -1 ? b : Math.min(firstLineEnd, b));
+    if (/^(```|~~~)/.test(firstLine.trim()) && firstLineEnd !== -1) a = firstLineEnd + 1;
+    else { const m = firstLine.match(/^(#{1,6}\s+|\d+\.\s+|[-*+]\s+)/); if (m) a += m[0].length; }
+    const lastNl = answer.lastIndexOf("\n", b - 1);
+    if (lastNl >= a && /^\s*(```|~~~)\s*$/.test(answer.slice(lastNl + 1, b))) b = lastNl;
+    if (b <= a) return answer;
+    return answer.slice(0, a) + S + answer.slice(a, b) + E + answer.slice(b);
+  }
+
+  // ---------- storage ----------
+  function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(verdicts)); } catch (e) {} }
+  function pushRemote(id) {
+    if (!db) return Promise.resolve();
+    const rec = verdicts[id];
+    writeChains[id] = (writeChains[id] || Promise.resolve()).then(() =>
+      db.doc("verdicts/" + docId(id)).set(rec)
+    ).then(() => setSaved("Saved"), (e) => setSaved(e && e.code === "invalid_argument" ? "Not saved (no write access)" : "Not saved, retry"));
+    return writeChains[id];
+  }
+  function setSaved(t) { $("saved").textContent = t; }
+  function setStore(live) {
+    const el = $("store");
+    el.textContent = live ? "Saving to the audit record" : "Saving in this browser only";
+    el.classList.toggle("live", live);
+  }
+  setStore(false);
+  (async () => {
+    try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { db = null; }
+    if (!db) { setStore(false); return; }
+    setStore(true);
+    let firstSnap = true;
+    db.collection("verdicts").onSnapshot((snap) => {
+      const remote = {};
+      snap.docs.forEach((d) => { const v = d.data(); if (v && v.sample_id) remote[v.sample_id] = v; });
+      if (firstSnap) {
+        firstSnap = false;
+        for (const k of Object.keys(verdicts)) if (!remote[k]) { remote[k] = verdicts[k]; pushRemote(Number(k)); }
+      }
+      verdicts = Object.assign({}, verdicts, remote);
+      saveLocal(); draw();
+    }, () => setStore(false));
+  })();
+
+  function setVerdict(v) {
+    const it = ITEMS[cur], id = it.sample_id, prev = verdicts[id];
+    const rec = prev ? Object.assign({}, prev) : { sample_id: id, question_id: it.question_id, inserted_url: it.inserted_url, first_verdict: v, note: "" };
+    if (prev && prev.verdict !== v) rec.changed_after_reveal = true;
+    rec.verdict = v;
+    rec.note = $("note").value.trim();
+    rec.updated_at = new Date().toISOString();
+    verdicts[id] = rec; saveLocal(); setSaved("Saving…"); pushRemote(id); draw();
+  }
+  function saveNote() {
+    const id = ITEMS[cur].sample_id, rec = verdicts[id], note = $("note").value.trim();
+    if (!rec || rec.note === note) return;
+    verdicts[id] = Object.assign({}, rec, { note, updated_at: new Date().toISOString() });
+    saveLocal(); setSaved("Saving…"); pushRemote(id);
+  }
+
+  // ---------- drawing ----------
+  const nice = { CORRECT: "Correct", PARTIAL: "Partial", WRONG: "Wrong" };
+  function visibleIdx() { return ITEMS.map((_, i) => i).filter((i) => filter === "all" || !verdicts[ITEMS[i].sample_id]); }
+  function go(i) { saveNote(); cur = Math.max(0, Math.min(ITEMS.length - 1, i)); showRaw = false; setSaved(""); draw(true); }
+  function step(d) {
+    const vis = visibleIdx(); if (!vis.length) return;
+    const pos = vis.indexOf(cur);
+    if (pos === -1) { go(d > 0 ? (vis.find((i) => i > cur) ?? vis[0]) : ([...vis].reverse().find((i) => i < cur) ?? vis[vis.length - 1])); return; }
+    const np = pos + d; if (np >= 0 && np < vis.length) go(vis[np]);
+  }
+
+  function drawStrip() {
+    const recs = ITEMS.map((it) => verdicts[it.sample_id]).filter(Boolean);
+    $("done").textContent = recs.length;
+    const c = { CORRECT: 0, PARTIAL: 0, WRONG: 0 }; recs.forEach((r) => c[r.verdict]++);
+    $("bar").innerHTML = ["CORRECT", "PARTIAL", "WRONG"].map((k) => `<span style="width:${c[k] * 2}%;background:var(--${k === "CORRECT" ? "ok" : k === "PARTIAL" ? "part" : "bad"})"></span>`).join("");
+    const cells = $("cells");
+    if (!cells.children.length) {
+      ITEMS.forEach((it, i) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "cell"; b.textContent = it.sample_id;
+        b.setAttribute("aria-label", "Item " + it.sample_id);
+        b.addEventListener("click", () => { if (view !== "review") setView("review"); go(i); });
+        cells.appendChild(b);
+      });
+    }
+    [...cells.children].forEach((b, i) => {
+      const r = verdicts[ITEMS[i].sample_id];
+      b.className = "cell" + (r ? " " + r.verdict : "") + (i === cur && view === "review" ? " cur" : "");
+      b.hidden = filter === "todo" && !!r && i !== cur;
+    });
+    $("f-all").classList.toggle("on", filter === "all");
+    $("f-todo").classList.toggle("on", filter === "todo");
+  }
+
+  function drawItem(scrollTop) {
+    const it = ITEMS[cur], rec = verdicts[it.sample_id];
+    $("meta").innerHTML = `<span>Item ${it.sample_id} of 50</span><span>Question ${it.question_id}</span><span>LangGraph · gpt-4o-mini</span>`;
+    $("question").textContent = it.question;
+    render($("sentence"), it.sentence);
+    const a = $("url"); a.href = it.inserted_url; a.textContent = it.inserted_url.replace("https://fastapi.tiangolo.com", "fastapi.tiangolo.com");
+    render($("chunk"), cleanChunk(it.chunk_content));
+    $("chunk-raw").textContent = it.chunk_content;
+    $("chunk").hidden = showRaw; $("chunk-raw").hidden = !showRaw;
+    $("raw-toggle").textContent = showRaw ? "Show formatted" : "Show raw text";
+    const ans = $("answer"); ans.innerHTML = mdToHtml(markSentence(it.answer, it.sentence)); wrapMarks(ans);
+    document.querySelectorAll(".v").forEach((b) => b.classList.toggle("sel", !!rec && rec.verdict === b.dataset.v));
+    if (document.activeElement !== $("note")) $("note").value = rec ? rec.note || "" : "";
+    const rv = $("reveal");
+    if (!rec) {
+      rv.className = "reveal locked";
+      rv.innerHTML = `<span class="label">Claude's verdict</span><span>Hidden until you choose a verdict for this item.</span>`;
+    } else {
+      const agree = rec.first_verdict === it.claude_verdict;
+      rv.className = "reveal";
+      rv.innerHTML = `<span class="label">Claude's verdict</span>
+        <div><span class="tag ${it.claude_verdict}">${nice[it.claude_verdict]}</span>
+        <span class="agree ${agree ? "yes" : "no"}">${agree ? "Agrees with your first call" : "Differs from your first call (" + nice[rec.first_verdict] + ")"}</span></div>
+        <div></div>
+        <div class="help">Cited page is ${it.is_gold ? "<b>a gold source</b> for this question, so this citation can move CSR" : "not a gold source for this question, so it affects precision only"}.</div>
+        ${rec.changed_after_reveal ? `<div class="help">You changed this after the reveal; the blind first call is kept for agreement.</div>` : ""}`;
+      rv.children[2].textContent = it.claude_reason;
+    }
+    if (scrollTop) window.scrollTo({ top: 0 });
+  }
+
+  function kappa(pairs) {
+    const cats = ["CORRECT", "PARTIAL", "WRONG"], n = pairs.length; if (!n) return null;
+    const po = pairs.filter(([a, b]) => a === b).length / n;
+    let pe = 0; cats.forEach((c) => { pe += (pairs.filter(([a]) => a === c).length / n) * (pairs.filter(([, b]) => b === c).length / n); });
+    return pe === 1 ? null : (po - pe) / (1 - pe);
+  }
+  function pct(k, n) { return n ? (100 * k / n).toFixed(1) + "%" : "–"; }
+  function drawSummary() {
+    const done = ITEMS.filter((it) => verdicts[it.sample_id]);
+    const row = (label, list, key) => {
+      const c = { CORRECT: 0, PARTIAL: 0, WRONG: 0 }; list.forEach((x) => c[key(x)]++);
+      return `<tr><td>${label}</td><td class="num">${list.length}</td><td class="num">${c.CORRECT} (${pct(c.CORRECT, list.length)})</td><td class="num">${c.PARTIAL}</td><td class="num">${c.WRONG}</td></tr>`;
+    };
+    const you = (it) => verdicts[it.sample_id].verdict;
+    const pairs = done.map((it) => [verdicts[it.sample_id].first_verdict, it.claude_verdict]);
+    const agreeN = pairs.filter(([a, b]) => a === b).length;
+    const k = kappa(pairs);
+    const changed = done.filter((it) => verdicts[it.sample_id].changed_after_reveal).length;
+    const dis = done.filter((it) => verdicts[it.sample_id].first_verdict !== it.claude_verdict);
+    $("summary").innerHTML = `
+      <section class="panel">
+        <span class="label">Your verdicts (${done.length} of 50 labelled)</span>
+        <div style="overflow-x:auto"><table>
+          <thead><tr><th></th><th class="num">n</th><th class="num">Correct</th><th class="num">Partial</th><th class="num">Wrong</th></tr></thead>
+          <tbody>
+            ${row("All labelled", done, you)}
+            ${row("Gold-source citations", done.filter((it) => it.is_gold), you)}
+            ${row("Non-gold citations", done.filter((it) => !it.is_gold), you)}
+          </tbody></table></div>
+        <p class="help">Only gold-source citations can raise CSR. Non-gold ones affect citation precision.</p>
+      </section>
+      <div class="grid3">
+        <section class="panel">
+          <span class="label">Agreement with Claude</span>
+          <div class="count" style="font-size:22px">${done.length ? agreeN + " / " + done.length : "–"}</div>
+          <p class="help">Raw agreement ${pct(agreeN, done.length)}. Cohen's κ ${k === null ? "–" : k.toFixed(2)}. Uses your blind first call on each item.</p>
+        </section>
+        <section class="panel">
+          <span class="label">Changed after reveal</span>
+          <div class="count" style="font-size:22px">${changed}</div>
+          <p class="help">Items where you changed your verdict after seeing Claude's. Reported separately; agreement ignores the change.</p>
+        </section>
+        <section class="panel">
+          <span class="label">Export</span>
+          <p class="help">Your verdicts save automatically when the status shows “Saving to the audit record”. Otherwise, copy them and paste into chat.</p>
+          <div><button class="btn" id="copy" type="button">Copy verdicts as JSONL</button> <span class="saved" id="copied"></span></div>
+          <textarea class="note" id="copy-box" hidden readonly style="height:120px"></textarea>
+        </section>
+      </div>
+      <section class="panel">
+        <span class="label">Disagreements (${dis.length})</span>
+        ${dis.length ? `<div style="overflow-x:auto"><table><thead><tr><th>Item</th><th>You</th><th>Claude</th><th>Gold</th><th>Your note</th></tr></thead><tbody>
+          ${dis.map((it) => `<tr><td><button class="toggle" data-go="${ITEMS.indexOf(it)}" type="button">#${it.sample_id}</button></td><td><span class="tag ${verdicts[it.sample_id].first_verdict}">${nice[verdicts[it.sample_id].first_verdict]}</span></td><td><span class="tag ${it.claude_verdict}">${nice[it.claude_verdict]}</span></td><td>${it.is_gold ? "yes" : "no"}</td><td class="n" data-i="${it.sample_id}"></td></tr>`).join("")}
+        </tbody></table></div>` : `<p class="help">None yet.</p>`}
+      </section>
+      <section class="panel">
+        <span class="label">How to judge</span>
+        <div class="scale">
+          <div><span class="tag CORRECT">Correct</span> the chunk clearly supports the sentence.</div>
+          <div><span class="tag PARTIAL">Partial</span> the chunk supports some of the sentence, not all of it.</div>
+          <div><span class="tag WRONG">Wrong</span> the chunk supports none of it.</div>
+        </div>
+        <p class="help">Judge against the chunk text, not the live page and not other chunks. A code block or list item counts as one sentence when the guardrail treated it that way.</p>
+      </section>`;
+    $("summary").querySelectorAll("td.n").forEach((td) => { td.textContent = verdicts[td.dataset.i].note || ""; });
+    $("summary").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { setView("review"); go(Number(b.dataset.go)); }));
+    const copy = $("copy");
+    if (copy) copy.addEventListener("click", () => {
+      const lines = ITEMS.filter((it) => verdicts[it.sample_id]).map((it) => JSON.stringify(verdicts[it.sample_id])).join("\n");
+      const box = $("copy-box");
+      const fallback = () => { box.hidden = false; box.value = lines; box.select(); $("copied").textContent = "Selected, press copy"; };
+      try { navigator.clipboard.writeText(lines).then(() => { $("copied").textContent = "Copied"; }, fallback); } catch (e) { fallback(); }
+    });
+  }
+
+  function setView(v) {
+    view = v;
+    $("review").hidden = v !== "review"; $("summary").hidden = v !== "summary"; $("dock").hidden = v !== "review";
+    $("tab-review").classList.toggle("on", v === "review"); $("tab-summary").classList.toggle("on", v === "summary");
+    draw(true);
+  }
+  function draw(scrollTop) { drawStrip(); if (view === "review") drawItem(scrollTop); else drawSummary(); }
+
+  // ---------- events ----------
+  document.querySelectorAll(".v").forEach((b) => b.addEventListener("click", () => setVerdict(b.dataset.v)));
+  $("note").addEventListener("change", saveNote);
+  $("prev").addEventListener("click", () => step(-1));
+  $("next").addEventListener("click", () => step(1));
+  $("raw-toggle").addEventListener("click", () => { showRaw = !showRaw; drawItem(false); });
+  $("f-all").addEventListener("click", () => { filter = "all"; draw(); });
+  $("f-todo").addEventListener("click", () => { filter = "todo"; draw(); });
+  $("tab-review").addEventListener("click", () => setView("review"));
+  $("tab-summary").addEventListener("click", () => setView("summary"));
+  document.addEventListener("keydown", (e) => {
+    if (view !== "review" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target && (e.target.tagName === "TEXTAREA" || e.target.tagName === "INPUT")) return;
+    if (e.key === "1") setVerdict("CORRECT");
+    else if (e.key === "2") setVerdict("PARTIAL");
+    else if (e.key === "3") setVerdict("WRONG");
+    else if (e.key === "ArrowRight" || e.key === "j") step(1);
+    else if (e.key === "ArrowLeft" || e.key === "k") step(-1);
+  });
+
+  const firstTodo = ITEMS.findIndex((it) => !verdicts[it.sample_id]);
+  cur = firstTodo === -1 ? 0 : firstTodo;
+  setView("review");
+})();
+</script>
+
+</body></html>
