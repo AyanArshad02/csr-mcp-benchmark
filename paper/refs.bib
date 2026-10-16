@@ -1,0 +1,390 @@
+% Verified 2026-10-16 against live sources (arXiv API, ACL Anthology .bib exports,
+% NeurIPS proceedings metadata, ICLR/OpenReview links, TU Delft Pure/ACM DOI, Crossref,
+% official documentation pages). See per-entry "Source" comments.
+
+% ---------------------------------------------------------------------------
+% 1. ALCE  -- Source: https://aclanthology.org/2023.emnlp-main.398.bib ; arXiv API
+@inproceedings{gao2023alce,
+  title         = {Enabling Large Language Models to Generate Text with Citations},
+  author        = {Gao, Tianyu and Yen, Howard and Yu, Jiatong and Chen, Danqi},
+  editor        = {Bouamor, Houda and Pino, Juan and Bali, Kalika},
+  booktitle     = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  month         = dec,
+  year          = {2023},
+  address       = {Singapore},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {6465--6488},
+  doi           = {10.18653/v1/2023.emnlp-main.398},
+  url           = {https://aclanthology.org/2023.emnlp-main.398/},
+  eprint        = {2305.14627},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 2. FActScore -- Source: https://aclanthology.org/2023.emnlp-main.741.bib ; arXiv API
+% Note: Anthology metadata lists "Koh, Pang"; arXiv and the paper list "Pang Wei Koh".
+@inproceedings{min2023factscore,
+  title         = {{FA}ct{S}core: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation},
+  author        = {Min, Sewon and Krishna, Kalpesh and Lyu, Xinxi and Lewis, Mike and Yih, Wen-tau and Koh, Pang Wei and Iyyer, Mohit and Zettlemoyer, Luke and Hajishirzi, Hannaneh},
+  editor        = {Bouamor, Houda and Pino, Juan and Bali, Kalika},
+  booktitle     = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  month         = dec,
+  year          = {2023},
+  address       = {Singapore},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {12076--12100},
+  doi           = {10.18653/v1/2023.emnlp-main.741},
+  url           = {https://aclanthology.org/2023.emnlp-main.741/},
+  eprint        = {2305.14251},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 3. Wallat et al. -- Source: https://research.tudelft.nl/en/publications/correctness-is-not-faithfulness-in-retrieval-augmented-generation/
+%    (citation_* metadata: DOI 10.1145/3731120.3744592, pp. 22-32) ; arXiv API for 2412.18004.
+% CORRECTED: the published (ICTIR 2025) title is "...in Retrieval Augmented Generation Attributions";
+% the arXiv preprint title is "Correctness is not Faithfulness in RAG Attributions".
+@inproceedings{wallat2025correctness,
+  title         = {Correctness is not Faithfulness in Retrieval Augmented Generation Attributions},
+  author        = {Wallat, Jonas and Heuss, Maria and de Rijke, Maarten and Anand, Avishek},
+  booktitle     = {Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR '25)},
+  year          = {2025},
+  address       = {Padua, Italy},
+  publisher     = {Association for Computing Machinery},
+  pages         = {22--32},
+  doi           = {10.1145/3731120.3744592},
+  url           = {https://doi.org/10.1145/3731120.3744592},
+  eprint        = {2412.18004},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  note          = {arXiv preprint title: ``Correctness is not Faithfulness in RAG Attributions''}
+}
+
+% 4. MiniCheck -- Source: https://aclanthology.org/2024.emnlp-main.499.bib ; arXiv API
+@inproceedings{tang2024minicheck,
+  title         = {{M}ini{C}heck: Efficient Fact-Checking of {LLM}s on Grounding Documents},
+  author        = {Tang, Liyan and Laban, Philippe and Durrett, Greg},
+  editor        = {Al-Onaizan, Yaser and Bansal, Mohit and Chen, Yun-Nung},
+  booktitle     = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  month         = nov,
+  year          = {2024},
+  address       = {Miami, Florida, USA},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {8818--8847},
+  doi           = {10.18653/v1/2024.emnlp-main.499},
+  url           = {https://aclanthology.org/2024.emnlp-main.499/},
+  eprint        = {2404.10774},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 5. Liu et al. -- Source: https://aclanthology.org/2023.findings-emnlp.467.bib ; arXiv 2304.09848
+% Note: Anthology lists "Liu, Nelson"; arXiv lists "Nelson F. Liu".
+@inproceedings{liu2023verifiability,
+  title         = {Evaluating Verifiability in Generative Search Engines},
+  author        = {Liu, Nelson F. and Zhang, Tianyi and Liang, Percy},
+  editor        = {Bouamor, Houda and Pino, Juan and Bali, Kalika},
+  booktitle     = {Findings of the Association for Computational Linguistics: {EMNLP} 2023},
+  month         = dec,
+  year          = {2023},
+  address       = {Singapore},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {7001--7025},
+  doi           = {10.18653/v1/2023.findings-emnlp.467},
+  url           = {https://aclanthology.org/2023.findings-emnlp.467/},
+  eprint        = {2304.09848},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 6. Rashkin et al. (AIS) -- Source: https://aclanthology.org/2023.cl-4.2.bib ; arXiv 2112.12870
+@article{rashkin2023ais,
+  title         = {Measuring Attribution in Natural Language Generation Models},
+  author        = {Rashkin, Hannah and Nikolaev, Vitaly and Lamm, Matthew and Aroyo, Lora and Collins, Michael and Das, Dipanjan and Petrov, Slav and Tomar, Gaurav Singh and Turc, Iulia and Reitter, David},
+  journal       = {Computational Linguistics},
+  volume        = {49},
+  number        = {4},
+  month         = dec,
+  year          = {2023},
+  publisher     = {MIT Press},
+  address       = {Cambridge, MA},
+  pages         = {777--840},
+  doi           = {10.1162/coli_a_00486},
+  url           = {https://aclanthology.org/2023.cl-4.2/},
+  eprint        = {2112.12870},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 7. TRUE -- Source: https://aclanthology.org/2022.naacl-main.287.bib ; arXiv 2204.04991
+@inproceedings{honovich2022true,
+  title         = {{TRUE}: Re-evaluating Factual Consistency Evaluation},
+  author        = {Honovich, Or and Aharoni, Roee and Herzig, Jonathan and Taitelbaum, Hagai and Kukliansy, Doron and Cohen, Vered and Scialom, Thomas and Szpektor, Idan and Hassidim, Avinatan and Matias, Yossi},
+  editor        = {Carpuat, Marine and de Marneffe, Marie-Catherine and Meza Ruiz, Ivan Vladimir},
+  booktitle     = {Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
+  month         = jul,
+  year          = {2022},
+  address       = {Seattle, United States},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {3905--3920},
+  doi           = {10.18653/v1/2022.naacl-main.287},
+  url           = {https://aclanthology.org/2022.naacl-main.287/},
+  eprint        = {2204.04991},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 8. Bohnet et al. -- Source: arXiv API 2212.08037 (no journal_ref / venue listed; arXiv-only)
+@misc{bohnet2022attributed,
+  title         = {Attributed Question Answering: Evaluation and Modeling for Attributed Large Language Models},
+  author        = {Bohnet, Bernd and Tran, Vinh Q. and Verga, Pat and Aharoni, Roee and Andor, Daniel and Baldini Soares, Livio and Ciaramita, Massimiliano and Eisenstein, Jacob and Ganchev, Kuzman and Herzig, Jonathan and Hui, Kai and Kwiatkowski, Tom and Ma, Ji and Ni, Jianmo and Sestorain Saralegui, Lierni and Schuster, Tal and Cohen, William W. and Collins, Michael and Das, Dipanjan and Metzler, Donald and Petrov, Slav and Webster, Kellie},
+  year          = {2022},
+  eprint        = {2212.08037},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2212.08037}
+}
+
+% 9. RAG -- Source: https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html
+@inproceedings{lewis2020rag,
+  title         = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  author        = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
+  booktitle     = {Advances in Neural Information Processing Systems},
+  volume        = {33},
+  pages         = {9459--9474},
+  year          = {2020},
+  url           = {https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html},
+  eprint        = {2005.11401},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 10. RAGAS -- Source: https://aclanthology.org/2024.eacl-demo.16.bib ; arXiv 2309.15217
+@inproceedings{es2024ragas,
+  title         = {{RAGA}s: Automated Evaluation of Retrieval Augmented Generation},
+  author        = {Es, Shahul and James, Jithin and Espinosa Anke, Luis and Schockaert, Steven},
+  editor        = {Aletras, Nikolaos and De Clercq, Orphee},
+  booktitle     = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
+  month         = mar,
+  year          = {2024},
+  address       = {St. Julians, Malta},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {150--158},
+  doi           = {10.18653/v1/2024.eacl-demo.16},
+  url           = {https://aclanthology.org/2024.eacl-demo.16/},
+  eprint        = {2309.15217},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 11. ReAct -- Source: arXiv API 2210.03629 (comment: "v3 is the ICLR camera ready version");
+%     ICLR 2023 virtual page https://iclr.cc/virtual/2023/poster/11003 links openreview.net/forum?id=WE_vluYUL-X
+@inproceedings{yao2023react,
+  title         = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
+  author        = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan},
+  booktitle     = {The Eleventh International Conference on Learning Representations (ICLR)},
+  year          = {2023},
+  url           = {https://openreview.net/forum?id=WE_vluYUL-X},
+  eprint        = {2210.03629},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 12. MT-Bench / LLM-as-a-judge -- Source: https://proceedings.neurips.cc/paper_files/paper/2023/hash/91f18a1287b398d378ef22505bf41832-Abstract-Datasets_and_Benchmarks.html
+@inproceedings{zheng2023judging,
+  title         = {Judging {LLM}-as-a-Judge with {MT-Bench} and {Chatbot Arena}},
+  author        = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  booktitle     = {Advances in Neural Information Processing Systems (Datasets and Benchmarks Track)},
+  volume        = {36},
+  pages         = {46595--46623},
+  year          = {2023},
+  doi           = {10.52202/075280-2020},
+  url           = {https://proceedings.neurips.cc/paper_files/paper/2023/hash/91f18a1287b398d378ef22505bf41832-Abstract-Datasets_and_Benchmarks.html},
+  eprint        = {2306.05685},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 13. DeBERTaV3 -- Source: arXiv API 2111.09543 (comment: "published as a conference paper at ICLR 2023");
+%     https://mlanthology.org/iclr/2023/he2023iclr-debertav3/ links openreview.net/forum?id=sE7-XhLxHA
+@inproceedings{he2023debertav3,
+  title         = {{DeBERTaV3}: Improving {DeBERTa} using {ELECTRA}-Style Pre-Training with Gradient-Disentangled Embedding Sharing},
+  author        = {He, Pengcheng and Gao, Jianfeng and Chen, Weizhu},
+  booktitle     = {The Eleventh International Conference on Learning Representations (ICLR)},
+  year          = {2023},
+  url           = {https://openreview.net/forum?id=sE7-XhLxHA},
+  eprint        = {2111.09543},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 14. IFEval -- Source: arXiv API 2311.07911 (no venue listed; arXiv-only)
+@misc{zhou2023ifeval,
+  title         = {Instruction-Following Evaluation for Large Language Models},
+  author        = {Zhou, Jeffrey and Lu, Tianjian and Mishra, Swaroop and Brahma, Siddhartha and Basu, Sujoy and Luan, Yi and Zhou, Denny and Hou, Le},
+  year          = {2023},
+  eprint        = {2311.07911},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2311.07911}
+}
+
+% 15. Tam et al. -- Source: https://aclanthology.org/2024.emnlp-industry.91.bib ; arXiv 2408.02442
+% CONFIRMED published at EMNLP 2024 Industry Track. Note the published title differs from arXiv:
+% arXiv: "Let Me Speak Freely? A Study on the Impact of Format Restrictions on Performance of Large Language Models"
+@inproceedings{tam2024speakfreely,
+  title         = {Let Me Speak Freely? A Study On The Impact Of Format Restrictions On Large Language Model Performance.},
+  author        = {Tam, Zhi Rui and Wu, Cheng-Kuang and Tsai, Yi-Lin and Lin, Chieh-Yen and Lee, Hung-yi and Chen, Yun-Nung},
+  editor        = {Dernoncourt, Franck and Preo{\c{t}}iuc-Pietro, Daniel and Shimorina, Anastasia},
+  booktitle     = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing: Industry Track},
+  month         = nov,
+  year          = {2024},
+  address       = {Miami, Florida, US},
+  publisher     = {Association for Computational Linguistics},
+  pages         = {1218--1236},
+  doi           = {10.18653/v1/2024.emnlp-industry.91},
+  url           = {https://aclanthology.org/2024.emnlp-industry.91/},
+  eprint        = {2408.02442},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 16. Sclar et al. -- Source: OpenReview search API (note RIu5lyNXjT, venue "ICLR 2024 poster"); arXiv 2310.11324
+@inproceedings{sclar2024quantifying,
+  title         = {Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How {I} learned to start worrying about prompt formatting},
+  author        = {Sclar, Melanie and Choi, Yejin and Tsvetkov, Yulia and Suhr, Alane},
+  booktitle     = {The Twelfth International Conference on Learning Representations (ICLR)},
+  year          = {2024},
+  url           = {https://openreview.net/forum?id=RIu5lyNXjT},
+  eprint        = {2310.11324},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+% 17. MCP specification -- Source: https://modelcontextprotocol.io/docs/learn/versioning
+%     ("The current protocol version is 2026-07-28"), spec page https://modelcontextprotocol.io/specification/2026-07-28 (HTTP 200).
+% If your experiments were built against an earlier revision (e.g. 2025-06-18 or 2025-11-25), cite that
+% revision's URL instead: https://modelcontextprotocol.io/specification/<version>
+@misc{mcp2026spec,
+  title         = {Model Context Protocol Specification, Version 2026-07-28},
+  author        = {{Model Context Protocol}},
+  year          = {2026},
+  howpublished  = {\url{https://modelcontextprotocol.io/specification/2026-07-28}},
+  note          = {Protocol originally introduced by Anthropic in November 2024. Accessed 2026-10-16}
+}
+
+% 18. Efron & Tibshirani -- Source: library catalog records (Chapman & Hall, (c)1993, ISBN 0412042312,
+%     Monographs on Statistics and Applied Probability 57). Crossref's DOI 10.1201/9780429246593 is the
+%     later Chapman and Hall/CRC electronic reissue (dated 1994 there) -- do not mix the two.
+@book{efron1993bootstrap,
+  title         = {An Introduction to the Bootstrap},
+  author        = {Efron, Bradley and Tibshirani, Robert J.},
+  series        = {Monographs on Statistics and Applied Probability},
+  number        = {57},
+  publisher     = {Chapman \& Hall},
+  year          = {1993},
+  isbn          = {0-412-04231-2}
+}
+
+% 19. Cohen's kappa -- Source: Crossref https://api.crossref.org/works/10.1177/001316446002000104
+@article{cohen1960kappa,
+  title         = {A Coefficient of Agreement for Nominal Scales},
+  author        = {Cohen, Jacob},
+  journal       = {Educational and Psychological Measurement},
+  volume        = {20},
+  number        = {1},
+  pages         = {37--46},
+  year          = {1960},
+  doi           = {10.1177/001316446002000104},
+  url           = {https://doi.org/10.1177/001316446002000104}
+}
+
+% 20. Wilson interval -- Source: Crossref https://api.crossref.org/works/10.1080/01621459.1927.10502953
+@article{wilson1927probable,
+  title         = {Probable Inference, the Law of Succession, and Statistical Inference},
+  author        = {Wilson, Edwin B.},
+  journal       = {Journal of the American Statistical Association},
+  volume        = {22},
+  number        = {158},
+  pages         = {209--212},
+  year          = {1927},
+  doi           = {10.1080/01621459.1927.10502953},
+  url           = {https://doi.org/10.1080/01621459.1927.10502953}
+}
+
+% 21a. OpenAI Agents SDK -- Source: https://openai.github.io/openai-agents-python/ (title "OpenAI Agents SDK");
+%      MCP page https://openai.github.io/openai-agents-python/mcp/ (title "Model context protocol (MCP)")
+@misc{openai2025agentssdk,
+  title         = {{OpenAI Agents SDK} (Python) Documentation},
+  author        = {{OpenAI}},
+  year          = {2025},
+  howpublished  = {\url{https://openai.github.io/openai-agents-python/}},
+  note          = {See also ``Model context protocol (MCP)'', \url{https://openai.github.io/openai-agents-python/mcp/}. Accessed 2026-10-16}
+}
+
+% 21b. OpenAI Responses API -- Source: https://developers.openai.com/api/reference/resources/responses
+%      (title "Responses | OpenAI API Reference"). platform.openai.com/docs/api-reference/responses returns 403 to scripted clients.
+@misc{openai2025responses,
+  title         = {Responses -- {OpenAI} {API} Reference},
+  author        = {{OpenAI}},
+  year          = {2025},
+  howpublished  = {\url{https://developers.openai.com/api/reference/resources/responses}},
+  note          = {Accessed 2026-10-16}
+}
+
+% 22a. Kapa "Prompt your agent" -- Source: https://docs.kapa.ai/retrieval/guides/prompt-your-agent
+%      (HTTP 200; title "Prompt your agent for grounded answers | kapa.ai docs")
+@misc{kapa2025promptagent,
+  title         = {Prompt your agent for grounded answers},
+  author        = {{kapa.ai}},
+  year          = {2025},
+  howpublished  = {\url{https://docs.kapa.ai/retrieval/guides/prompt-your-agent}},
+  note          = {kapa.ai documentation. Accessed 2026-10-16}
+}
+
+% 22b. Kapa hosted MCP server -- CORRECTED URL: https://docs.kapa.ai/integrations/mcp/overview now
+%      redirects (meta refresh) to https://docs.kapa.ai/retrieval/hosted-mcp-server (H1 "Hosted MCP server").
+@misc{kapa2025mcp,
+  title         = {Hosted {MCP} server},
+  author        = {{kapa.ai}},
+  year          = {2025},
+  howpublished  = {\url{https://docs.kapa.ai/retrieval/hosted-mcp-server}},
+  note          = {kapa.ai documentation; formerly at \url{https://docs.kapa.ai/integrations/mcp/overview}. Accessed 2026-10-16}
+}
+
+% ---------------------------------------------------------------------------
+% 23. Recent related work (verified via arXiv API)
+
+% Multi-agent deep research: localizes which agent corrupts content/citations ("telephone game").
+@misc{hirsch2026blame,
+  title         = {Who is the Agent to Blame? Localizing Faithfulness and Citation Mistakes in Agentic Deep Research},
+  author        = {Hirsch, Eran and Wan, David and Wang, Han and Stengel-Eskin, Elias and Bansal, Mohit and Dagan, Ido},
+  year          = {2026},
+  eprint        = {2608.24306},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2608.24306},
+  note          = {Accepted to EMNLP 2026 (Main Conference), per arXiv comment}
+}
+
+% Parses inline Markdown citations from deep-research agents and checks link validity, relevance, factual accuracy.
+@misc{onweller2026cited,
+  title         = {Cited but Not Verified: Parsing and Evaluating Source Attribution in {LLM} Deep Research Agents},
+  author        = {Onweller, Hailey and Lumer, Elias and Huber, Austin and Ramchandani, Pia and Subbiah, Vamse Kumar and Feld, Corey},
+  year          = {2026},
+  eprint        = {2605.06635},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2605.06635}
+}
+
+% Measures hallucinated / non-resolving citation URLs from LLMs and deep research agents.
+@misc{rao2026reference,
+  title         = {Detecting and Correcting Reference Hallucinations in Commercial {LLMs} and Deep Research Agents},
+  author        = {Rao, Delip and Wong, Eric and Callison-Burch, Chris},
+  year          = {2026},
+  eprint        = {2604.03173},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2604.03173}
+}

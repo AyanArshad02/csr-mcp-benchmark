@@ -1,0 +1,109 @@
+Repeat runs (Ticket 15) and guardrail v3a source IDs (Ticket 19). DECISIONS.md 2026-10-16.
+gpt-4o-mini, 127 questions. Run 1 = the published run; runs 2-3 fresh (results/repeats/).
+
+1a. Format drift: answers citing ONLY in another link format, per run
+Setup                           run 1  run 2  run 3   extra
+----------------------------------------------------------------------
+Single-shot                         0      0      0   
+LangGraph                           8     12      9   
+SDK defaults                       51     53     46   E0 (earlier re-run): 38
+SDK E1 temperature 0               41     60     60   
+SDK E3 Chat Completions             9     12     15   
+SDK E4 Kapa setup                  20     23     16   
+v3a SDK (source IDs)                5      5      4   
+v3a LangGraph (source IDs)          0      1      5   
+
+1b. Answers with no citation at all (includes 'the docs don't say' answers)
+Setup                           run 1  run 2  run 3   extra
+----------------------------------------------------------------------
+Single-shot                        19     19     19   
+LangGraph                           6      4      5   
+SDK defaults                        8     10     14   E0 (earlier re-run): 15
+SDK E1 temperature 0               11      8     13   
+SDK E3 Chat Completions             9      4      5   
+SDK E4 Kapa setup                  17     19     21   
+v3a SDK (source IDs)               11     12     11   
+v3a LangGraph (source IDs)         10      8      5   
+
+1c. Answers with bare URLs only
+Setup                           run 1  run 2  run 3   extra
+----------------------------------------------------------------------
+Single-shot                         0      0      0   
+LangGraph                           1      0      1   
+SDK defaults                        7      6      5   E0 (earlier re-run): 7
+SDK E1 temperature 0                2      4      1   
+SDK E3 Chat Completions             0      1      2   
+SDK E4 Kapa setup                   6      3      3   
+v3a SDK (source IDs)                1      1      2   
+v3a LangGraph (source IDs)          3      3      3   
+
+Requested format: [url]; Kapa's [[title](url)] for E4; a bracketed source ID for v3a.
+
+v3a ID mapping:
+  v3a SDK (source IDs) run 1: IDs mapped 272, unresolved (never retrieved) 0, outside brackets 0
+  v3a SDK (source IDs) run 2: IDs mapped 247, unresolved (never retrieved) 0, outside brackets 11
+  v3a SDK (source IDs) run 3: IDs mapped 265, unresolved (never retrieved) 0, outside brackets 5
+  v3a LangGraph (source IDs) run 1: IDs mapped 262, unresolved (never retrieved) 1, outside brackets 0
+  v3a LangGraph (source IDs) run 2: IDs mapped 264, unresolved (never retrieved) 1, outside brackets 0
+  v3a LangGraph (source IDs) run 3: IDs mapped 265, unresolved (never retrieved) 0, outside brackets 0
+
+2. Format drift (1a) differences: direction in every run (robust = same direction in all runs)
+  Single-shot → SDK defaults: 0→51, 0→53, 0→46   [robust]
+  LangGraph → SDK defaults: 8→51, 12→53, 9→46   [robust]
+  SDK E1 temperature 0 → SDK E3 Chat Completions: 41→9, 60→12, 60→15   [robust]
+  SDK E1 temperature 0 → SDK E4 Kapa setup: 41→20, 60→23, 60→16   [robust]
+  SDK defaults → v3a SDK (source IDs): 51→5, 53→5, 46→4   [robust]
+  LangGraph → v3a LangGraph (source IDs): 8→0, 12→1, 9→5   [robust]
+
+3. Mean CSR per run
+  strict format, DeBERTa
+    Single-shot                    0.618   0.613   0.594   mean 0.608, range 0.594–0.618
+    LangGraph                      0.614   0.606   0.615   mean 0.612, range 0.606–0.615
+    SDK defaults                   0.323   0.292   0.316   mean 0.310, range 0.292–0.323   E0 0.333
+    SDK E1 temperature 0           0.412   0.282   0.314   mean 0.336, range 0.282–0.412
+    SDK E3 Chat Completions        0.533   0.594   0.524   mean 0.550, range 0.524–0.594
+    SDK E4 Kapa setup              0.515   0.505   0.515   mean 0.512, range 0.505–0.515
+    v3a SDK (source IDs)           0.617   0.545   0.600   mean 0.587, range 0.545–0.617
+    v3a LangGraph (source IDs)     0.673   0.697   0.697   mean 0.689, range 0.673–0.697
+  any format, DeBERTa
+    Single-shot                    0.618   0.613   0.594   mean 0.608, range 0.594–0.618
+    LangGraph                      0.643   0.615   0.644   mean 0.634, range 0.615–0.644
+    SDK defaults                   0.470   0.465   0.539   mean 0.491, range 0.465–0.539   E0 0.439
+    SDK E1 temperature 0           0.559   0.515   0.574   mean 0.549, range 0.515–0.574
+    SDK E3 Chat Completions        0.590   0.608   0.567   mean 0.589, range 0.567–0.608
+    SDK E4 Kapa setup              0.574   0.570   0.545   mean 0.563, range 0.545–0.574
+    v3a SDK (source IDs)           0.612   0.545   0.605   mean 0.587, range 0.545–0.612
+    v3a LangGraph (source IDs)     0.673   0.692   0.697   mean 0.688, range 0.673–0.697
+  any format, gpt-4o judge
+    Single-shot                    0.665   0.679   0.670   mean 0.671, range 0.665–0.679
+    LangGraph                      0.729   0.716   0.712   mean 0.719, range 0.712–0.729
+    SDK defaults                   0.571   0.589   0.631   mean 0.597, range 0.571–0.631   E0 0.576
+    SDK E1 temperature 0           0.608   0.621   0.637   mean 0.622, range 0.608–0.637
+    SDK E3 Chat Completions        0.686   0.698   0.710   mean 0.698, range 0.686–0.710
+    SDK E4 Kapa setup              0.639   0.640   0.605   mean 0.628, range 0.605–0.640
+    v3a SDK (source IDs)           0.733   0.685   0.745   mean 0.721, range 0.685–0.745
+    v3a LangGraph (source IDs)     0.764   0.764   0.784   mean 0.771, range 0.764–0.784
+
+4. Paired CSR differences (B − A): per run, and pooled over runs
+   robust = same sign in every run AND pooled 95% CI excludes 0
+  strict format, DeBERTa
+    SDK defaults                 − Single-shot            runs [-0.311 -0.311 -0.285]  pooled -0.302 [-0.394, -0.210]  ROBUST
+    LangGraph                    − Single-shot            runs [+0.000 -0.010 +0.015]  pooled -0.000 [-0.086, +0.084]  not robust
+    SDK E1 temperature 0         − Single-shot            runs [-0.207 -0.330 -0.308]  pooled -0.277 [-0.365, -0.188]  ROBUST
+    v3a SDK (source IDs)         − SDK defaults           runs [+0.286 +0.250 +0.291]  pooled +0.279 [+0.200, +0.358]  ROBUST
+    v3a LangGraph (source IDs)   − LangGraph              runs [+0.063 +0.103 +0.093]  pooled +0.088 [+0.035, +0.144]  ROBUST
+    v3a SDK (source IDs)         − Single-shot            runs [-0.010 -0.076 +0.010]  pooled -0.028 [-0.121, +0.066]  not robust
+  any format, DeBERTa
+    SDK defaults                 − Single-shot            runs [-0.163 -0.143 -0.055]  pooled -0.120 [-0.209, -0.030]  ROBUST
+    LangGraph                    − Single-shot            runs [+0.029 +0.000 +0.044]  pooled +0.023 [-0.062, +0.105]  not robust
+    SDK E1 temperature 0         − Single-shot            runs [-0.056 -0.100 -0.051]  pooled -0.066 [-0.160, +0.028]  not robust
+    v3a SDK (source IDs)         − SDK defaults           runs [+0.130 +0.078 +0.071]  pooled +0.096 [+0.028, +0.163]  ROBUST
+    v3a LangGraph (source IDs)   − LangGraph              runs [+0.034 +0.088 +0.064]  pooled +0.064 [+0.013, +0.119]  ROBUST
+    v3a SDK (source IDs)         − Single-shot            runs [-0.015 -0.076 +0.015]  pooled -0.028 [-0.121, +0.066]  not robust
+  any format, gpt-4o judge
+    SDK defaults                 − Single-shot            runs [-0.102 -0.087 -0.045]  pooled -0.086 [-0.164, -0.005]  ROBUST
+    LangGraph                    − Single-shot            runs [+0.059 +0.034 +0.034]  pooled +0.037 [-0.036, +0.110]  not robust
+    SDK E1 temperature 0         − Single-shot            runs [-0.045 -0.050 -0.040]  pooled -0.045 [-0.130, +0.043]  not robust
+    v3a SDK (source IDs)         − SDK defaults           runs [+0.156 +0.083 +0.122]  pooled +0.125 [+0.064, +0.186]  ROBUST
+    v3a LangGraph (source IDs)   − LangGraph              runs [+0.039 +0.059 +0.083]  pooled +0.059 [+0.014, +0.106]  ROBUST
+    v3a SDK (source IDs)         − Single-shot            runs [+0.069 -0.005 +0.088]  pooled +0.042 [-0.039, +0.125]  not robust

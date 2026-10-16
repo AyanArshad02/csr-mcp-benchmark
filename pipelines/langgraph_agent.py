@@ -25,6 +25,7 @@ import diskcache
 from dotenv import load_dotenv
 
 from pipelines import mcp_config
+from pipelines.source_ids import IDS_SYSTEM_PROMPT
 from langchain_core.messages import AIMessage, ToolMessage
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import create_react_agent
@@ -63,6 +64,7 @@ Rules:
 - If you cannot find enough information to answer, say so explicitly — do not fabricate.
 - Do not add citations that are not from retrieved passages.
 """
+SYSTEM_PROMPTS = {"default": SYSTEM_PROMPT, "ids": IDS_SYSTEM_PROMPT}
 
 
 # ---------------------------------------------------------------------------
@@ -174,13 +176,15 @@ async def _run_one_async(
     question_id: int,
     provider: str,
     model_id: str,
+    mcp_url: str | None = None,
+    system_prompt: str = "default",
 ) -> dict:
     t0 = time.perf_counter()
 
     mcp_client = MultiServerMCPClient(
         connections={
             "fastapi-docs": {   # server + auth from pipelines/mcp_config.py (.env)
-                "url": mcp_config.mcp_url(),
+                "url": mcp_url or mcp_config.mcp_url(),
                 "transport": "streamable_http",
                 "headers": mcp_config.mcp_headers(),
             }
@@ -191,7 +195,7 @@ async def _run_one_async(
     agent = create_react_agent(
         model=chat_model,
         tools=tools,
-        prompt=SYSTEM_PROMPT,
+        prompt=SYSTEM_PROMPTS[system_prompt],
     )
 
     result = await agent.ainvoke(
@@ -223,8 +227,9 @@ def run_langgraph(
     question_id: int,
     provider: str,
     model_id: str,
+    **options,
 ) -> dict:
-    return asyncio.run(_run_one_async(question, question_id, provider, model_id))
+    return asyncio.run(_run_one_async(question, question_id, provider, model_id, **options))
 
 
 # ---------------------------------------------------------------------------
@@ -236,6 +241,9 @@ def main() -> None:
     parser.add_argument("--provider", choices=["openai", "openrouter", "bedrock"], default="openai")
     parser.add_argument("--limit",   type=int, default=None)
     parser.add_argument("--out",     type=str, default=None)
+    parser.add_argument("--mcp-url", default=None, help="default: MCP_SERVER_URL in .env, else the local mirror")
+    parser.add_argument("--system-prompt", choices=sorted(SYSTEM_PROMPTS), default="default",
+                        help="ids: cite by source_id (Ticket 19 v3a; needs a CSR_SOURCE_IDS=1 server)")
     args = parser.parse_args()
 
     # Resolve model ID from provider
@@ -269,6 +277,8 @@ def main() -> None:
                     question_id=q["id"],
                     provider=args.provider,
                     model_id=model_id,
+                    mcp_url=args.mcp_url,
+                    system_prompt=args.system_prompt,
                 )
                 result["gold_source_urls"] = q.get("gold_source_urls", [])
                 result["q_type"]           = q.get("type", "")

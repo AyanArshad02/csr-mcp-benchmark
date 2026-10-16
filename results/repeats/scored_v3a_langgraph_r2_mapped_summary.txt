@@ -1,0 +1,26 @@
+============================================================
+Pipeline : langgraph
+Provider : openai
+Model    : gpt-4o-mini
+Questions: 127
+============================================================
+
+── Citation metrics (ALCE) ──────────────────────
+  Recall    : 0.270
+  Precision : 0.496
+  F1        : 0.296
+
+── Citation Survival Rate (CSR) ─────────────────
+  CSR       : 0.697  (over 104/127 questions with ≥1 gold URL retrieved)
+
+── Failure modes (total counts across all questions) ──
+  Dropped          : 18   (gold URL retrieved but never cited)
+  Wrong-attributed : 24   (cited but NLI fails — wrong chunk for claim)
+  Fabricated citations: 0   (cited URL never retrieved)
+
+── By question type ──────────────────────────────
+  multi-source   : n= 29  recall=0.134  f1=0.167  csr=0.518
+  single-source  : n= 82  recall=0.361  f1=0.389  csr=0.763
+  unanswerable   : n= 16  recall=0.054  f1=0.054  csr=nan
+
+============================================================

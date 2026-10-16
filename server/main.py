@@ -6,10 +6,14 @@ Usage: uv run python -m server.main
 Optional environment variables (defaults reproduce every published number):
   CSR_TOOL_DESCRIPTION=kapa   use Kapa's recommended tool description (Ticket 9 / G2 ablation)
   CSR_MCP_PORT=8001           serve on another port, so two variants can run side by side
+  CSR_SOURCE_IDS=1            add a short `source_id` to every result and ask for [source_id]
+                              citations (Ticket 19, guardrail v3a; DECISIONS.md 2026-10-16)
 """
 
 from __future__ import annotations
 
+import hashlib
+import inspect
 import logging
 import os
 from pathlib import Path
@@ -55,11 +59,28 @@ if _TOOL_DESCRIPTION_VARIANT not in ("default", "kapa"):
 # None = use the function docstring, i.e. the original benchmark description.
 TOOL_DESCRIPTION = KAPA_TOOL_DESCRIPTION if _TOOL_DESCRIPTION_VARIANT == "kapa" else None
 
+SOURCE_IDS = os.environ.get("CSR_SOURCE_IDS", "0") == "1"
+SOURCE_ID_INSTRUCTION = (
+    "Each result also has a short source_id. Cite a result by writing its exact source_id in square "
+    "brackets immediately after the claim it supports, for example [Sxxxxxx] where Sxxxxxx is that "
+    "result's source_id."
+)
+
+
+def source_id(url: str) -> str:
+    """Short, stable citation ID for a source URL: 'S' + first 6 hex chars of sha1(url)."""
+    return "S" + hashlib.sha1(url.encode("utf-8")).hexdigest()[:6]
+
 mcp = FastMCP(name="csr-benchmark-fastapi-docs")
 
 _chroma_client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 _collection = _chroma_client.get_collection(COLLECTION_NAME)
 _openai_client = OpenAI()
+
+if SOURCE_IDS:   # IDs must be unique over the corpus, or a citation could map to the wrong page
+    _urls = {m["source_url"] for m in _collection.get(include=["metadatas"])["metadatas"]}
+    if len({source_id(u) for u in _urls}) != len(_urls):
+        raise SystemExit("source_id collision in the corpus; lengthen the hash")
 
 
 def _read_meta_int(ctx: Context | None, key: str, default: int) -> int:
@@ -87,7 +108,6 @@ def _apply_max_chars(results: list[dict], max_chars: int) -> list[dict]:
     return kept
 
 
-@mcp.tool(name="search_fastapi_knowledge_sources", description=TOOL_DESCRIPTION)
 def search_fastapi_knowledge_sources(query: str, ctx: Context | None = None) -> list[dict]:
     """Search the FastAPI documentation knowledge base for content relevant to the query.
 
@@ -113,10 +133,19 @@ def search_fastapi_knowledge_sources(query: str, ctx: Context | None = None) -> 
     ]
 
     truncated = candidates[:top_k]
-    return _apply_max_chars(truncated, max_chars)
+    kept = _apply_max_chars(truncated, max_chars)
+    if SOURCE_IDS:
+        kept = [{"source_id": source_id(c["source_url"]), **c} for c in kept]
+    return kept
+
+
+if SOURCE_IDS:
+    TOOL_DESCRIPTION = (TOOL_DESCRIPTION or inspect.cleandoc(search_fastapi_knowledge_sources.__doc__)) \
+        + "\n\n" + SOURCE_ID_INSTRUCTION
+mcp.tool(name="search_fastapi_knowledge_sources", description=TOOL_DESCRIPTION)(search_fastapi_knowledge_sources)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("CSR_MCP_PORT", "8000"))
-    logger.info("tool description: %s | port: %d", _TOOL_DESCRIPTION_VARIANT, port)
+    logger.info("tool description: %s | source ids: %s | port: %d", _TOOL_DESCRIPTION_VARIANT, SOURCE_IDS, port)
     mcp.run(transport="http", port=port)

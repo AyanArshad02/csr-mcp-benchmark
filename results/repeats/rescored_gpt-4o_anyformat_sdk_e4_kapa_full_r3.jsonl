@@ -1,0 +1,127 @@
+{"question_id": 0, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/testing/": "survived"}}
+{"question_id": 1, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/custom-request-and-route/": "survived"}}
+{"question_id": 2, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/server-sent-events/": "survived"}}
+{"question_id": 3, "q_type": "multi-source", "csr": 0.5, "csr_numerator": 1, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/reference/": "survived", "https://fastapi.tiangolo.com/reference/exceptions/": "dropped"}}
+{"question_id": 4, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 5, "q_type": "multi-source", "csr": 0.5, "csr_numerator": 1, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/": "wrong_attributed", "https://fastapi.tiangolo.com/tutorial/dependencies/global-dependencies/": "survived"}}
+{"question_id": 6, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/response-model/": "survived"}}
+{"question_id": 7, "q_type": "multi-source", "csr": 1.0, "csr_numerator": 2, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/": "survived", "https://fastapi.tiangolo.com/tutorial/response-status-code/": "survived"}}
+{"question_id": 8, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/custom-request-and-route/": "survived"}}
+{"question_id": 9, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/metadata/": "dropped", "https://fastapi.tiangolo.com/tutorial/cookie-param-models/": "dropped"}}
+{"question_id": 10, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body-updates/": "survived"}}
+{"question_id": 11, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/response-model/": "wrong_attributed"}}
+{"question_id": 12, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 13, "q_type": "multi-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 14, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/stream-data/": "survived"}}
+{"question_id": 15, "q_type": "multi-source", "csr": 0.5, "csr_numerator": 1, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/templates/": "wrong_attributed", "https://fastapi.tiangolo.com/advanced/openapi-callbacks/": "survived"}}
+{"question_id": 16, "q_type": "multi-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 17, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/generate-clients/": "survived"}}
+{"question_id": 18, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body-multiple-params/": "wrong_attributed"}}
+{"question_id": 19, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/": "survived"}}
+{"question_id": 20, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 21, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/request-files/": "dropped", "https://fastapi.tiangolo.com/tutorial/request-forms-and-files/": "dropped"}}
+{"question_id": 22, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/": "dropped", "https://fastapi.tiangolo.com/tutorial/query-params/": "dropped"}}
+{"question_id": 23, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/extra-models/": "dropped"}}
+{"question_id": 24, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 25, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/concepts/": "survived"}}
+{"question_id": 26, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/stream-json-lines/": "dropped", "https://fastapi.tiangolo.com/tutorial/dependencies/": "dropped"}}
+{"question_id": 27, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/reference/httpconnection/": "survived"}}
+{"question_id": 28, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/custom-response/": "survived"}}
+{"question_id": 29, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/": "survived"}}
+{"question_id": 30, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/response-model/": "survived"}}
+{"question_id": 31, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/cookie-param-models/": "survived"}}
+{"question_id": 32, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/": "survived"}}
+{"question_id": 33, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/static-files/": "dropped"}}
+{"question_id": 34, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 35, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/response-status-code/": "survived"}}
+{"question_id": 36, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/reference/security/": "dropped", "https://fastapi.tiangolo.com/reference/templating/": "dropped"}}
+{"question_id": 37, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/fastapicloud/": "survived"}}
+{"question_id": 38, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body/": "wrong_attributed"}}
+{"question_id": 39, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/benchmarks/": "survived"}}
+{"question_id": 40, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 41, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/generate-clients/": "dropped"}}
+{"question_id": 42, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 43, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/generate-clients/": "survived"}}
+{"question_id": 44, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 45, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/": "survived"}}
+{"question_id": 46, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body-updates/": "survived"}}
+{"question_id": 47, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/request-forms-and-files/": "survived"}}
+{"question_id": 48, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/fastapi-cli/": "survived"}}
+{"question_id": 49, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/testing-events/": "dropped", "https://fastapi.tiangolo.com/advanced/behind-a-proxy/": "wrong_attributed"}}
+{"question_id": 50, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/advanced-dependencies/": "survived"}}
+{"question_id": 51, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/cors/": "survived"}}
+{"question_id": 52, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 53, "q_type": "multi-source", "csr": 0.5, "csr_numerator": 1, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/docker/": "survived", "https://fastapi.tiangolo.com/deployment/server-workers/": "wrong_attributed"}}
+{"question_id": 54, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/custom-request-and-route/": "survived"}}
+{"question_id": 55, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/concepts/": "dropped"}}
+{"question_id": 56, "q_type": "multi-source", "csr": 0.5, "csr_numerator": 1, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/behind-a-proxy/": "survived", "https://fastapi.tiangolo.com/advanced/async-tests/": "dropped"}}
+{"question_id": 57, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/conditional-openapi/": "survived"}}
+{"question_id": 58, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 59, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 60, "q_type": "multi-source", "csr": 1.0, "csr_numerator": 2, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/configure-swagger-ui/": "survived", "https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/": "survived"}}
+{"question_id": 61, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/custom-response/": "survived"}}
+{"question_id": 62, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/extending-openapi/": "survived"}}
+{"question_id": 63, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 64, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/get-current-user/": "survived"}}
+{"question_id": 65, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/server-sent-events/": "survived"}}
+{"question_id": 66, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/bigger-applications/": "dropped", "https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/": "dropped"}}
+{"question_id": 67, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/bigger-applications/": "survived"}}
+{"question_id": 68, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 69, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 70, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 71, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 72, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 73, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 74, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 75, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/response-change-status-code/": "dropped", "https://fastapi.tiangolo.com/advanced/advanced-dependencies/": "dropped"}}
+{"question_id": 76, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/path-params/": "survived"}}
+{"question_id": 77, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/": "wrong_attributed"}}
+{"question_id": 78, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/sql-databases/": "survived"}}
+{"question_id": 79, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/general/": "dropped"}}
+{"question_id": 80, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/dataclasses/": "dropped", "https://fastapi.tiangolo.com/advanced/testing-dependencies/": "dropped"}}
+{"question_id": 81, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/": "dropped"}}
+{"question_id": 82, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/cors/": "wrong_attributed"}}
+{"question_id": 83, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/versions/": "survived"}}
+{"question_id": 84, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/query-param-models/": "dropped"}}
+{"question_id": 85, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/release-notes/": "dropped"}}
+{"question_id": 86, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/": "survived"}}
+{"question_id": 87, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/response-cookies/": "survived"}}
+{"question_id": 88, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/https/": "survived"}}
+{"question_id": 89, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/testing-events/": "survived"}}
+{"question_id": 90, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/": "survived"}}
+{"question_id": 91, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/settings/": "wrong_attributed"}}
+{"question_id": 92, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/extending-openapi/": "survived"}}
+{"question_id": 93, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/debugging/": "survived"}}
+{"question_id": 94, "q_type": "multi-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/security/http-basic-auth/": "survived"}}
+{"question_id": 95, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/fastapi-cli/": "survived"}}
+{"question_id": 96, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body-fields/": "wrong_attributed"}}
+{"question_id": 97, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/body-multiple-params/": "wrong_attributed", "https://fastapi.tiangolo.com/tutorial/security/first-steps/": "dropped"}}
+{"question_id": 98, "q_type": "multi-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 99, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/": "dropped"}}
+{"question_id": 100, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/reference/status/": "dropped"}}
+{"question_id": 101, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/server-workers/": "survived"}}
+{"question_id": 102, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/deployment/manually/": "wrong_attributed", "https://fastapi.tiangolo.com/deployment/cloud/": "dropped"}}
+{"question_id": 103, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 104, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 105, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/background-tasks/": "wrong_attributed"}}
+{"question_id": 106, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/custom-response/": "wrong_attributed"}}
+{"question_id": 107, "q_type": "single-source", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 108, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/metadata/": "survived"}}
+{"question_id": 109, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/settings/": "survived"}}
+{"question_id": 110, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/sql-databases/": "dropped"}}
+{"question_id": 111, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/alternatives/": "survived"}}
+{"question_id": 112, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/custom-response/": "survived"}}
+{"question_id": 113, "q_type": "multi-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 2, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/": "dropped", "https://fastapi.tiangolo.com/tutorial/body-nested-models/": "dropped"}}
+{"question_id": 114, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/graphql/": "survived"}}
+{"question_id": 115, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/extra-models/": "wrong_attributed"}}
+{"question_id": 116, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/get-current-user/": "survived"}}
+{"question_id": 117, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 118, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/settings/": "dropped"}}
+{"question_id": 119, "q_type": "unanswerable", "csr": null, "csr_numerator": 0, "csr_denominator": 0, "gold_outcomes": {}}
+{"question_id": 120, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/": "survived"}}
+{"question_id": 121, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/background-tasks/": "wrong_attributed"}}
+{"question_id": 122, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/": "survived"}}
+{"question_id": 123, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/tutorial/query-params-str-validations/": "dropped"}}
+{"question_id": 124, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/how-to/migrate-from-pydantic-v1-to-pydantic-v2/": "survived"}}
+{"question_id": 125, "q_type": "single-source", "csr": 0.0, "csr_numerator": 0, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/advanced/stream-data/": "wrong_attributed"}}
+{"question_id": 126, "q_type": "single-source", "csr": 1.0, "csr_numerator": 1, "csr_denominator": 1, "gold_outcomes": {"https://fastapi.tiangolo.com/features/": "survived"}}

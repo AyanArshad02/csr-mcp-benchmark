@@ -112,7 +112,8 @@ def main() -> None:
         if args.dry_run:
             print(f"{run:36s} worst-case judge calls {n:5d}")
         else:
-            path = Path(f"results/rescored_{args.judge}_{run}.jsonl")
+            src = Path(f"results/{run}.jsonl")   # run may sit in a subfolder (results/repeats/...)
+            path = src.with_name(f"rescored_{args.judge}_{src.name}")
             with path.open("w") as f:
                 for r in out:
                     f.write(json.dumps(r) + "\n")

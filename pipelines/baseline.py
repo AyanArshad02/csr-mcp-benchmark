@@ -175,9 +175,11 @@ def main() -> None:
                         help="Process only the first N questions (for smoke tests)")
     parser.add_argument("--out",      type=str, default=None,
                         help="Output JSONL path (default: results/baseline_<provider>.jsonl)")
+    parser.add_argument("--no-cache", action="store_true",
+                        help="bypass the LLM response cache: a fresh generation (Ticket 15 repeat runs)")
     args = parser.parse_args()
 
-    cache   = diskcache.Cache(CACHE_DIR)
+    cache   = None if args.no_cache else diskcache.Cache(CACHE_DIR)
     strategy = get_strategy(args.provider, cache=cache)
 
     out_path = Path(args.out) if args.out else RESULTS_DIR / f"baseline_{args.provider}.jsonl"

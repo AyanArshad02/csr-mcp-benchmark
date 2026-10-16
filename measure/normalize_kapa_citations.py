@@ -46,7 +46,7 @@ def main() -> None:
     with open(a.inp) as f, open(a.out, "w") as g:
         for line in f:
             row = json.loads(line)
-            row["answer_raw"] = row["answer"]
+            row.setdefault("answer_raw", row["answer"])   # keep an earlier raw answer (v3a IDs)
             row["answer"], k, i = normalize(row["answer"], a.also_inline_links)
             tot_k += k; tot_i += i
             g.write(json.dumps(row, ensure_ascii=False) + "\n")

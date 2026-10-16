@@ -1,0 +1,26 @@
+============================================================
+Pipeline : openai_agent
+Provider : openai
+Model    : gpt-4o-mini
+Questions: 127
+============================================================
+
+── Citation metrics (ALCE) ──────────────────────
+  Recall    : 0.197
+  Precision : 0.419
+  F1        : 0.224
+
+── Citation Survival Rate (CSR) ─────────────────
+  CSR       : 0.545  (over 100/127 questions with ≥1 gold URL retrieved)
+
+── Failure modes (total counts across all questions) ──
+  Dropped          : 22   (gold URL retrieved but never cited)
+  Wrong-attributed : 37   (cited but NLI fails — wrong chunk for claim)
+  Fabricated citations: 94   (cited URL never retrieved)
+
+── By question type ──────────────────────────────
+  multi-source   : n= 29  recall=0.080  f1=0.108  csr=0.365
+  single-source  : n= 82  recall=0.264  f1=0.296  csr=0.608
+  unanswerable   : n= 16  recall=0.065  f1=0.071  csr=nan
+
+============================================================

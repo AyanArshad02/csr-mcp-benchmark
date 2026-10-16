@@ -10,18 +10,25 @@ against blind human judgement, and tests a guardrail that adds missing citations
 > answers** (40%), citing with Markdown links `[text](url)` instead of the `[url]` the prompt asks
 > for. Single-shot RAG does this in 0 answers, a LangGraph agent in 8.
 >
-> **Does it lose citations?** Not robustly. Counting only the requested format, CSR drops from
-> 0.618 to 0.323 (−0.31, significant). Counting **any** link format, the gap shrinks to −0.16 under
-> the original scorer (significant) and −0.10 under a gpt-4o judge (not significant), and at
-> temperature 0 it is −0.06 / −0.05 (not significant). Most of the apparent loss is format.
+> **Does it lose citations?** Somewhat, but most of the apparent loss is format. Counting only the
+> requested format, CSR drops by about 0.30. Counting **any** link format, three runs per setup
+> show a smaller loss that holds in every run and under both scorers: **−0.12** (original scorer)
+> and **−0.09** (gpt-4o judge). At temperature 0 no loss is detectable.
 >
 > **Cause of the format drift.** The API the SDK calls by default. Switching the same agent from
 > OpenAI's Responses API to Chat Completions cuts wrong-format answers from 41 to 9. Kapa's
-> recommended prompt setup cuts them to 20. Neither changes whether sources are cited.
+> recommended prompt setup cuts them to 20.
 >
-> **Correction, 2026-10-14.** An earlier version of this README reported the −0.31 as lost
-> citations ("66 of 127 answers cite nothing"). That counted only `[url]`; of those 66 answers, 51
-> cite with Markdown links and only 8 contain no URL at all. Both views are now reported.
+> **A fix the retrieval server controls.** If the server tags each chunk with a short source ID
+> (`[S3fa21c]`) and IDs are mapped back to URLs after the answer is written, wrong-format answers
+> fall from about 50 to about 5 per run, the SDK agent's CSR rises by 0.10–0.13, and its gap to
+> single-shot closes. (Pre-registered; 3 runs each; see [Source IDs](#source-ids-at-the-tool-contract-guardrail-v3a).)
+>
+> **Corrections.** 2026-10-14: an earlier version reported the −0.31 as lost citations ("66 of
+> 127 answers cite nothing"). That counted only `[url]`; of those 66 answers, 51 cite with Markdown
+> links and only 8 contain no URL at all. Both views are now reported. 2026-10-16: the version
+> after that said a citation loss was "not established" from one run; three runs per setup show a
+> smaller loss is real (above).
 
 ![CSR by setup (gpt-4o judge, gpt-4o-mini, 95% CIs): counting only the requested citation format vs any citation format](results/figures/csr_by_setup.svg)
 
@@ -89,10 +96,27 @@ difference** (paired bootstrap).
 
 | Comparison | Requested format (original / judge) | **Any format (original / judge)** | Verdict |
 |---|---|---|---|
-| OpenAI Agents SDK − single-shot | −0.311 / −0.296, both real | **−0.163 real / −0.102 n.s.** | Real format gap; citation gap not established |
+| OpenAI Agents SDK − single-shot | −0.311 / −0.296, both real | **−0.163 real / −0.102 n.s.** | Real format gap; citation gap: see three runs below (robust) |
 | SDK at temperature 0 − single-shot | −0.207 / −0.227, both real | **−0.056 / −0.045, both n.s.** | No citation gap |
 | LangGraph − single-shot (gpt-4o-mini) | +0.000 / +0.029, n.s. | +0.029 / +0.059, n.s. | No difference |
 | LangGraph − single-shot (Claude) | −0.077 n.s. / −0.096 real | −0.077 n.s. / −0.096 real | Not established |
+
+### Three runs per setup
+
+The table above is one run per setup, so its intervals cover question sampling but not
+run-to-run variation. Each gpt-4o-mini setup was run twice more with fresh generations (decision
+rule fixed in advance: a difference is robust only if it has the same sign in all three runs and
+the pooled paired interval excludes zero). Full output: `results/repeats_report.txt`.
+
+| Comparison (any format) | Runs 1 / 2 / 3, original scorer | Pooled, original scorer | Pooled, gpt-4o judge | Verdict |
+|---|---|---|---|---|
+| OpenAI Agents SDK − single-shot | −0.163 / −0.143 / −0.055 | **−0.120** [−0.209, −0.030] | **−0.086** [−0.164, −0.005] | Robust under both |
+| SDK at temperature 0 − single-shot | −0.056 / −0.100 / −0.051 | −0.066 [−0.160, +0.028] | −0.045 [−0.130, +0.043] | No detectable loss |
+| LangGraph − single-shot | +0.029 / +0.000 / +0.044 | +0.023 [−0.062, +0.105] | +0.037 [−0.036, +0.110] | No difference |
+
+In the requested-format view the SDK gap is −0.302 [−0.394, −0.210], so about two thirds of the
+apparent loss is format and one third is citations not given at all. The per-run any-format gap
+ranges from −0.05 to −0.16, which is why one run could not settle it.
 
 ---
 
@@ -110,6 +134,10 @@ Each answer counted once, no scorer involved (`results/format_compliance.txt`):
 | SDK + Chat Completions API | 109 | **9** | 0 | 9 |
 | SDK + Kapa's recommended setup (asks for `[[title](url)]`) | 84 | **20** | 6 | 17 |
 
+Across three runs, "cites only in another link format" was 0 / 0 / 0 for single-shot, 8 / 12 / 9
+for LangGraph and 51 / 53 / 46 for the SDK's defaults; Chat Completions (9 / 12 / 15) and Kapa's
+setup (20 / 23 / 16) cut it in every run, while temperature 0 alone does not (41 / 60 / 60).
+
 The SDK runs come from a pre-registered ablation (one change at a time; plan and criterion written
 before running). What it shows:
 
@@ -122,14 +150,14 @@ before running). What it shows:
 - **Kapa's guidance** ([Prompt for grounded answers](https://docs.kapa.ai/retrieval/guides/prompt-your-agent))
   helps compliance when followed in full (41 → 20 wrong-format answers); their tool description
   alone changes nothing, consistent with that page putting citation rules in the system prompt.
-- **None of these changes alters whether sources are cited.** Counting any format, E3 vs E1 is
-  +0.020 / +0.069 and E4 vs E1 +0.030 / +0.035, all not significant. (Counting only the requested
+- **In the published run, none of these changes altered whether sources are cited.** Counting any
+  format, E3 vs E1 is +0.020 / +0.069 and E4 vs E1 +0.030 / +0.035, all not significant. (Counting only the requested
   format they were +0.108 / +0.201 and +0.111 / +0.136, all significant: that was format.)
 - Why it matters: anything downstream that parses, renders or verifies citations by format (a
   citation UI, a guardrail, an evaluation) silently loses them when the agent ignores the format.
 
-Caveats: one run per setup; temperature 0 vs the SDK default differs significantly under the
-original scorer (+0.108, any format) but not under the judge (+0.031).
+Caveat: the ablation comparisons above are from the published run of each setup; the format
+counts were repeated (above), the E3/E4 CSR comparisons were not tested across runs.
 
 ---
 
@@ -180,8 +208,32 @@ sentences already cited with Markdown links. The human-judged precision is unaff
 - **v2** was evaluated on a fresh sample committed before labelling (50 inserted + 15 it
   rejected, mixed blind): of what it rejected, only 4/15 were correct, so the threshold rejects
   the right things. A second rater (Claude, independently) agreed with the human on 54/65 (κ 0.68).
-- v2 still misses the ≥ 90% precision bar; the next version moves citation support to the tool
-  contract (short source IDs returned by the server) and uses an independent verifier.
+- v2 still misses the ≥ 90% precision bar, which led to moving citations to the tool contract:
+
+### Source IDs at the tool contract (guardrail v3a)
+
+Instead of repairing answers afterwards, the server prevents the drift. With
+`CSR_SOURCE_IDS=1`, every chunk carries a short, stable ID (`S` + 6 hex characters of a hash of its
+URL); the tool description and the agent prompt ask for `[ID]` citations; and
+`guardrail/map_source_ids.py` maps each ID back to its URL after the answer is written, accepting
+only IDs from that answer's own retrieved chunks (so a made-up ID is not a citation).
+Pre-registered (decision log, 2026-10-16), 3 runs on each agent:
+
+| | SDK defaults | **SDK + source IDs** | LangGraph | **LangGraph + source IDs** |
+|---|---|---|---|---|
+| Wrong-format answers, runs 1 / 2 / 3 | 51 / 53 / 46 | **5 / 5 / 4** | 8 / 12 / 9 | **0 / 1 / 5** |
+| Any-format CSR, original scorer (mean of 3) | 0.491 | **0.587** | 0.634 | **0.688** |
+| Any-format CSR, gpt-4o judge (mean of 3) | 0.597 | **0.721** | 0.719 | **0.771** |
+
+- **Format drift almost disappears**, and not by citing less (answers with no citation: 11 / 12 / 11
+  with IDs vs 8 / 10 / 14 without).
+- **Citation presence improves too:** +0.096 [+0.028, +0.163] (original scorer) and +0.125
+  [+0.064, +0.186] (judge) over the SDK's defaults, robust in every run. With IDs the SDK agent is
+  indistinguishable from single-shot (−0.028 / +0.042, n.s.). LangGraph gains +0.064 / +0.059.
+- **IDs are copied reliably:** 1,575 mapped, 2 unresolvable, 16 written outside brackets (not
+  counted). Mapping costs about 0.02 ms per answer, no model calls.
+- Caveats: it changes the tool output and the citation instruction together; support is measured
+  by the scorers, and no human audit of v3a's citations has been done yet.
 
 Run it: `uv run python -m guardrail.run_guardrail --guardrail v2 --input … --output …`
 (`--guardrail v1` is the default and reproduces the v1 numbers).
@@ -218,7 +270,7 @@ git clone <repo-url> && cd csr-mcp-benchmark
 uv sync                                   # Python 3.12+, all versions pinned
 cp .env.example .env                      # add OPENAI_API_KEY; AWS creds for the Claude arms
 
-uv run pytest guardrail/ measure/ pipelines/ -q   # 39 tests, no API keys needed
+uv run pytest guardrail/ measure/ pipelines/ -q   # 45 tests, no API keys needed
 
 # Rebuild the original-scorer numbers from the committed raw model outputs:
 bash scripts/overnight_rebuild.sh
@@ -233,6 +285,7 @@ bash scripts/overnight_rebuild.sh
 | CSR vs human | `uv run python -m measure.csr_validation_report` |
 | Any-format re-score (both views) | `bash scripts/run_anyformat_rescore.sh` (report: `uv run python -m measure.anyformat_report`) |
 | Citation format per answer | `uv run python -m measure.format_compliance` |
+| Repeat runs + source IDs (generates 18 runs, ~$20 of API calls) | `bash scripts/run_repeats_and_v3a.sh` then `uv run python -m measure.repeats_report` |
 | Chart | `uv run python -m measure.make_charts` |
 
 Every number in this README is reproducible from `results/`. LLM and NLI outputs are cached by
@@ -261,13 +314,14 @@ All dependency versions are pinned and `uv.lock` is committed.
 
 - **One corpus, small sample.** 127 FastAPI questions (29 multi-source), each gold attribution
   verified by hand. Every number carries a confidence interval, and nulls are stated as nulls.
-- **One run per setup.** Run-to-run variance is not measured, except that the SDK default
-  replicated (0.323 → 0.333).
+- **Runs.** Three runs per gpt-4o-mini setup (fresh generations; the SDK offers no seed). The
+  Claude arms and the E2 ablation were run once.
 - **Two models, partial matrix.** gpt-4o-mini and Claude Sonnet 4.6; the OpenAI SDK × Claude
   combination was not run.
 - **Absolute CSR depends on the scorer.** The LLM judges score 0.03–0.11 higher than the original
   scorer. The citation-format and LangGraph conclusions hold under every scorer; the SDK's
-  any-format gap does not (significant under one, not the other).
+  any-format gap held under only one scorer in a single run, and under both once pooled over three
+  runs.
 - **Format vs presence.** CSR as first defined counted only the requested `[url]` format. Both
   views are now reported; bare URLs in running text are still not counted.
 - **Judges and models share families.** The gpt-4o judge scores gpt-4o-mini answers. On the

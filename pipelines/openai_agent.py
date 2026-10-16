@@ -21,6 +21,8 @@ Ablation flags (Ticket 9 / G2). Defaults reproduce the original published run ex
     --dump-inputs FILE.jsonl           record exactly what the model receives on every LLM call
     --system-prompt kapa               Kapa's recommended system prompt (their citation format;
                                        normalise with measure.normalize_kapa_citations before scoring)
+    --system-prompt ids                cite by source_id (needs a CSR_SOURCE_IDS=1 server; map with
+                                       guardrail.map_source_ids before scoring)
 """
 
 from __future__ import annotations
@@ -37,6 +39,7 @@ import diskcache
 from dotenv import load_dotenv
 
 from pipelines import mcp_config
+from pipelines.source_ids import IDS_SYSTEM_PROMPT
 
 from agents import Agent, ModelSettings, RunHooks, Runner, set_default_openai_api
 from agents.mcp import MCPServerStreamableHttp, MCPServerStreamableHttpParams
@@ -120,7 +123,7 @@ When using the results, follow these rules:
    support the same sentence, include at most two citations inside the
    same brackets separated by a semicolon.
 """
-SYSTEM_PROMPTS = {"default": SYSTEM_PROMPT, "kapa": KAPA_SYSTEM_PROMPT}
+SYSTEM_PROMPTS = {"default": SYSTEM_PROMPT, "kapa": KAPA_SYSTEM_PROMPT, "ids": IDS_SYSTEM_PROMPT}
 
 
 # ---------------------------------------------------------------------------
