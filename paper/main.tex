@@ -28,30 +28,25 @@
 \maketitle
 
 \begin{abstract}
-Retrieval providers increasingly serve their knowledge to third-party agents through the Model
-Context Protocol (MCP): the server returns chunks tagged with source URLs, and an agent the
-provider does not control writes the final answer. Whether that answer still cites its sources is
-unmeasured. We introduce Citation Survival Rate (CSR), which asks, of the gold sources an agent
-actually retrieved, how many end up cited on a claim the cited source supports, combining an
-entailment-based support check with a check against the logged tool-call trace. On 127
-hand-verified questions over the FastAPI documentation, served by a self-hosted MCP server that
-mirrors a commercial retrieval contract, a single-shot RAG pipeline and a LangGraph agent cite
-equally well (CSR 0.618 and 0.614 with gpt-4o-mini), while an OpenAI Agents SDK agent with the same
-model and prompt scores 0.323. That gap is mostly not lost citations: the SDK agent ignores the
-requested \code{[url]} format in 51 of 127 answers and cites with Markdown links instead
-(single-shot: 0). A pre-registered ablation traces this format drift to the model API the SDK
-calls by default: switching from the Responses API to Chat Completions cuts wrong-format answers
-from 41 to 9. Three runs per setup show the drift in every run (46--53 answers) and a smaller
-residual loss of citations, robust under both an NLI scorer and a gpt-4o judge ($-0.12$ and
-$-0.09$ CSR, about a third of the apparent gap) and not detectable at temperature 0. Giving each
-chunk a short source ID at the tool contract, and mapping IDs back to URLs after the answer is
-written, cuts wrong-format answers to 4--5 per run, raises the SDK agent's CSR by 0.10--0.13 and
-closes its gap to single-shot.
-We validate CSR against blind human judgement (25--27 of 30 units agree, depending on the
-scorer), and report two failures of our own evaluation that would have produced false findings: a
-format-strict citation parser that turned format drift into an apparent 50\% citation loss, and a
-citation guardrail whose precision looked high under the model that built it and was 30\% under a
-blind human audit. Code, data, traces and human labels are released.
+Retrieval providers increasingly serve knowledge to third-party agents through the Model Context
+Protocol (MCP): the server returns chunks tagged with source URLs, and an agent the provider does
+not control writes the answer. Whether that answer still cites its sources is unmeasured. We
+introduce Citation Survival Rate (CSR): of the gold sources an agent actually retrieved, the share
+cited on a claim the source supports, checked by entailment and against the logged tool-call
+trace. On 127 hand-verified questions over the FastAPI documentation, served by a self-hosted
+mirror of a commercial MCP retrieval contract, single-shot RAG and a LangGraph agent cite equally
+well (CSR 0.618 and 0.614, gpt-4o-mini), while an OpenAI Agents SDK agent with the same model and
+prompt scores 0.323. Most of that gap is format: the SDK agent ignores the requested \code{[url]}
+format in 51 of 127 answers, citing with Markdown links instead (single-shot: 0). A pre-registered
+ablation traces this to the model API the SDK calls by default; Chat Completions instead of the
+Responses API cuts wrong-format answers from 41 to 9. Over three runs per setup the drift recurs
+(46--53 answers), and a smaller real loss remains under both an NLI scorer and a gpt-4o judge
+($-0.12$ and $-0.09$ CSR), absent at temperature 0. Returning a short source ID with each chunk and
+mapping IDs back to URLs after generation cuts wrong-format answers to 4--5 per run and closes the
+gap to single-shot. CSR agrees with blind human judgement on 25--27 of 30 units. We also report two
+failures of our own evaluation: a format-strict parser that made format drift look like a 50\%
+citation loss, and a guardrail that looked precise to the model that built it but was 30\% precise
+under blind human audit. Code, data, traces and labels are released.
 \end{abstract}
 
 % ---------------------------------------------------------------------------
@@ -396,8 +391,9 @@ cut it in every run. Temperature 0 does not: E1 drifted more than the defaults i
 \item \textbf{A smaller loss of citations is also real.} The any-format gap between the SDK's
 defaults and single-shot has the same sign in all three runs and a pooled interval excluding zero
 under both scorers (Table~\ref{tab:repeats}): $-0.120$ (DeBERTa) and $-0.086$ (judge), against
-$-0.302$ in the requested-format view. Roughly two thirds of the apparent loss is format and one
-third is citations not given at all. The per-run gap ranges from $-0.05$ to $-0.16$, which is why a
+$-0.302$ in the requested-format view. Under DeBERTa, the only scorer run on both views in all three runs, about 60\% of the apparent
+loss is format and about 40\% is real: retrieved sources left uncited, or cited only on claims they
+do not support. The per-run gap ranges from $-0.05$ to $-0.16$, which is why a
 single run could not settle it.
 \item \textbf{At temperature 0 there is no detectable loss}, and LangGraph matches single-shot in
 every run and view.

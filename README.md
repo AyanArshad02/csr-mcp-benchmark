@@ -114,8 +114,9 @@ the pooled paired interval excludes zero). Full output: `results/repeats_report.
 | SDK at temperature 0 − single-shot | −0.056 / −0.100 / −0.051 | −0.066 [−0.160, +0.028] | −0.045 [−0.130, +0.043] | No detectable loss |
 | LangGraph − single-shot | +0.029 / +0.000 / +0.044 | +0.023 [−0.062, +0.105] | +0.037 [−0.036, +0.110] | No difference |
 
-In the requested-format view the SDK gap is −0.302 [−0.394, −0.210], so about two thirds of the
-apparent loss is format and one third is citations not given at all. The per-run any-format gap
+In the requested-format view the SDK gap is −0.302 [−0.394, −0.210], so about 60% of the
+apparent loss is format and about 40% is real: retrieved sources left uncited, or cited only on
+claims they don't support (original scorer, the only one run on both views in all three runs). The per-run any-format gap
 ranges from −0.05 to −0.16, which is why one run could not settle it.
 
 ---
