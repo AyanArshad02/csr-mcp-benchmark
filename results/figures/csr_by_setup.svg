@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="CSR by setup with 95% confidence intervals, under two scorers">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="CSR by setup with 95% confidence intervals, counting the requested citation format only versus any format">
 <rect width="760" height="400" fill="#fcfcfb"/>
-<text x="16" y="26" font-size="15" font-weight="600" fill="#0b0b0b">Citation Survival Rate, gpt-4o-mini, 127 questions (95% CI)</text>
+<text x="16" y="26" font-size="15" font-weight="600" fill="#0b0b0b">Citation Survival Rate (gpt-4o judge), gpt-4o-mini, 127 questions, 95% CI</text>
 <circle cx="21" cy="49" r="5" fill="#2a78d6"/>
-<text x="31" y="53" font-size="12.5" fill="#52514e">Original scorer (DeBERTa NLI)</text>
-<circle cx="249.39999999999998" cy="49" r="5" fill="#eb6834"/>
-<text x="259.4" y="53" font-size="12.5" fill="#52514e">Independent gpt-4o judge</text>
+<text x="31" y="53" font-size="12.5" fill="#52514e">Only the requested citation format counted</text>
+<circle cx="335.2" cy="49" r="5" fill="#eb6834"/>
+<text x="345.2" y="53" font-size="12.5" fill="#52514e">Any citation format counted</text>
 <line x1="250.0" y1="70" x2="250.0" y2="354" stroke="#e4e3df" stroke-width="1"/>
 <text x="250.0" y="372" font-size="11.5" fill="#52514e" text-anchor="middle">0.0</text>
 <line x1="344.0" y1="70" x2="344.0" y2="354" stroke="#e4e3df" stroke-width="1"/>
@@ -19,34 +19,34 @@
 <text x="720.0" y="372" font-size="11.5" fill="#52514e" text-anchor="middle">1.0</text>
 <text x="485.0" y="392" font-size="12" fill="#52514e" text-anchor="middle">CSR (share of retrieved gold sources cited on a supported claim)</text>
 <text x="238" y="105.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">Single-shot RAG (baseline)</text>
-<line x1="498.3" y1="94.0" x2="582.5" y2="94.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="540.4" cy="94.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Single-shot RAG (baseline): 0.618 [0.528, 0.708]</title></circle>
+<line x1="520.5" y1="94.0" x2="602.5" y2="94.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="562.6" cy="94.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Single-shot RAG (baseline): 0.665 [0.575, 0.750]</title></circle>
 <line x1="520.5" y1="108.0" x2="602.5" y2="108.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
 <circle cx="562.6" cy="108.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Single-shot RAG (baseline): 0.665 [0.575, 0.750]</title></circle>
 <text x="238" y="151.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">LangGraph agent</text>
-<line x1="496.2" y1="140.0" x2="581.2" y2="140.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="538.7" cy="140.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>LangGraph agent: 0.614 [0.524, 0.705]</title></circle>
-<line x1="538.7" y1="154.0" x2="617.0" y2="154.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
-<circle cx="579.0" cy="154.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>LangGraph agent: 0.700 [0.614, 0.781]</title></circle>
+<line x1="538.7" y1="140.0" x2="617.0" y2="140.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="579.0" cy="140.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>LangGraph agent: 0.700 [0.614, 0.781]</title></circle>
+<line x1="554.4" y1="154.0" x2="628.2" y2="154.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="592.4" cy="154.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>LangGraph agent: 0.729 [0.648, 0.805]</title></circle>
 <line x1="16" y1="170.0" x2="720" y2="170.0" stroke="#e4e3df" stroke-width="1"/>
 <text x="238" y="197.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="end">OpenAI Agents SDK, defaults</text>
-<line x1="361.5" y1="186.0" x2="444.6" y2="186.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="401.9" cy="186.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>OpenAI Agents SDK, defaults: 0.323 [0.237, 0.414]</title></circle>
-<line x1="382.9" y1="200.0" x2="473.1" y2="200.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
-<circle cx="428.0" cy="200.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>OpenAI Agents SDK, defaults: 0.379 [0.283, 0.475]</title></circle>
+<line x1="382.9" y1="186.0" x2="473.1" y2="186.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="428.0" cy="186.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>OpenAI Agents SDK, defaults: 0.379 [0.283, 0.475]</title></circle>
+<line x1="473.1" y1="200.0" x2="563.3" y2="200.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="518.2" cy="200.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>OpenAI Agents SDK, defaults: 0.571 [0.475, 0.667]</title></circle>
 <text x="238" y="243.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">SDK + temperature 0</text>
-<line x1="399.8" y1="232.0" x2="489.6" y2="232.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="443.5" cy="232.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + temperature 0: 0.412 [0.319, 0.510]</title></circle>
-<line x1="409.0" y1="246.0" x2="496.5" y2="246.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
-<circle cx="452.7" cy="246.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + temperature 0: 0.431 [0.338, 0.525]</title></circle>
+<line x1="409.0" y1="232.0" x2="496.5" y2="232.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="452.7" cy="232.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + temperature 0: 0.431 [0.338, 0.525]</title></circle>
+<line x1="491.9" y1="246.0" x2="579.5" y2="246.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="535.7" cy="246.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + temperature 0: 0.608 [0.515, 0.701]</title></circle>
 <text x="238" y="289.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">SDK + Chat Completions API</text>
-<line x1="458.1" y1="278.0" x2="545.4" y2="278.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="500.7" cy="278.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + Chat Completions API: 0.533 [0.443, 0.629]</title></circle>
-<line x1="509.6" y1="292.0" x2="594.7" y2="292.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
-<circle cx="552.1" cy="292.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + Chat Completions API: 0.643 [0.552, 0.733]</title></circle>
-<text x="238" y="335.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">SDK + Kapa's recommended prompt</text>
-<line x1="445.4" y1="324.0" x2="536.2" y2="324.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
-<circle cx="492.0" cy="324.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + Kapa's recommended prompt: 0.515 [0.416, 0.609]</title></circle>
-<line x1="471.0" y1="338.0" x2="561.8" y2="338.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
-<circle cx="517.6" cy="338.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + Kapa's recommended prompt: 0.569 [0.470, 0.663]</title></circle>
+<line x1="509.6" y1="278.0" x2="594.7" y2="278.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="552.1" cy="278.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + Chat Completions API: 0.643 [0.552, 0.733]</title></circle>
+<line x1="532.0" y1="292.0" x2="610.3" y2="292.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="572.3" cy="292.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + Chat Completions API: 0.686 [0.600, 0.767]</title></circle>
+<text x="238" y="335.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="end">SDK + Kapa's recommended setup</text>
+<line x1="471.0" y1="324.0" x2="561.8" y2="324.0" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="517.6" cy="324.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>SDK + Kapa's recommended setup: 0.569 [0.470, 0.663]</title></circle>
+<line x1="508.3" y1="338.0" x2="592.0" y2="338.0" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="550.1" cy="338.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>SDK + Kapa's recommended setup: 0.639 [0.550, 0.728]</title></circle>
 </svg>

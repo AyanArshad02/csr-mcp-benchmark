@@ -1,26 +1,29 @@
 # Citation Survival Rate (CSR): Do Citations Survive the MCP Tool Boundary?
 
 **A benchmark measuring what happens to source attribution when a RAG knowledge base is consumed
-by an AI agent over MCP instead of a single-shot retrieval call. It finds where citations are
-lost and why, validates the metric against blind human judgement, and tests a guardrail that adds
-missing citations back.**
+by an AI agent over MCP instead of a single-shot retrieval call. It separates whether an agent
+cites its sources from whether it cites them in the format it was asked for, validates the metric
+against blind human judgement, and tests a guardrail that adds missing citations back.**
 
 > **Headline.** With the same model (gpt-4o-mini), corpus, questions and system prompt, an agent
-> built with the **OpenAI Agents SDK** keeps far fewer of the sources it retrieved:
-> CSR **0.323** [0.237, 0.414] vs **0.618** [0.528, 0.708] for single-shot RAG.
-> 66 of its 127 answers cite nothing at all. A **LangGraph** agent shows **no** loss (0.614).
+> built with the **OpenAI Agents SDK** ignores the requested citation format in **51 of 127
+> answers** (40%), citing with Markdown links `[text](url)` instead of the `[url]` the prompt asks
+> for. Single-shot RAG does this in 0 answers, a LangGraph agent in 8.
 >
-> **Cause.** It is not the agent loop and not sampling temperature. It is the API the SDK uses by
-> default: switching the same agent from OpenAI's Responses API to Chat Completions cuts uncited
-> answers from 54 to 18 and raises CSR by +0.108 (real), close to the single-shot baseline.
+> **Does it lose citations?** Not robustly. Counting only the requested format, CSR drops from
+> 0.618 to 0.323 (−0.31, significant). Counting **any** link format, the gap shrinks to −0.16 under
+> the original scorer (significant) and −0.10 under a gpt-4o judge (not significant), and at
+> temperature 0 it is −0.06 / −0.05 (not significant). Most of the apparent loss is format.
 >
-> **Fix.** Kapa's published system prompt for agents raises CSR by +0.111 (real) and leaves the SDK
-> no longer significantly below baseline. Their recommended tool description alone does nothing.
+> **Cause of the format drift.** The API the SDK calls by default. Switching the same agent from
+> OpenAI's Responses API to Chat Completions cuts wrong-format answers from 41 to 9. Kapa's
+> recommended prompt setup cuts them to 20. Neither changes whether sources are cited.
 >
-> **Robustness.** The headline holds under three independent scorers (−0.31, −0.30, −0.30, all
-> significant), and the metric agrees with a blind human check on 25–27 of 30 cases.
+> **Correction, 2026-10-14.** An earlier version of this README reported the −0.31 as lost
+> citations ("66 of 127 answers cite nothing"). That counted only `[url]`; of those 66 answers, 51
+> cite with Markdown links and only 8 contain no URL at all. Both views are now reported.
 
-![CSR by setup, gpt-4o-mini, with 95% confidence intervals under the original scorer and an independent gpt-4o judge](results/figures/csr_by_setup.svg)
+![CSR by setup (gpt-4o judge, gpt-4o-mini, 95% CIs): counting only the requested citation format vs any citation format](results/figures/csr_by_setup.svg)
 
 ---
 
@@ -51,96 +54,104 @@ For every atomic claim in an answer, with its cited `source_url`s, two checks:
 Conditioning on what was retrieved isolates *attribution* failure from *retrieval* failure. CSR is
 `None` (not zero) when the agent retrieved no gold URL.
 
-The support check is run three ways: the original scorer (`cross-encoder/nli-deberta-v3-base`,
-argmax = entailment) and two LLM judges chosen against human labels (gpt-4o and Claude Sonnet 4.6,
-same rubric as the human labellers). See [Is CSR trustworthy?](#is-csr-trustworthy).
+**Two views of "cited".** *Requested format:* only `[url]`, the format the prompt asks for (for
+Kapa's setup, its `[[title](url)]`). This measures compliance as much as attribution. *Any
+format:* `[url]`, Markdown links `[text](url)` and Kapa brackets all count (bare URLs in running
+text do not). This measures whether sources are cited at all. The rule was fixed before re-scoring
+(decision log, 2026-10-14).
+
+The support check is run two ways: the original scorer (`cross-encoder/nli-deberta-v3-base`,
+argmax = entailment) and a gpt-4o judge chosen against human labels (same rubric as the human
+labellers). A Claude judge cross-checks the requested-format view. See
+[Is CSR trustworthy?](#is-csr-trustworthy).
 
 ---
 
 ## Results
 
 127 human-verified FastAPI documentation questions (82 single-source, 29 multi-source,
-16 unanswerable). Bootstrap 95% CIs, 10,000 resamples.
+16 unanswerable). Bootstrap 95% CIs, 10,000 resamples. Full table: `results/anyformat_report.txt`.
 
-| Pipeline | Model | CSR (original scorer) | 95% CI | CSR (gpt-4o judge) | CSR (Claude judge) |
+| Pipeline | Model | Requested format, original scorer | Requested format, gpt-4o judge | **Any format, original scorer** | **Any format, gpt-4o judge** |
 |---|---|---|---|---|---|
-| Single-shot RAG | gpt-4o-mini | 0.618 | [0.528, 0.708] | 0.665 | 0.651 |
-| LangGraph agent | gpt-4o-mini | 0.614 | [0.524, 0.705] | 0.700 | 0.652 |
-| **OpenAI Agents SDK** | gpt-4o-mini | **0.323** | [0.237, 0.414] | **0.379** | **0.364** |
-| Single-shot RAG | claude-sonnet-4-6 | 0.774 | [0.698, 0.844] | 0.887 | 0.835 |
-| LangGraph agent | claude-sonnet-4-6 | 0.710 | [0.631, 0.790] | 0.804 | 0.766 |
+| Single-shot RAG | gpt-4o-mini | 0.618 | 0.665 | 0.618 | 0.665 |
+| LangGraph agent | gpt-4o-mini | 0.614 | 0.700 | 0.643 | 0.729 |
+| **OpenAI Agents SDK** | gpt-4o-mini | 0.323 | 0.379 | **0.470** | **0.571** |
+| Single-shot RAG | claude-sonnet-4-6 | 0.774 | 0.887 | 0.774 | 0.887 |
+| LangGraph agent | claude-sonnet-4-6 | 0.710 | 0.804 | 0.710 | 0.804 |
 
 The OpenAI Agents SDK × Claude combination was not run.
 
 ### Which differences are real
 
 Every pipeline answers the *same* questions, so the test resamples the **per-question
-difference**. Each comparison under all three scorers:
+difference** (paired bootstrap).
 
-| Comparison | Original scorer | gpt-4o judge | Claude judge | Verdict |
-|---|---|---|---|---|
-| OpenAI Agents SDK − single-shot | **−0.311** [−0.434, −0.189] | **−0.296** [−0.413, −0.179] | **−0.296** [−0.418, −0.173] | **Real under all three** |
-| LangGraph − single-shot (gpt-4o-mini) | +0.000 [−0.093, +0.093] | +0.029 [−0.044, +0.108] | +0.005 [−0.078, +0.088] | **No difference** |
-| LangGraph − single-shot (Claude) | −0.077 [−0.168, +0.014] | −0.096 [−0.178, −0.019] | −0.082 [−0.173, +0.005] | Not established (1 of 3) |
-
-"Agents lose citations" is **not** what the data says. One widely used SDK loses about half; a
-LangGraph agent on the same model loses none.
+| Comparison | Requested format (original / judge) | **Any format (original / judge)** | Verdict |
+|---|---|---|---|
+| OpenAI Agents SDK − single-shot | −0.311 / −0.296, both real | **−0.163 real / −0.102 n.s.** | Real format gap; citation gap not established |
+| SDK at temperature 0 − single-shot | −0.207 / −0.227, both real | **−0.056 / −0.045, both n.s.** | No citation gap |
+| LangGraph − single-shot (gpt-4o-mini) | +0.000 / +0.029, n.s. | +0.029 / +0.059, n.s. | No difference |
+| LangGraph − single-shot (Claude) | −0.077 n.s. / −0.096 real | −0.077 n.s. / −0.096 real | Not established |
 
 ---
 
-## Why the OpenAI Agents SDK loses citations
+## Citation format: what the SDK changes
 
-A pre-registered ablation (plan and success criterion written in the decision log before running):
-the same SDK agent, 127 questions each, **one change at a time**.
+Each answer counted once, no scorer involved (`results/format_compliance.txt`):
 
-| Run | CSR (original) | CSR (gpt-4o judge) | Uncited answers | Paired change |
+| Run (gpt-4o-mini) | Cites in the requested format | **Cites only in another link format** | Bare URLs only | No URL |
 |---|---|---|---|---|
-| Defaults, re-run | 0.333 | n/a | 60/127 | vs published run: −0.011 (replicates) |
-| + temperature 0 | 0.412 | 0.431 | 54/127 | +0.082 (n.s.) |
-| + Kapa's recommended tool description | 0.382 | n/a | 54/127 | −0.040 (n.s.) |
-| **+ Chat Completions API** | **0.533** | **0.643** | **18/127** | **+0.108 / +0.201 (real)** |
-| **+ Kapa's recommended system prompt** | **0.515** | **0.569** | 43/127 | **+0.111 / +0.136 (real)** |
-| *Single-shot RAG, for reference* | *0.618* | *0.665* | *19/127* | |
+| Single-shot RAG | 108 | **0** | 0 | 19 |
+| LangGraph agent | 112 | **8** | 1 | 6 |
+| OpenAI Agents SDK, defaults | 61 | **51** | 7 | 8 |
+| SDK + temperature 0 | 73 | **41** | 2 | 11 |
+| SDK + Kapa's recommended tool description | 73 | **41** | 2 | 11 |
+| SDK + Chat Completions API | 109 | **9** | 0 | 9 |
+| SDK + Kapa's recommended setup (asks for `[[title](url)]`) | 84 | **20** | 6 | 17 |
 
-Paired changes are vs the temperature-0 run (original scorer / gpt-4o judge).
+The SDK runs come from a pre-registered ablation (one change at a time; plan and criterion written
+before running). What it shows:
 
-- **Temperature is not the cause.** The original SDK pipeline left temperature at the API default
-  while LangGraph used 0. Matching it helps a little but not significantly; the SDK remains clearly
-  below single-shot (−0.207, real).
-- **The API is.** The SDK calls OpenAI's Responses API by default. On Chat Completions (what the
-  LangGraph agent uses), uncited answers fall to the single-shot level.
-- **The SDK does not drop the sources in transport.** Logging exactly what the model receives
-  shows every chunk arrives with its `source_url` intact; citations are lost in generation.
-- **Kapa's own guidance helps when followed in full.** Their system prompt
-  ([Prompt for grounded answers](https://docs.kapa.ai/retrieval/guides/prompt-your-agent))
-  significantly improves CSR; their tool description alone does not, consistent with that page
-  putting citation rules in the system prompt. Under that prompt the model often wrote plain
-  `[title](url)` links instead of the requested `[[title](url)]` brackets; counting those too,
-  uncited answers fall to 23/127.
+- **The format drift tracks the API, not the loop or the temperature.** The SDK calls OpenAI's
+  Responses API by default; on Chat Completions (what the LangGraph agent uses) wrong-format
+  answers fall from 41 to 9.
+- **The sources are not lost in transport.** Logging exactly what the model receives shows every
+  chunk arrives with its `source_url` intact, and the Markdown links point to retrieved pages
+  (98 of 118 in the default run).
+- **Kapa's guidance** ([Prompt for grounded answers](https://docs.kapa.ai/retrieval/guides/prompt-your-agent))
+  helps compliance when followed in full (41 → 20 wrong-format answers); their tool description
+  alone changes nothing, consistent with that page putting citation rules in the system prompt.
+- **None of these changes alters whether sources are cited.** Counting any format, E3 vs E1 is
+  +0.020 / +0.069 and E4 vs E1 +0.030 / +0.035, all not significant. (Counting only the requested
+  format they were +0.108 / +0.201 and +0.111 / +0.136, all significant: that was format.)
+- Why it matters: anything downstream that parses, renders or verifies citations by format (a
+  citation UI, a guardrail, an evaluation) silently loses them when the agent ignores the format.
 
-Caveats: one run per setup; the Kapa run changes prompt wording and citation format together.
-Files: `results/sdk_ablation_report.txt`, `results/rescore_compare_gpt-4o.txt`.
+Caveats: one run per setup; temperature 0 vs the SDK default differs significantly under the
+original scorer (+0.108, any format) but not under the judge (+0.031).
 
 ---
 
 ## Is CSR trustworthy?
 
-Three checks, all blind (the labeller never saw a model's verdict before choosing their own):
-
 1. **Which support checker agrees with humans?** 115 human judgements of "does this chunk support
    this sentence?" (`results/verifier_bench.txt`). On the 65-item held-out set: original DeBERTa
    scorer κ 0.24 on raw text; MiniCheck-Flan-T5 on cleaned prose κ 0.63 (0.67 with a code-symbol
-   check); Claude judge κ 0.63;
-   **gpt-4o judge κ 0.86** (precision 0.95, recall 0.95). Cleaning Markdown and code out of the
-   input helps every model. Caveat: every pair was one DeBERTa had accepted when sampled, so this
-   measures how well each checker rejects DeBERTa's false positives.
-2. **Does the headline depend on the checker?** No. Re-scored with both LLM judges, the SDK drop is
-   −0.30 under each, significant (table above). The judges find more support than DeBERTa in every
-   pipeline (+0.03 to +0.11), so absolute CSR levels depend on the scorer; the comparisons do not.
+   check); Claude judge κ 0.63; **gpt-4o judge κ 0.86** (precision 0.95, recall 0.95). Cleaning
+   Markdown and code out of the input helps every model. Caveat: every pair was one DeBERTa had
+   accepted when sampled, so this measures how well each checker rejects DeBERTa's false positives.
+2. **Does a result depend on the checker?** Some do, and this README says which. The judges find
+   more support than DeBERTa in every pipeline, so absolute CSR depends on the scorer. All scorers
+   share one citation parser, so agreement between scorers says nothing about citation *format*;
+   that is why both format views are reported.
 3. **Does CSR agree with a human?** 30 gold sources, 6 per pipeline, judged "did this source
    survive, correctly cited?" (`results/csr_validation_report.txt`): agreement **25/30** (original
    scorer, κ 0.64), **27/30** (gpt-4o judge, κ 0.77), **26/30** (Claude judge, κ 0.70). Errors run
-   mostly one way: scorers miss support a human sees, so CSR slightly under-counts survival.
+   mostly one way: scorers miss support a human sees. Caveat: on 2 of the 30 (both OpenAI SDK),
+   the labelling page showed "never cites the gold source" because it recognised only `[url]`,
+   though the source was cited as a Markdown link; human and scorers agree there for the wrong
+   reason.
 
 ---
 
@@ -155,9 +166,12 @@ is byte-identical, on every answer of every run.
 |---|---|---|
 | Method | NLI on raw sentences vs every retrieved chunk; cite every hit | Prose only (code/Markdown stripped) → atomic claims → cleaned chunks → every claim entailed with P ≥ 0.9 (fixed before any held-out label) → cite the single best chunk |
 | Citations added, 5 pipelines | 1,582 | 357 |
-| CSR lift, OpenAI Agents SDK (original scorer) | +0.222 | +0.146 [+0.066, +0.227] |
+| CSR lift, OpenAI Agents SDK (original scorer, requested format)* | +0.222 | +0.146 [+0.066, +0.227] |
 | **Human-judged precision, blind** | **15/50 = 30%** | **39/50 = 78%** [65, 87] on a held-out sample |
 | Precision on gold-source citations | 8/13 | 22/24 |
+
+\* Measured in the requested-format view: some of what the guardrail "recovers" on the SDK were
+sentences already cited with Markdown links. The human-judged precision is unaffected.
 
 - **v1 fooled its own scorer.** The same NLI model inserted citations and graded them, rating its
   mostly-wrong insertions as precise; only the blind audit exposed it. Cause: raw Markdown (code
@@ -217,6 +231,8 @@ bash scripts/overnight_rebuild.sh
 | Verifier benchmark vs human labels | `uv run python -m measure.verifier_bench` |
 | Re-score with an LLM judge | `uv run python -m measure.rescore_judge --judge gpt-4o` (or `claude`), then `uv run python -m measure.rescore_compare --judge gpt-4o` |
 | CSR vs human | `uv run python -m measure.csr_validation_report` |
+| Any-format re-score (both views) | `bash scripts/run_anyformat_rescore.sh` (report: `uv run python -m measure.anyformat_report`) |
+| Citation format per answer | `uv run python -m measure.format_compliance` |
 | Chart | `uv run python -m measure.make_charts` |
 
 Every number in this README is reproducible from `results/`. LLM and NLI outputs are cached by
@@ -250,10 +266,13 @@ All dependency versions are pinned and `uv.lock` is committed.
 - **Two models, partial matrix.** gpt-4o-mini and Claude Sonnet 4.6; the OpenAI SDK × Claude
   combination was not run.
 - **Absolute CSR depends on the scorer.** The LLM judges score 0.03–0.11 higher than the original
-  scorer; conclusions are drawn from comparisons, which hold under all three.
-- **Judges and models share families.** The gpt-4o judge scores gpt-4o-mini answers, the Claude
-  judge scores Claude answers; each is cross-checked by the other family, and the Claude judge
-  scores the Claude pipelines *lower* than the gpt-4o judge does.
+  scorer. The citation-format and LangGraph conclusions hold under every scorer; the SDK's
+  any-format gap does not (significant under one, not the other).
+- **Format vs presence.** CSR as first defined counted only the requested `[url]` format. Both
+  views are now reported; bare URLs in running text are still not counted.
+- **Judges and models share families.** The gpt-4o judge scores gpt-4o-mini answers. On the
+  requested-format view it is cross-checked by a Claude judge (which scores the Claude pipelines
+  *lower* than the gpt-4o judge does); the any-format view has no Claude cross-check yet.
 - **Human checks are small.** 115 citation labels and 30 CSR units, mostly from one annotator,
   with an independent second rater (Claude) on 115 of them.
 - **Self-hosted mirror.** This measures a local server implementing a published MCP contract, not
@@ -273,9 +292,11 @@ an audit sampler that reverse-engineered decisions instead of recording them; an
 premise truncation. One of our own hypotheses was disproved: fixing the truncation did not erase
 the Claude LangGraph drop (0.718 → 0.710).
 
-Later checks found two more parity issues and are reported above rather than hidden: the guardrail
-v1 circularity (exposed by a blind human audit) and an unset temperature in the SDK pipeline
-(tested directly; not the cause).
+Later checks found three more issues, reported above rather than hidden: the guardrail v1
+circularity (exposed by a blind human audit); an unset temperature in the SDK pipeline (tested
+directly); and, most consequential, a citation parser that counted only the requested `[url]`
+format, which had turned format drift into apparent citation loss (found by reading the raw
+answers, corrected 2026-10-14).
 
 ---
 

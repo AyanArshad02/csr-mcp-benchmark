@@ -1,0 +1,39 @@
+CSR: strict [url] format vs any citation format (pre-registered, DECISIONS.md 2026-10-14)
+Any format = [url], Markdown links, Kapa brackets. Bare URLs not counted.
+
+Run                                   DeBERTa strict        DeBERTa any-format    gpt-4o judge strict   gpt-4o judge any-format no URL at all
+--------------------------------------------------------------------------------------------------------------------------------------------
+Single-shot · gpt-4o-mini             0.618 [0.528, 0.708]  0.618 [0.528, 0.708]  0.665 [0.575, 0.750]  0.665 [0.575, 0.750]          19/127
+LangGraph · gpt-4o-mini               0.614 [0.524, 0.705]  0.643 [0.552, 0.729]  0.700 [0.614, 0.781]  0.729 [0.648, 0.805]           6/127
+OpenAI SDK (published) · gpt-4o-mini  0.323 [0.237, 0.414]  0.470 [0.374, 0.566]  0.379 [0.283, 0.475]  0.571 [0.475, 0.667]           8/127
+Single-shot · Claude                  0.774 [0.698, 0.844]  0.774 [0.698, 0.844]  0.887 [0.825, 0.939]  0.887 [0.825, 0.939]           5/127
+LangGraph · Claude                    0.710 [0.631, 0.790]  0.710 [0.631, 0.790]  0.804 [0.734, 0.874]  0.804 [0.734, 0.874]           0/127
+SDK E0 defaults, re-run               0.333 [0.242, 0.424]  0.439 [0.348, 0.530]  —                     0.576 [0.480, 0.667]          15/127
+SDK E1 temperature 0                  0.412 [0.319, 0.510]  0.559 [0.466, 0.652]  0.431 [0.338, 0.525]  0.608 [0.515, 0.701]          11/127
+SDK E2 + Kapa tool description        0.382 [0.289, 0.475]  0.525 [0.431, 0.618]  —                     0.637 [0.544, 0.725]          11/127
+SDK E3 + Chat Completions             0.533 [0.443, 0.629]  0.590 [0.500, 0.681]  0.643 [0.552, 0.733]  0.686 [0.600, 0.767]           9/127
+SDK E4 Kapa recommended setup         0.515 [0.416, 0.609]  0.574 [0.480, 0.663]  0.569 [0.470, 0.663]  0.639 [0.550, 0.728]          17/127
+
+Paired differences (B − A), strict format
+Comparison                                                              DeBERTa Δ [CI]                    gpt-4o judge Δ [CI]               
+--------------------------------------------------------------------------------------------------------------------------------------------
+OpenAI SDK (published) · gpt-4o-mini  −  Single-shot · gpt-4o-mini      -0.311 [-0.434, -0.189] REAL      -0.296 [-0.413, -0.179] REAL      
+LangGraph · gpt-4o-mini  −  Single-shot · gpt-4o-mini                   +0.000 [-0.093, +0.093] n.s.      +0.029 [-0.044, +0.108] n.s.      
+LangGraph · Claude  −  Single-shot · Claude                             -0.077 [-0.168, +0.014] n.s.      -0.096 [-0.178, -0.019] REAL      
+SDK E1 temperature 0  −  SDK E0 defaults, re-run                        +0.082 [-0.010, +0.175] n.s.      —                                 
+SDK E2 + Kapa tool description  −  SDK E1 temperature 0                 -0.040 [-0.124, +0.050] n.s.      —                                 
+SDK E3 + Chat Completions  −  SDK E1 temperature 0                      +0.108 [+0.010, +0.206] REAL      +0.201 [+0.123, +0.284] REAL      
+SDK E4 Kapa recommended setup  −  SDK E1 temperature 0                  +0.111 [+0.015, +0.212] REAL      +0.136 [+0.050, +0.227] REAL      
+SDK E1 temperature 0  −  Single-shot · gpt-4o-mini                      -0.207 [-0.313, -0.101] REAL      -0.227 [-0.338, -0.121] REAL      
+
+Paired differences (B − A), ANY format
+Comparison                                                              DeBERTa Δ [CI]                    gpt-4o judge Δ [CI]               
+--------------------------------------------------------------------------------------------------------------------------------------------
+OpenAI SDK (published) · gpt-4o-mini  −  Single-shot · gpt-4o-mini      -0.163 [-0.281, -0.046] REAL      -0.102 [-0.214, +0.010] n.s.      
+LangGraph · gpt-4o-mini  −  Single-shot · gpt-4o-mini                   +0.029 [-0.064, +0.123] n.s.      +0.059 [-0.020, +0.137] n.s.      
+LangGraph · Claude  −  Single-shot · Claude                             -0.077 [-0.168, +0.014] n.s.      -0.096 [-0.178, -0.019] REAL      
+SDK E1 temperature 0  −  SDK E0 defaults, re-run                        +0.108 [+0.005, +0.211] REAL      +0.031 [-0.062, +0.124] n.s.      
+SDK E2 + Kapa tool description  −  SDK E1 temperature 0                 -0.040 [-0.124, +0.040] n.s.      +0.025 [-0.050, +0.099] n.s.      
+SDK E3 + Chat Completions  −  SDK E1 temperature 0                      +0.020 [-0.069, +0.108] n.s.      +0.069 [-0.005, +0.147] n.s.      
+SDK E4 Kapa recommended setup  −  SDK E1 temperature 0                  +0.030 [-0.051, +0.111] n.s.      +0.035 [-0.056, +0.121] n.s.      
+SDK E1 temperature 0  −  Single-shot · gpt-4o-mini                      -0.056 [-0.162, +0.051] n.s.      -0.045 [-0.152, +0.061] n.s.      

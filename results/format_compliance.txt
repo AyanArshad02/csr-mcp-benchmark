@@ -1,0 +1,17 @@
+Citation format compliance per answer (127 answers per run; no scorer involved)
+
+Run                                     requested format  other link format  bare URL only  no URL
+--------------------------------------------------------------------------------------------------
+Single-shot · gpt-4o-mini                            108                  0              0      19
+LangGraph · gpt-4o-mini                              112                  8              1       6
+OpenAI SDK (published) · gpt-4o-mini                  61                 51              7       8
+Single-shot · Claude                                 119                  0              3       5
+LangGraph · Claude                                   127                  0              0       0
+SDK E0 defaults, re-run                               67                 38              7      15
+SDK E1 temperature 0                                  73                 41              2      11
+SDK E2 + Kapa tool description                        73                 41              2      11
+SDK E3 + Chat Completions                            109                  9              0       9
+SDK E4 Kapa recommended setup                         84                 20              6      17
+
+E4's requested format is Kapa's [[title](url)]; for every other run it is [url].
+OpenAI SDK (published): Markdown links in answers without [url]: 118; pointing to a retrieved page: 98

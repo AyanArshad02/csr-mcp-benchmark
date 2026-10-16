@@ -1,7 +1,8 @@
 """measure/make_charts.py — The README's headline chart, generated from results/ (Ticket 12).
 
 CSR with 95% bootstrap CIs (same method as measure/paired_tests.py) for the gpt-4o-mini setups,
-under the locked DeBERTa scorer and the independent gpt-4o judge. Plain SVG, no plotting library.
+scored by the gpt-4o judge, two ways: counting only the citation format the prompt asked for, and
+counting any citation format (DECISIONS.md 2026-10-14). Plain SVG, no plotting library.
 Colours: reference categorical slots 1-2 (#2a78d6, #eb6834), validated (CVD ΔE 24.7, contrast ≥3:1).
 
 Usage:  uv run python -m measure.make_charts  → results/figures/csr_by_setup.svg
@@ -15,15 +16,16 @@ import numpy as np
 
 from measure.paired_tests import boot_mean_ci
 
-ROWS = [  # (label, DeBERTa-scored file, judge-scored file)
-    ("Single-shot RAG (baseline)", "scored_baseline_openai", "rescored_gpt-4o_baseline_openai"),
-    ("LangGraph agent", "scored_langgraph_openai", "rescored_gpt-4o_langgraph_openai"),
-    ("OpenAI Agents SDK, defaults", "scored_openai_agent_openai", "rescored_gpt-4o_openai_agent_openai"),
-    ("SDK + temperature 0", "scored_ablation_sdk_e1_temp0", "rescored_gpt-4o_ablation_sdk_e1_temp0"),
-    ("SDK + Chat Completions API", "scored_ablation_sdk_e3_chat_completions", "rescored_gpt-4o_ablation_sdk_e3_chat_completions"),
-    ("SDK + Kapa's recommended prompt", "scored_ablation_sdk_e4_kapa_full_norm", "rescored_gpt-4o_ablation_sdk_e4_kapa_full_norm"),
+J = "rescored_gpt-4o_"
+ROWS = [  # (label, requested-format file, any-format file), all gpt-4o-judge scored
+    ("Single-shot RAG (baseline)", J + "baseline_openai", J + "anyformat_baseline_openai"),
+    ("LangGraph agent", J + "langgraph_openai", J + "anyformat_langgraph_openai"),
+    ("OpenAI Agents SDK, defaults", J + "openai_agent_openai", J + "anyformat_openai_agent_openai"),
+    ("SDK + temperature 0", J + "ablation_sdk_e1_temp0", J + "anyformat_ablation_sdk_e1_temp0"),
+    ("SDK + Chat Completions API", J + "ablation_sdk_e3_chat_completions", J + "anyformat_ablation_sdk_e3_chat_completions"),
+    ("SDK + Kapa's recommended setup", J + "ablation_sdk_e4_kapa_full_norm", J + "anyformat_ablation_sdk_e4_kapa_full"),
 ]
-SERIES = [("Original scorer (DeBERTa NLI)", "#2a78d6"), ("Independent gpt-4o judge", "#eb6834")]
+SERIES = [("Only the requested citation format counted", "#2a78d6"), ("Any citation format counted", "#eb6834")]
 INK, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
 
 
@@ -40,9 +42,9 @@ def main() -> None:
     s: list[str] = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
         f'font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img" '
-        f'aria-label="CSR by setup with 95% confidence intervals, under two scorers">',
+        f'aria-label="CSR by setup with 95% confidence intervals, counting the requested citation format only versus any format">',
         f'<rect width="{W}" height="{H}" fill="{SURFACE}"/>',
-        f'<text x="16" y="26" font-size="15" font-weight="600" fill="{INK}">Citation Survival Rate, gpt-4o-mini, 127 questions (95% CI)</text>',
+        f'<text x="16" y="26" font-size="15" font-weight="600" fill="{INK}">Citation Survival Rate (gpt-4o judge), gpt-4o-mini, 127 questions, 95% CI</text>',
     ]
     # legend: swatch + ink text (text never wears the series colour)
     lx = 16
